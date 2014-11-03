@@ -37,4 +37,6 @@ void insertFasta(char **tabSeq, int nbSeq);
 
 
 
+double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosition);
+
 #endif

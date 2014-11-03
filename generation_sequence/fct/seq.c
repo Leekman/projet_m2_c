@@ -106,7 +106,7 @@ void insertFasta(char **tabSeq, int nbSeq){
 
     FILE* fasta=NULL;
     int i;
-    fasta=fopen("../output/sequences.fasta","w");
+    fasta=fopen("sequences.fasta","w");
 
     if (fasta != NULL)
     {
@@ -117,4 +117,56 @@ void insertFasta(char **tabSeq, int nbSeq){
         }
         fclose(fasta);    
     }
+}
+
+double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosition){
+
+    double **PSSM = NULL;
+  
+    int i,j,n;
+
+    int nombreMotif;
+
+    nombreMotif=nbSeq;
+
+    /////////////////////////////////////////////////////
+    /*ALLOCATION DU TABLEAU DE DOUBLE A DEUX DIMENSIONS*/
+    /////////////////////////////////////////////////////
+    
+    PSSM= (double**)malloc(4*sizeof(double*));
+    for (i = 0; i < 4; i++)
+    {
+        PSSM[i]=(double*)malloc(tailleMotif*sizeof(double));
+    }
+
+    //////////////////////////////////////////////////////
+    /*PARCOURS CHAQUE SEQUENCE AVEC OCCURENCE NUCLEOTIDE*/
+    //////////////////////////////////////////////////////
+
+    for (j = 0; j < nbSeq; j++)
+    {
+        for (n = 0; n < tailleMotif; n++)
+        {
+            switch (tabSeq[j][tabPosition[j]+n])
+                    {
+                        case 'A' : PSSM[0][n] += 1; break;
+                        case 'T' : PSSM[1][n] += 1; break;
+                        case 'C' : PSSM[2][n] += 1; break;
+                        case 'G' : PSSM[3][n] += 1; break;
+                        default : printf("PSSM : Format de base incorrecte. %c\n", tabSeq[j][tabPosition[j]+n]); break;
+                    }   
+        }
+    }
+
+
+    for (i=0;i<4;i++)
+    {
+        for(j=0;j<tailleMotif;j++)
+        {
+            PSSM[i][j] /= nombreMotif;
+        }
+    }
+
+    return PSSM;
+
 }
