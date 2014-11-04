@@ -37,6 +37,9 @@ struct option long_options[] = {
 /*Fonction permettant de récupérer les paramètres*/
 ///////////////////////////////////////////////////
 
+//idée d'amélioration faire une fonction a la place de la procédure qui renverrai le motif. Permet de faire l'allocation dynamique dans la fonction et d'éviter les fuites de mémoires
+
+
 void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char* motif, int argc, char *argv[]){
 	int opt = 0;
 	int long_index = 0; /* index des options */

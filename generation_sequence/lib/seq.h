@@ -30,13 +30,17 @@ void insertionMotif(char *motif, int positionMotif, int tailleMotif,char *sequen
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **tabSeq, int *tabPosition, int *tabNbErreur);
 
+////////////////////////////////////////
+/*FONCTION PERMETTANT DE CREER LA PSSM*/
+////////////////////////////////////////
+double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosition);
+
 ///////////////////////////////////////////////////////////////////////////////////
 /*Procédure permettant de créer un fichier fasta contenant les séquences générées*/
 ///////////////////////////////////////////////////////////////////////////////////
-void insertFasta(char **tabSeq, int nbSeq);
+void creationFasta(char **tabSeq, int nbSeq);
 
-
-
-double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosition);
+/*PROCEDURE PERMETTANT DE CREER UN FICHIER INFO REGROUPANT DIVERSES INFORMATIONS SUR LES SEQUENCES*/
+void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreur, int tailleSeq, int tailleMotif, int nbSeq, int nbErreurMax);
 
 #endif

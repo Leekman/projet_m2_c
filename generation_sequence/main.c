@@ -22,23 +22,21 @@ int main(int argc, char *argv[]) {
     int *tabPosition=NULL;
 	int *p_tailleSeq = NULL;
 	int *p_nbSeq = NULL;
-    int *p_nbErreurMax=NULL;
+    int *p_nbErreurMax = NULL;
     char motif[1000];//allocation dynamique serait mieux mais je ne sais pas comment faire
-    char **tabSeq;
-    double **PSSM;
+    char **tabSeq = NULL;
+    double **PSSM = NULL;
     p_nbSeq = &nbSeq;
     p_tailleSeq = &tailleSeq;
     p_nbErreurMax = &nbErreurMax;
     //FILE* donnees=NULL;
     tailleMotif=strlen(motif);
-    int i,j;
 
     ///////////////////////////////
     /*RECUPERATION DES PARAMETRES*/
     ///////////////////////////////
 
     getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, motif, argc, argv);
-    printf("%s\n", motif);
     //////////////////////////////////////
     /*ALLOCATION DES DIFFERENTS TABLEAUX*/
     //////////////////////////////////////
@@ -53,21 +51,33 @@ int main(int argc, char *argv[]) {
     creationSeq(nbErreurMax, nbSeq, tailleSeq, motif, tabSeq, tabPosition, tabNbErreur);
 
 
+    ///////////////////////
+    /*CREATION DE LA PSSM*/
+    ///////////////////////
+
+    PSSM=construirePSSM(tailleMotif, tabSeq, nbSeq,tabPosition);
+
     /////////////////////////////////////////////////
     /*INSERTION DES SEQUENCES DANS UN FICHIER FASTA*/
     /////////////////////////////////////////////////
 
-    insertFasta(tabSeq, nbSeq);
+    creationFasta(tabSeq, nbSeq);
 
-    PSSM=construirePSSM(tailleMotif, tabSeq, nbSeq,tabPosition);
-    // printf("\nPSSM\n");
-    // for (i=0;i<4;i++)
-    // {
-    //     for(j=0;j<tailleMotif;j++)
-    //     {
-    //         printf("%f ", PSSM[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+
+    /////////////////////////////////////
+    /*CREATION DU DEUXIEME FICHIER INFO*/
+    /////////////////////////////////////
+
+    creationInfo(PSSM, motif, tabPosition, tabNbErreur, tailleSeq, tailleMotif, nbSeq, nbErreurMax);
+
+    ////////////////////////////
+    /*LIBERATION DE LA MEMOIRE*/
+    ////////////////////////////
+
+    free(tabNbErreur);
+    free(tabPosition);
+    free(PSSM);
+    free(tabSeq);
+
 	return 0;
 }

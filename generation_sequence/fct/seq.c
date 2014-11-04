@@ -99,25 +99,11 @@ void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **
         }
 
 }
-///////////////////////////////////////////////////////////////////////////////////
-/*Procédure permettant de créer un fichier fasta contenant les séquences générées*/
-///////////////////////////////////////////////////////////////////////////////////
-void insertFasta(char **tabSeq, int nbSeq){
 
-    FILE* fasta=NULL;
-    int i;
-    fasta=fopen("sequences.fasta","w");
 
-    if (fasta != NULL)
-    {
-        i=0;
-        for (i=0; i<nbSeq ; i++)
-        {
-            fprintf(fasta,">seq%d\n%s\n",i+1,tabSeq[i]); //affichage tableau
-        }
-        fclose(fasta);    
-    }
-}
+////////////////////////////////////////
+/*FONCTION PERMETTANT DE CREER LA PSSM*/
+////////////////////////////////////////
 
 double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosition){
 
@@ -158,7 +144,10 @@ double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosit
         }
     }
 
-
+    //////////////////////////////////////////////////////////
+    /*CALCUL DU POURCENTAGE D'OCCURENCE DE CHAQUE NUCLEOTIDE*/
+    //////////////////////////////////////////////////////////
+    
     for (i=0;i<4;i++)
     {
         for(j=0;j<tailleMotif;j++)
@@ -170,3 +159,66 @@ double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosit
     return PSSM;
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////
+/*Procédure permettant de créer un fichier fasta contenant les séquences générées*/
+///////////////////////////////////////////////////////////////////////////////////
+void creationFasta(char **tabSeq, int nbSeq){
+
+    FILE* fasta=NULL;
+    
+    int i;
+    
+    fasta=fopen("../output/sequences.fasta","w");
+
+    if (fasta != NULL)
+    {
+        for (i=0; i<nbSeq ; i++)
+        {
+            fprintf(fasta,">seq%d\n%s\n",i+1,tabSeq[i]); //affichage tableau
+        }
+        fclose(fasta);    
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/*PROCEDURE PERMETTANT DE CREER UN FICHIER INFO REGROUPANT DIVERSES INFORMATIONS SUR LES SEQUENCES*/
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreur, int tailleSeq, int tailleMotif, int nbSeq, int nbErreurMax){
+
+    FILE* info=NULL;
+    
+    int i,j;
+    
+    info=fopen("../output/info.txt", "w");
+
+    if (info !=NULL)
+    {
+        fprintf(info, "Récapitulatif des paramètres de départ :\n\
+            Nombre de sequence a generer : %d\n\
+            Taille des sequences a generer : %d\n\
+            Nombre maximum de substitution : %d\n\
+            Motif insere dans les sequences : %s\n\
+            Taille du motif choisi : %d\n", nbSeq, tailleSeq, nbErreurMax, motif, tailleMotif);
+
+        fprintf(info,"\nPSSM\n");
+        for (i=0;i<4;i++)
+        {
+            for(j=0;j<tailleMotif;j++)
+            {
+                fprintf(info, "%f", PSSM[i][j]);
+            }
+            fprintf(info,"\n");
+        }
+
+        fprintf(info, "\nINFORMATIONS SUR LES SEQUENCES\n");
+        
+        for (i=0; i<nbSeq ; i++)
+        {
+            fprintf(info,"Sequence [%d]\n\
+                Position du motif dans la sequence : %d\n\
+                Nombre d'erreur dans le motif de cette sequence : %d\n",i+1,tabPosition[i], tabNbErreur[i]);
+        }
+        fclose(info);
+    }
+}
+

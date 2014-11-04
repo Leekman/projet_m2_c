@@ -16,6 +16,7 @@ int main(){
 	
 	dictionnaire *p_dictionnaire = NULL;
 	double **pssm = NULL;
+	double score;
 
 	printf("\n");
 
@@ -49,17 +50,18 @@ int main(){
 	{
 		l=10;
 		k=2;
+		score = 0;
 
 		masque=generateurMasque(l,k);
 
-		printf("/////////////////////////////Masque %d///////////////////////////\n", i+1);
+		printf("\n\n/////////////////////////////Masque %d///////////////////////////\n\n", i+1);
 		/*for (j=0;j<(l-k);j++)
 			printf("masque[%d] = %d\n",j,masque[j]);*/
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire);		
+		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond);		
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -50,9 +50,13 @@ int *generateurMasque(int l, int k);
 
 //recherche_motif
 
-void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire); 
+void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond); 
 
 double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k);
+
+double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond);
+
+double calculProbaPSSM(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
