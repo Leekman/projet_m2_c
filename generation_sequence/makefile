@@ -2,7 +2,7 @@ SHELL = /bin/bash
 CC    = gcc
 CFLAGS  = -Wall
 
-OPTRUNDBG = -d 2 -n 50 -t 100 -m AAAAAAAAAAAA
+OPTRUNDBG = -d 2 -n 50 -t 100 -m TTTTTTTTTTTTTTTTTT
 
 BINDIR = bin
 LIBDIR = lib

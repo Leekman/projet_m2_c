@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     tailleMotif=strlen(motif);
-
+    printf("%d\n", tailleMotif);
     //////////////////////////////////////
     /*ALLOCATION DES DIFFERENTS TABLEAUX*/
     //////////////////////////////////////

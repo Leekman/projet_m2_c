@@ -170,7 +170,7 @@ void creationFasta(char **tabSeq, int nbSeq){
     
     int i;
     
-    fasta=fopen("../output/sequences.fasta","w");
+    fasta=fopen("output/sequences.fasta","w");
 
     if (fasta != NULL)
     {
@@ -190,7 +190,7 @@ void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreu
     
     int i,j;
     
-    info=fopen("../output/info.txt", "w");
+    info=fopen("output/info.txt", "w");
 
     if (info !=NULL)
     {
@@ -206,7 +206,7 @@ void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreu
         {
             for(j=0;j<tailleMotif;j++)
             {
-                fprintf(info, "%f", PSSM[i][j]);
+                fprintf(info, "%f ", PSSM[i][j]);
             }
             fprintf(info,"\n");
         }
