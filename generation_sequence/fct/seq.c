@@ -18,7 +18,7 @@ char genererNuc(){
 
 char *sequenceSeule(int tailleSeq){
     int i;
-    char* sequence=NULL;//initialisation du premier tableau de caractère
+    char* sequence=NULL;
     sequence=(char*) malloc((tailleSeq+1)*sizeof(char));
     for (i=0;i<tailleSeq;i++)
     {
@@ -97,6 +97,7 @@ void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **
          tabSeq[i]=sequenceSeule(tailleTemp);
          insertionMotif(motifFixe,positionMotif,tailleMotif,tabSeq[i]);
         }
+    free(motifFixe);
 
 }
 

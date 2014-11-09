@@ -1,44 +1,37 @@
 SHELL = /bin/bash
 CC    = gcc
+CFLAGS  = -Wall
 
-FLAGS        = -std=gnu99
-CFLAGS       = -Wall
-DEBUGFLAGS   = -O0 -g
-RELEASEFLAGS = -O2 -D NDEBUG
-
-OPTRUNDBG = --length 9 -d 3 -k 6 -f tests/random1.fa
+OPTRUNDBG = -d 2 -n 50 -t 100 -m AAAAAAAAAAAA
 
 BINDIR = bin
 LIBDIR = lib
 SRCDIR = src
 OBJDIR = obj
+FCTDIR = fct
 NAME = $(shell basename $(CURDIR))
 
 TARGET  = $(BINDIR)/$(NAME)
-TARGETC = $(SRCDIR)/$(NAME).c
-SOURCES=$(wildcard $(LIBDIR)/**/*.c $(LIBDIR)/*.c)
-OBJECTS=$(patsubst $(LIBDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
-COMMON  =
+TARGETC = $(SRCDIR)/$(NAME).c 
+SOURCES=$(wildcard $(FCTDIR)/**/*.c $(FCTDIR)/*.c)
+OBJECTS=$(patsubst $(FCTDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
 HEADERS = $(wildcard $(LIBDIR)/**/*.h $(LIBDIR)/*.h)
 
 all: $(TARGET)
 
 $(TARGET): $(TARGETC) $(OBJECTS)
-	$(CC) $(FLAGS) $(CFLAGS) $(DEBUGFLAGS) $(TARGETC) $(OBJECTS) -o $(TARGET)
+	$(CC)  $(CFLAGS) $(TARGETC) $(OBJECTS) -o $(TARGET)
 
-release: $(SOURCES) $(HEADERS) $(COMMON)
-	$(CC) $(FLAGS) $(CFLAGS) $(RELEASEFLAGS) -o $(TARGET) $(SOURCES)
-
-$(OBJDIR)/%.o: $(LIBDIR)/%.c $(HEADERS) $(COMMON)
-	$(CC) $(FLAGS) $(CFLAGS) $(DEBUGFLAGS) -c -o $@ $<
+$(OBJDIR)/%.o: $(FCTDIR)/%.c $(HEADERS) 
+	$(CC)  $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm $(OBJDIR)/*.o -f
+	rm $(OBJDIR)/*.o -rf
 
 mrproper: clean
-	rm $(TARGET)
+	rm -rf $(TARGET)
 
 rundbg: $(TARGET)
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all  ./$(TARGET) $(OPTRUNDBG)
 
-.PHONY: clean rundbg
+.PHONY: clean rundbg mrproper

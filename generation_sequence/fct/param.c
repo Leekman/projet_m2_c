@@ -40,7 +40,8 @@ struct option long_options[] = {
 //idée d'amélioration faire une fonction a la place de la procédure qui renverrai le motif. Permet de faire l'allocation dynamique dans la fonction et d'éviter les fuites de mémoires
 
 
-void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char* motif, int argc, char *argv[]){
+char* getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[]){
+	char *motif = NULL;
 	int opt = 0;
 	int long_index = 0; /* index des options */
 	if (argc<2)
@@ -59,7 +60,8 @@ void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char* motif, int argc,
 				break;
 			case 't' : *tailleSeq = atoi(optarg);
 				break;
-			case 'm' : strcpy(motif, optarg);
+			case 'm' : 	motif=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
+						strcpy(motif, optarg);
 				break;
 			case 'h' : notice(); exit(0);
 				break;
@@ -73,5 +75,7 @@ void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char* motif, int argc,
 		notice();
 		exit(1);
 	}
+	regfree(&preg);
+	return motif;
 }
 

@@ -1,7 +1,8 @@
-#include "lib/includes.h"
-#include "lib/doublon.h"
-#include "lib/seq.h"
-#include "lib/param.h"
+#include "../lib/includes.h"
+#include "../lib/doublon.h"
+#include "../lib/seq.h"
+#include "../lib/param.h"
+#include "../lib/liberation_memoire.h"
 int main(int argc, char *argv[]) {
     
     
@@ -23,20 +24,29 @@ int main(int argc, char *argv[]) {
 	int *p_tailleSeq = NULL;
 	int *p_nbSeq = NULL;
     int *p_nbErreurMax = NULL;
-    char motif[1000];//allocation dynamique serait mieux mais je ne sais pas comment faire
+    char *motif = NULL;
     char **tabSeq = NULL;
     double **PSSM = NULL;
     p_nbSeq = &nbSeq;
     p_tailleSeq = &tailleSeq;
     p_nbErreurMax = &nbErreurMax;
     //FILE* donnees=NULL;
-    tailleMotif=strlen(motif);
+
 
     ///////////////////////////////
     /*RECUPERATION DES PARAMETRES*/
     ///////////////////////////////
 
-    getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, motif, argc, argv);
+    motif=getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, argc, argv);
+    if (tailleSeq == 0 || nbSeq == 0)   
+    {
+        printf("\nERREUR\n");
+        notice();
+        exit(1);
+    }
+
+    tailleMotif=strlen(motif);
+
     //////////////////////////////////////
     /*ALLOCATION DES DIFFERENTS TABLEAUX*/
     //////////////////////////////////////
@@ -76,8 +86,9 @@ int main(int argc, char *argv[]) {
 
     free(tabNbErreur);
     free(tabPosition);
-    free(PSSM);
-    free(tabSeq);
+    free(motif);
+    freePSSM(PSSM);
+    freeTabSeq(tabSeq, nbSeq);//libère chaque case du tableau puis le tableau en lui même
 
 	return 0;
 }
