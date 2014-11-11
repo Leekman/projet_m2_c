@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,6 +37,8 @@ char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences, int longueu
 
 double *calculerMotifDeFond(char **tableauSequences, int nombreSequences);
 
+void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int dim2);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //masque
@@ -56,7 +59,7 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 
 double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond);
 
-double calculProbaPSSM(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
+double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

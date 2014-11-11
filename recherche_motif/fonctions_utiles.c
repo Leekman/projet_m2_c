@@ -67,3 +67,24 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
 
     return motifDeFond;    
 }
+
+void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int dim2){
+
+    int i, j;
+
+
+    if (*p_pssmVide != NULL)
+    {
+        free(*p_pssmVide);
+    }
+    (*p_pssmVide)=(double**)malloc(sizeof(double*)*dim1);
+    for (i=0; i<dim1; i++)
+    {
+        (*p_pssmVide)[i]=(double*)malloc(sizeof(double)*dim2);
+        for (j=0; j<dim2; j++)
+        {
+            (*p_pssmVide)[i][j]=pssmACopier[i][j];
+        }
+
+    }
+}

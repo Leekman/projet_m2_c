@@ -6,6 +6,8 @@
 	int longueurSequencesCourante;
 	char *k_merCourant = NULL;
 	double quorum;
+	double scoreCourant;
+	double **pssmCourante = NULL;
 	k_mer *k_merCandidat;
 
 	k_mer *pk;
@@ -16,6 +18,7 @@
 	occurence *nextPo;
 
 	quorum = 0;
+	*p_score = 0;
 	
 	//construit le dictionnaire avec le masque courant
 	k_merCourant=(char*)malloc(sizeof(char)*((l-k)+1));
@@ -76,16 +79,43 @@
 			j++;
 			//printf("%d", j);
 		}
-		if ((double)j/(double)nombreSequences > quorum)
+		if (j > 2)
 		{
-			quorum = (double)j/(double)nombreSequences;
-			k_merCandidat = pk;			
+			pssmCourante=construirePSSM(pk, tableauSequences, nombreSequences, k);
+			scoreCourant=calculDuScore(pk, tableauSequences, nombreSequences, k, pssmCourante, motifDeFond);
+			if (scoreCourant > *p_score)
+			{
+				quorum = (double)j/(double)nombreSequences;
+				*p_score = scoreCourant;
+				copieProfondePSSM(&pssm, pssmCourante, 4, l); 
+				k_merCandidat = pk;
+			}
+			free(pssmCourante);			
 		}
 		pk = pk->nextK_mer;
 	}
+
+	printf("k_merCandidat : %s, quorum : %f, score : %e\n", k_merCandidat->k_mer, quorum, *p_score);
+	printf("\nPSSM\n");
+	for (i=0;i<4;i++)
+	{
+		switch (i)
+		{
+			case 0 : printf("A : "); break;
+			case 1 : printf("T : "); break;
+			case 2 : printf("C : "); break;
+			case 3 : printf("G : "); break;
+			default : break;
+		}
+		for(j=0;j<(strlen(k_merCandidat->k_mer)+k);j++)
+		{
+			printf("%f ", pssm[i][j]);
+		}
+		printf("\n");
+	}
 	
 	//construit la PSSM du motif le plus courant du dictionnaire
-	printf("k_merCandidat : %s, quorum : %f\n", k_merCandidat->k_mer, quorum);
+	/*printf("k_merCandidat : %s, quorum : %f\n", k_merCandidat->k_mer, quorum);
 	pssm=construirePSSM(k_merCandidat, tableauSequences, nombreSequences, k);
 
 	printf("\nPSSM\n");
@@ -96,11 +126,11 @@
 			printf("%f ", pssm[i][j]);
 		}
 		printf("\n");
-	}
+	}*/
 
 	//Calcul du score de la solution (PSSM)
 
-	*p_score=calculDuScore(k_merCandidat, tableauSequences, nombreSequences, k, pssm, motifDeFond);
+	//*p_score=calculDuScore(k_merCandidat, tableauSequences, nombreSequences, k, pssm, motifDeFond);
 
 	//free du dictionnaire
 	pk=(*p_p_dictionnaire)->firstK_mer;
@@ -139,6 +169,8 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 	int nombreDeMotif;
 
 	int i, j, m, n;
+
+	j = 0;
 
 	nombreDeMotif = 0;
 
@@ -181,7 +213,7 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 			parcoureurSequence = parcoureurSequence->nextSequence;
 			j++;
 		}
-		printf("Nombre de sequence : %d. Nombre de motifs : %d\n", j, nombreDeMotif);
+		//printf("k_mer : %s. Nombre de sequence : %d. Nombre de motifs : %d\n",k_merCandidat->k_mer, j, nombreDeMotif);
 
 	for (i=0;i<4;i++)
 	{
@@ -200,26 +232,25 @@ double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSe
 
 	score = 0;
 
-	score = calculProbaPSSM(k_merCandidat, tableauSequences, k, pssm, motifDeFond);
+	score = calculScoreK_mer(k_merCandidat, tableauSequences, k, pssm, motifDeFond);
 	//calculProbaMotifDeFond(k_merCandidat, tableauSequences, k, motifDeFond);
 
 	return score;
 }
 
-double calculProbaPSSM(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond){
+double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond){
 
 	double probaPSSM;
 	double probaMotifDeFond;
-	double quotientProba;
+	double scoreK_mer;
+	double scoreOccurence;
 	int i;
 	int longueurMotif;
 
 	sequence *parcoureurSequence;
 	occurence *parcoureurOccurence;
 
-	probaPSSM = 1;
-	probaMotifDeFond = 1;
-	quotientProba = 1;
+	scoreK_mer = 0;
 
 	longueurMotif = (strlen(k_merCandidat->k_mer)+k);
 	
@@ -230,10 +261,7 @@ double calculProbaPSSM(k_mer *k_merCandidat, char **tableauSequences, int k, dou
 		parcoureurOccurence = parcoureurSequence->firstOccurence;
 		while (parcoureurOccurence != NULL)
 		{
-			printf("proba PSSM : %e\n", probaPSSM);
-			printf("proba motif : %e\n", probaMotifDeFond);
-			quotientProba *= probaPSSM/probaMotifDeFond;
-			printf("Quotient : %e\n\n", quotientProba);
+
 			probaPSSM = 1;
 			probaMotifDeFond = 1;
 			for (i=0; i<longueurMotif; i++)
@@ -245,18 +273,19 @@ double calculProbaPSSM(k_mer *k_merCandidat, char **tableauSequences, int k, dou
 					case 'T' : probaPSSM *= pssm[1][i]; probaMotifDeFond *= motifDeFond[0]; break;
 					case 'C' : probaPSSM *= pssm[2][i]; probaMotifDeFond *= motifDeFond[0]; break;
 					case 'G' : probaPSSM *= pssm[3][i]; probaMotifDeFond *= motifDeFond[0]; break;
-					default : printf("calculProbaPSSM : format de base incorrect.\n"); break;
+					default : printf("calculScoreK_mer : format de base incorrect.\n"); break;
 				}
 
 			}
+			//printf("proba PSSM : %e\n", probaPSSM);
+			//printf("proba motif : %e\n", probaMotifDeFond);
+			scoreOccurence = probaPSSM/probaMotifDeFond;
+			scoreK_mer += log(scoreOccurence);
+			//printf("Quotient : %e\n\n", scoreK_mer);
 			parcoureurOccurence = parcoureurOccurence->nextOccurence;
 		}
 		parcoureurSequence = parcoureurSequence->nextSequence;
 	}
 	
-	return quotientProba;
+	return scoreK_mer;
 }
-
-/*calculProbaMotifDeFond(){
-	
-}*/
