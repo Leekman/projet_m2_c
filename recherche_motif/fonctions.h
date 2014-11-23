@@ -39,6 +39,8 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences);
 
 void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int dim2);
 
+//void copieProfondeK_mer(k_mer **p_p_copieK_merCandidat, k_mer *p_k_merCandidat);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //masque
@@ -60,6 +62,8 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond);
 
 double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
+
+void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_scoreCourant, char **tableauSequences,int nombreSequences, int nombreOccurence, int k, int l, k_mer *p_k_merCandidat, double *motifDeFond);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

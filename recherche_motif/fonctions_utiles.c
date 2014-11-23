@@ -76,6 +76,7 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
     if (*p_pssmVide != NULL)
     {
         free(*p_pssmVide);
+        *p_pssmVide = NULL;
     }
     (*p_pssmVide)=(double**)malloc(sizeof(double*)*dim1);
     for (i=0; i<dim1; i++)

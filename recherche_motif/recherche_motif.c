@@ -3,14 +3,20 @@
  void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond) {
  
 	int i,j,m;
+	int nbSequenceDuMotif;
+	int nbSequenceDuMotifCandidat;
 	int longueurSequencesCourante;
 	char *k_merCourant = NULL;
 	double quorum;
 	double scoreCourant;
 	double **pssmCourante = NULL;
-	k_mer *k_merCandidat;
+	k_mer *p_k_merCandidat = NULL;
+	int **infoPssmCourante = NULL;
+	int nombreOccurence;
 
 	k_mer *pk;
+	sequence *parcoureurSequence;
+	occurence *p_parcoureurOccurence;
 	sequence *ps;
 	occurence *po;
 	k_mer *nextPk;
@@ -40,62 +46,69 @@
 		//printf("%d\n", strlen(tableau_sequences[i]));
 	}
 
-	//Verification dictionnaire
-
-	/*pk=(*p_p_dictionnaire)->firstK_mer;
-	while (pk != NULL)
-	{								
-		if (strcmp(pk->k_mer,"AAAAAAAA")==0)
-		{
-			ps = pk->firstSequence;
-			printf("K_mer : %s\n", pk->k_mer);
-			while (ps != NULL)
-			{
-				po = ps->firstOccurence;
-				printf("seqence : %d position : ", ps->numSequence+1);
-				while (po != NULL)
-				{
-					printf("%d ", po->position+1);
-					po = po->nextOccurence;
-				}
-				ps = ps->nextSequence;
-				printf("\n");
-			}
-		}
-		pk = pk->nextK_mer;
-	}*/
-
-	//Selection candidat et calcul quorum
-	j=0;
+	//Calcul du quorum et du score des motif commun, selection du k_mer avec le score le plus haut
+	nbSequenceDuMotif=0;
 
 	pk=(*p_p_dictionnaire)->firstK_mer;
 	while (pk != NULL)
 	{				
-		j=0;				
-		ps = pk->firstSequence;
-		while (ps != NULL)
+		nbSequenceDuMotif=0;				
+		parcoureurSequence = pk->firstSequence;
+		while (parcoureurSequence != NULL)
 		{
-			ps = ps->nextSequence;
-			j++;
-			//printf("%d", j);
+			p_parcoureurOccurence = parcoureurSequence->firstOccurence;
+			parcoureurSequence = parcoureurSequence->nextSequence;
+			nbSequenceDuMotif++;
 		}
-		if (j > 2)
+		if (nbSequenceDuMotif > 30) //Si le motif est présent dans plus de deux séquences
 		{
 			pssmCourante=construirePSSM(pk, tableauSequences, nombreSequences, k);
 			scoreCourant=calculDuScore(pk, tableauSequences, nombreSequences, k, pssmCourante, motifDeFond);
 			if (scoreCourant > *p_score)
 			{
-				quorum = (double)j/(double)nombreSequences;
+				quorum = (double)nbSequenceDuMotif/(double)nombreSequences;
 				*p_score = scoreCourant;
-				copieProfondePSSM(&pssm, pssmCourante, 4, l); 
-				k_merCandidat = pk;
+				copieProfondePSSM(&pssm, pssmCourante, 4, l);
+				nbSequenceDuMotifCandidat = nbSequenceDuMotif;
+				p_k_merCandidat = pk;
 			}
 			free(pssmCourante);			
 		}
 		pk = pk->nextK_mer;
 	}
 
-	printf("k_merCandidat : %s, quorum : %f, score : %e\n", k_merCandidat->k_mer, quorum, *p_score);
+	if (p_k_merCandidat == NULL)
+	{
+		printf("Aucun motif commun trouvé avec ce masque.\n");
+
+		pk=(*p_p_dictionnaire)->firstK_mer;
+		while (pk != NULL)
+		{								
+			ps = pk->firstSequence;
+			while (ps != NULL)
+			{
+				po = ps->firstOccurence;
+				while (po != NULL)
+				{
+					nextPo = po->nextOccurence;
+					free(po);
+					po = nextPo;
+				}
+				nextPs = ps->nextSequence;
+				free(ps);
+				ps = nextPs;
+			}
+			nextPk = pk->nextK_mer;
+			free(pk);
+			pk = nextPk;
+		}
+		free(*p_p_dictionnaire);
+		(*p_p_dictionnaire)=NULL;
+
+		return ;
+	}
+	//Affichage des infos du k_mer candidat
+	printf("p_k_merCandidat : %s, quorum : %f, score : %e\n", p_k_merCandidat->k_mer, quorum, *p_score);
 	printf("\nPSSM\n");
 	for (i=0;i<4;i++)
 	{
@@ -107,30 +120,63 @@
 			case 3 : printf("G : "); break;
 			default : break;
 		}
-		for(j=0;j<(strlen(k_merCandidat->k_mer)+k);j++)
+		for(j=0;j<(strlen(p_k_merCandidat->k_mer)+k);j++)
 		{
 			printf("%f ", pssm[i][j]);
 		}
 		printf("\n");
 	}
-	
-	//construit la PSSM du motif le plus courant du dictionnaire
-	/*printf("k_merCandidat : %s, quorum : %f\n", k_merCandidat->k_mer, quorum);
-	pssm=construirePSSM(k_merCandidat, tableauSequences, nombreSequences, k);
 
-	printf("\nPSSM\n");
-	for (i=0;i<4;i++)
+	//Recupération des info du k_mer_candidat dans un tableau
+
+	nombreOccurence = 0;
+	pk=p_k_merCandidat;							
+	ps = pk->firstSequence;
+	while (ps != NULL)
 	{
-		for(j=0;j<(strlen(k_merCandidat->k_mer)+k);j++)
+		po = ps->firstOccurence;
+		while (po != NULL)
 		{
-			printf("%f ", pssm[i][j]);
+			nextPo = po->nextOccurence;
+			po = nextPo;
+			nombreOccurence++;
 		}
-		printf("\n");
-	}*/
+		nextPs = ps->nextSequence;
+		ps = nextPs;
+	}
+	printf("Nombre d'occurence = %d\n", nombreOccurence);
 
-	//Calcul du score de la solution (PSSM)
+	infoPssmCourante = (int**)malloc(sizeof(int*)*nombreOccurence);
+	for (i=0; i<nombreOccurence; i++)
+	{
+		infoPssmCourante[i] = (int*)malloc(sizeof(int)*2);
+	}
 
-	//*p_score=calculDuScore(k_merCandidat, tableauSequences, nombreSequences, k, pssm, motifDeFond);
+	i = 0;
+	ps = pk->firstSequence;
+	while (ps != NULL)
+	{
+		po = ps->firstOccurence;
+		while (po != NULL)
+		{
+			infoPssmCourante[i][0] = ps->numSequence;
+			infoPssmCourante[i][1] = po->position;
+			nextPo = po->nextOccurence;
+			po = nextPo;
+			i++;
+		}
+		nextPs = ps->nextSequence;
+		ps = nextPs;
+	}
+
+	for (i=0; i<nombreOccurence; i++)
+	{
+		printf("%d %d\n",infoPssmCourante[i][0], infoPssmCourante[i][1]);
+	}
+
+	//Amélioration du motif
+
+	ameliorerMotif(infoPssmCourante, pssm, p_score, tableauSequences, nombreSequences, nombreOccurence, k, l, p_k_merCandidat, motifDeFond); 
 
 	//free du dictionnaire
 	pk=(*p_p_dictionnaire)->firstK_mer;
@@ -159,7 +205,7 @@
 
 } 
 
-double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k){
+double **construirePSSM(k_mer *p_k_merCandidat, char **tableauSequences, int nombreSequences, int k){
 
 	double **pssm = NULL;
 	sequence *parcoureurSequence;
@@ -176,14 +222,14 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 
 	pssm = (double**)malloc(sizeof(double*)*4);
 
-	tailleMotif = (strlen(k_merCandidat->k_mer)+k);
+	tailleMotif = (strlen(p_k_merCandidat->k_mer)+k);
 
 	for (i=0; i<4; i++)
 	{
 		pssm[i]=(double*)malloc(sizeof(double)*tailleMotif);		
 	}
 
-	parcoureurSequence = k_merCandidat->firstSequence;
+	parcoureurSequence = p_k_merCandidat->firstSequence;
 
 	while (parcoureurSequence != NULL)
 		{
@@ -213,11 +259,11 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 			parcoureurSequence = parcoureurSequence->nextSequence;
 			j++;
 		}
-		//printf("k_mer : %s. Nombre de sequence : %d. Nombre de motifs : %d\n",k_merCandidat->k_mer, j, nombreDeMotif);
+		//printf("k_mer : %s. Nombre de sequence : %d. Nombre de motifs : %d\n",p_k_merCandidat->k_mer, j, nombreDeMotif);
 
 	for (i=0;i<4;i++)
 	{
-		for(j=0;j<(strlen(k_merCandidat->k_mer)+k);j++)
+		for(j=0;j<(strlen(p_k_merCandidat->k_mer)+k);j++)
 		{
 			pssm[i][j] /= nombreDeMotif;
 		}
@@ -226,19 +272,19 @@ double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombr
 	return pssm;
 }
 
-double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond){
+double calculDuScore(k_mer *p_k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond){
 
 	double score;
 
 	score = 0;
 
-	score = calculScoreK_mer(k_merCandidat, tableauSequences, k, pssm, motifDeFond);
-	//calculProbaMotifDeFond(k_merCandidat, tableauSequences, k, motifDeFond);
+	score = calculScoreK_mer(p_k_merCandidat, tableauSequences, k, pssm, motifDeFond);
+	//calculProbaMotifDeFond(p_k_merCandidat, tableauSequences, k, motifDeFond);
 
 	return score;
 }
 
-double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond){
+double calculScoreK_mer(k_mer *p_k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond){
 
 	double probaPSSM;
 	double probaMotifDeFond;
@@ -252,9 +298,9 @@ double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, do
 
 	scoreK_mer = 0;
 
-	longueurMotif = (strlen(k_merCandidat->k_mer)+k);
+	longueurMotif = (strlen(p_k_merCandidat->k_mer)+k);
 	
-	parcoureurSequence = k_merCandidat->firstSequence;
+	parcoureurSequence = p_k_merCandidat->firstSequence;
 
 	while (parcoureurSequence != NULL)
 	{
@@ -288,4 +334,103 @@ double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, do
 	}
 	
 	return scoreK_mer;
+}
+
+void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_scoreCourant, char **tableauSequences,int nombreSequences, int nombreOccurence, int k, int l, k_mer *p_k_merCandidat, double *motifDeFond){
+
+	double critereDeConvergene;
+	int randomOccurence;
+	int randomPosition;
+	double **pssmNouvelle;
+	double scoreNouveau;
+	int i,j, compteur;
+
+	critereDeConvergene = 2;
+	compteur = 0;
+
+
+	while (critereDeConvergene > 1.5)
+	{
+		critereDeConvergene = 0;
+		compteur++;
+
+		randomOccurence = rand()%(nombreOccurence);
+		printf("randomOccurence : %d\n", randomOccurence);
+		do
+		{
+			randomPosition = rand()%(strlen(tableauSequences[infoPssmCourante[randomOccurence][0]])-l);
+			printf("randomPosition : %d\n", randomPosition);
+		}
+		while (randomPosition == infoPssmCourante[randomOccurence][1]);
+
+		pssmNouvelle = (double**)malloc(sizeof(double*)*4);
+		for (i = 0; i < 4; i++)
+		{
+			pssmNouvelle[i]=(double*)malloc(sizeof(double)*l);
+			for (j = 0; j < l; j++)
+			{
+				pssmNouvelle[i][j] = 0;
+			}
+		}
+
+		for (i = 0; i < nombreOccurence; i++)
+		{
+			if (i != randomOccurence)
+			{
+				for (j = 0; j < l; j++)
+				{
+					switch (tableauSequences[infoPssmCourante[i][0]][infoPssmCourante[i][1]+j])
+					{
+						case 'A' : pssmNouvelle[0][j] += 1; break;
+						case 'T' : pssmNouvelle[1][j] += 1; break;
+						case 'C' : pssmNouvelle[2][j] += 1; break;
+						case 'G' : pssmNouvelle[3][j] += 1; break;
+						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[i][0]][infoPssmCourante[i][1]+j]); break;
+					}
+				}
+			}
+			else
+			{
+				for (j = 0; j < l; j++)
+				{
+					switch (tableauSequences[infoPssmCourante[i][0]][randomPosition+j])
+					{
+						case 'A' : pssmNouvelle[0][j] += 1; break;
+						case 'T' : pssmNouvelle[1][j] += 1; break;
+						case 'C' : pssmNouvelle[2][j] += 1; break;
+						case 'G' : pssmNouvelle[3][j] += 1; break;
+						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[i][0]][randomPosition+j]); break;
+					}
+				}
+			}
+		}
+
+		for (i = 0; i < 4; i++)
+		{
+			for (j = 0; j < l; j++)
+			{
+				pssmNouvelle[i][j] /= nombreOccurence;
+				critereDeConvergene += ((pssmNouvelle[i][j]-pssmCourante[i][j])*(pssmNouvelle[i][j]-pssmCourante[i][j]));
+			}
+		}
+
+		printf("Critere de convergence : %f\n", critereDeConvergene);
+
+		scoreNouveau=calculDuScore(p_k_merCandidat, tableauSequences, nombreSequences, k, pssmNouvelle, motifDeFond);
+
+		if (scoreNouveau <= *p_scoreCourant)
+		{
+			printf("Arret amelioration apres %d iteration car le score n'est pas ameliore.\n", compteur);
+			return ;
+		}
+
+		*p_scoreCourant = scoreNouveau;
+
+		copieProfondePSSM(&pssmCourante, pssmNouvelle, 4, l);
+
+		infoPssmCourante[randomOccurence][1]=randomPosition;
+	}
+
+	printf("Arret amelioration apres %d iteration car le critere de convergence n'est pas depasse.\n", compteur);
+
 }
