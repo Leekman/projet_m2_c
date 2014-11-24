@@ -90,5 +90,5 @@ int main(int argc, char *argv[]) {
     freePSSM(PSSM);
     freeTabSeq(tabSeq, nbSeq);//libère chaque case du tableau puis le tableau en lui même
 
-	return 0;
+   	return 0;
 }

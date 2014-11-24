@@ -123,7 +123,7 @@ double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosit
     PSSM= (double**)malloc(4*sizeof(double*));
     for (i = 0; i < 4; i++)
     {
-        PSSM[i]=(double*)malloc(tailleMotif*sizeof(double));
+        PSSM[i]=(double*)calloc(tailleMotif,sizeof(double));
     }
 
     //////////////////////////////////////////////////////
