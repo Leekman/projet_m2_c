@@ -1,10 +1,12 @@
-#include "fonctions.h"
+#include "../lib/masque.h"
+#include "../lib/motif.h"
 
 int main(){
 
 	srand(time(NULL));
 
 	int i;
+	//int test=0;
 
 	FILE *fichierSequences = NULL;
 	char **tableauSequences = NULL;
@@ -22,12 +24,17 @@ int main(){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	fichierSequences = fopen("sequences.fasta", "r+");
+	fichierSequences = fopen("input/sequences.fasta", "r+");
 
 	nombreSequences = 100;
 	longueurSequencesMax = 150;
 
 	tableauSequences=fasta_to_2Dtable(fichierSequences, nombreSequences, longueurSequencesMax);
+	
+	/*for (i = 0; tableauSequences[i]; i++);
+	test=i;
+	printf("%d\n", test);*/
+	
 
 	/////////////////////////////////////////
 	/*MODIFICATION MINUSCULES EN MAJUSCULES*/
@@ -47,15 +54,20 @@ int main(){
 
 	/*for (i=0; i<nombreSequences; i++)
 		printf("%s", tableauSequences[i]);*/
-
-
+    /*i=0;
+    while (tableauSequences[i]){
+    	test++;
+    	i++;
+    }
+    printf("%d\n", test);
+*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	for (i=0; i<1; i++)
 	{
-		l=10;
-		k=6;
+		l=3;
+		k=1;
 		score = 0;
 
 		masque=generateurMasque(l,k);

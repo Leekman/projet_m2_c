@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "../lib/gestion_dictionnaire.h"
 
 void ajoutAuDictionnaire(dictionnaire **p_p_dictionnaire, char *k_merCourant, int numSequence, int positionOccurence){
 	

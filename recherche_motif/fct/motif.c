@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "../lib/motif.h"
 
  void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond) {
  
@@ -169,13 +169,12 @@
 		ps = nextPs;
 	}
 
-	for (i=0; i<nombreOccurence; i++)
+	/*for (i=0; i<nombreOccurence; i++)
 	{
 		printf("%d %d\n",infoPssmCourante[i][0], infoPssmCourante[i][1]);
-	}
+	}*/
 
 	//Amélioration du motif
-
 	ameliorerMotif(infoPssmCourante, pssm, p_score, tableauSequences, nombreSequences, nombreOccurence, k, l, p_k_merCandidat, motifDeFond); 
 
 	//free du dictionnaire
@@ -417,6 +416,8 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 		printf("Critere de convergence : %f\n", critereDeConvergene);
 
 		scoreNouveau=calculDuScore(p_k_merCandidat, tableauSequences, nombreSequences, k, pssmNouvelle, motifDeFond);
+
+		printf("%f %f\n", scoreNouveau, *p_scoreCourant);
 
 		if (scoreNouveau <= *p_scoreCourant)
 		{

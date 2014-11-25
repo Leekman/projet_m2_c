@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "../lib/fonctions_utiles.h"
 
 char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences, int longueurSequencesMax){
 

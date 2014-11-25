@@ -31,10 +31,10 @@ clean:
 mrproper: clean
 	rm -rf $(TARGET)
 
-rundbg: $(TARGET)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
+dbg: $(TARGET)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(TARGET)
 
-runtime: $(TARGET)
-	time ./$(TARGET) $(OPTRUNDBG)
+time: $(TARGET)
+	time ./$(TARGET)
 
 .PHONY: clean rundbg mrproper

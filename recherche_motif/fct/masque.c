@@ -1,4 +1,4 @@
-#include "fonctions.h"
+#include "../lib/masque.h"
 
 
 int compare (void const *a, void const *b){
