@@ -29,6 +29,13 @@ int main(){
 
 	tableauSequences=fasta_to_2Dtable(fichierSequences, nombreSequences, longueurSequencesMax);
 
+	/////////////////////////////////////////
+	/*MODIFICATION MINUSCULES EN MAJUSCULES*/
+	/////////////////////////////////////////
+
+	conversionMinMaj(tableauSequences, nombreSequences);
+
+
 	motifDeFond=calculerMotifDeFond(tableauSequences, nombreSequences);
 
 	printf("Motif de fond\n");
@@ -48,7 +55,7 @@ int main(){
 	for (i=0; i<1; i++)
 	{
 		l=10;
-		k=2;
+		k=6;
 		score = 0;
 
 		masque=generateurMasque(l,k);

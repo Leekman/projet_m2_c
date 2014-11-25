@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,6 +35,8 @@ typedef struct dictionnaire{
 //fonctions_utiles
 
 char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences, int longueurSequencesMax);
+
+void conversionMinMaj(char **tableauSequences, int nombreSequences);
 
 double *calculerMotifDeFond(char **tableauSequences, int nombreSequences);
 

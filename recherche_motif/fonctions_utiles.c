@@ -28,6 +28,22 @@ char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences, int longueu
     return tableauSequences;
 }
 
+
+void conversionMinMaj(char **tableauSequences, int nombreSequences){
+
+	int i,j;
+
+	for (i = 0; i < nombreSequences; i++)
+		{
+			for (j = 0; j < strlen(tableauSequences[i]); j++)
+			{
+					tableauSequences[i][j] = toupper(tableauSequences[i][j]);
+			}
+		}
+}
+
+
+
 double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
 
     double *motifDeFond;

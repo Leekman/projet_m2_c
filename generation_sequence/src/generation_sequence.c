@@ -36,7 +36,6 @@ int main(int argc, char *argv[]) {
     ///////////////////////////////
     /*RECUPERATION DES PARAMETRES*/
     ///////////////////////////////
-
     motif=getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, argc, argv);
     if (tailleSeq == 0 || nbSeq == 0)   
     {
@@ -44,9 +43,7 @@ int main(int argc, char *argv[]) {
         notice();
         exit(1);
     }
-
     tailleMotif=strlen(motif);
-    printf("%d\n", tailleMotif);
     //////////////////////////////////////
     /*ALLOCATION DES DIFFERENTS TABLEAUX*/
     //////////////////////////////////////
