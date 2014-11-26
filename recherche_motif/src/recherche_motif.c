@@ -66,8 +66,8 @@ int main(){
 
 	for (i=0; i<1; i++)
 	{
-		l=3;
-		k=1;
+		l=10;
+		k=2;
 		score = 0;
 
 		masque=generateurMasque(l,k);

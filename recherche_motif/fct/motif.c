@@ -175,7 +175,12 @@
 	}*/
 
 	//Amélioration du motif
-	ameliorerMotif(infoPssmCourante, pssm, p_score, tableauSequences, nombreSequences, nombreOccurence, k, l, p_k_merCandidat, motifDeFond); 
+	for (i = 0, i < 20, i++)
+	{
+		ameliorerMotif(infoPssmCourante, pssm, p_score, tableauSequences, nombreSequences, nombreOccurence, k, l, p_k_merCandidat, motifDeFond); 
+	}
+
+	//Affinage du motif
 
 	//free du dictionnaire
 	pk=(*p_p_dictionnaire)->firstK_mer;
@@ -348,17 +353,17 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 	compteur = 0;
 
 
-	while (critereDeConvergene > 1.5)
+	while (critereDeConvergene > 0.005)
 	{
 		critereDeConvergene = 0;
 		compteur++;
 
 		randomOccurence = rand()%(nombreOccurence);
-		printf("randomOccurence : %d\n", randomOccurence);
+		//printf("randomOccurence : %d\n", randomOccurence);
 		do
 		{
 			randomPosition = rand()%(strlen(tableauSequences[infoPssmCourante[randomOccurence][0]])-l);
-			printf("randomPosition : %d\n", randomPosition);
+			//printf("randomPosition : %d\n", randomPosition);
 		}
 		while (randomPosition == infoPssmCourante[randomOccurence][1]);
 
@@ -417,8 +422,6 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 
 		scoreNouveau=calculDuScore(p_k_merCandidat, tableauSequences, nombreSequences, k, pssmNouvelle, motifDeFond);
 
-		printf("%f %f\n", scoreNouveau, *p_scoreCourant);
-
 		if (scoreNouveau <= *p_scoreCourant)
 		{
 			printf("Arret amelioration apres %d iteration car le score n'est pas ameliore.\n", compteur);
@@ -430,6 +433,8 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 		copieProfondePSSM(&pssmCourante, pssmNouvelle, 4, l);
 
 		infoPssmCourante[randomOccurence][1]=randomPosition;
+
+		printf("Le motif a ete ameliore.\n");
 	}
 
 	printf("Arret amelioration apres %d iteration car le critere de convergence n'est pas depasse.\n", compteur);
