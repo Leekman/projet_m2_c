@@ -116,13 +116,14 @@ void updateSequence(sequence **p_p_parcoureurK_sequence, int positionOccurence){
 	occurence *p_parcoureurOccurence = NULL;
 	occurence *p_occurence = NULL;
 
-	p_parcoureurOccurence = (*p_p_parcoureurK_sequence)->firstOccurence;
+	/*p_parcoureurOccurence = (*p_p_parcoureurK_sequence)->firstOccurence;
 
 	while (p_parcoureurOccurence->nextOccurence != NULL)
 	{
 		p_parcoureurOccurence = p_parcoureurOccurence->nextOccurence;
-	}
+	}*/
 
 	initialiserOccurence(&p_occurence, positionOccurence);
-	p_parcoureurOccurence->nextOccurence = p_occurence;
+	//p_parcoureurOccurence->nextOccurence = p_occurence;
+	((*p_p_parcoureurK_sequence)->firstOccurence) = p_occurence;
 }

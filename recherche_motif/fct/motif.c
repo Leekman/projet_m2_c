@@ -1,6 +1,6 @@
 #include "../lib/motif.h"
 
- void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond) {
+ void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus) {
  
 	int i,j,m;
 	int nbSequenceDuMotif;
@@ -175,12 +175,15 @@
 	}*/
 
 	//Amélioration du motif
-	for (i = 0, i < 20, i++)
+	for (i = 0; i < 20; i++)
 	{
 		ameliorerMotif(infoPssmCourante, pssm, p_score, tableauSequences, nombreSequences, nombreOccurence, k, l, p_k_merCandidat, motifDeFond); 
 	}
 
 	//Affinage du motif
+
+	affinerMotif(p_ensembleT, infoPssmCourante, tableauSequences, nombreOccurence, l, pssm, motifDeFond, nbSequenceDuMotifCandidat);
+	creerMotifConsensus(p_motifConsensusPSSM, p_motifConsensus, *p_ensembleT, l, nbSequenceDuMotifCandidat);
 
 	//free du dictionnaire
 	pk=(*p_p_dictionnaire)->firstK_mer;
@@ -320,9 +323,9 @@ double calculScoreK_mer(k_mer *p_k_merCandidat, char **tableauSequences, int k, 
 				switch (tableauSequences[parcoureurSequence->numSequence][i+parcoureurOccurence->position])
 				{
 					case 'A' : probaPSSM *= pssm[0][i]; probaMotifDeFond *= motifDeFond[0]; break;
-					case 'T' : probaPSSM *= pssm[1][i]; probaMotifDeFond *= motifDeFond[0]; break;
-					case 'C' : probaPSSM *= pssm[2][i]; probaMotifDeFond *= motifDeFond[0]; break;
-					case 'G' : probaPSSM *= pssm[3][i]; probaMotifDeFond *= motifDeFond[0]; break;
+					case 'T' : probaPSSM *= pssm[1][i]; probaMotifDeFond *= motifDeFond[1]; break;
+					case 'C' : probaPSSM *= pssm[2][i]; probaMotifDeFond *= motifDeFond[2]; break;
+					case 'G' : probaPSSM *= pssm[3][i]; probaMotifDeFond *= motifDeFond[3]; break;
 					default : printf("calculScoreK_mer : format de base incorrect.\n"); break;
 				}
 
@@ -418,13 +421,13 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 			}
 		}
 
-		printf("Critere de convergence : %f\n", critereDeConvergene);
+		//printf("Critere de convergence : %f\n", critereDeConvergene);
 
 		scoreNouveau=calculDuScore(p_k_merCandidat, tableauSequences, nombreSequences, k, pssmNouvelle, motifDeFond);
 
 		if (scoreNouveau <= *p_scoreCourant)
 		{
-			printf("Arret amelioration apres %d iteration car le score n'est pas ameliore.\n", compteur);
+			//printf("Arret amelioration apres %d iteration car le score n'est pas ameliore.\n", compteur);
 			return ;
 		}
 
@@ -437,6 +440,116 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 		printf("Le motif a ete ameliore.\n");
 	}
 
-	printf("Arret amelioration apres %d iteration car le critere de convergence n'est pas depasse.\n", compteur);
+	//printf("Arret amelioration apres %d iteration car le critere de convergence n'est pas depasse.\n", compteur);
 
+}
+
+void affinerMotif(char ***p_ensembleT, int **infoPssmCourante, char **tableauSequences, int nombreOccurence, int l, double **pssm, double *motifDeFond, int nbSequenceDuMotifCandidat){
+
+	int i, j, m;
+	double probaPSSM, probaMotifDeFond, scoreMotifCourant, scoreMax;
+	int meilleurMotif;
+
+	printf("nbsequences :%d\n", nbSequenceDuMotifCandidat);
+
+	p_ensembleT[0] = (char**)malloc(sizeof(char*)*nbSequenceDuMotifCandidat);
+	for (i = 0; i < nbSequenceDuMotifCandidat; i++)
+	{
+		p_ensembleT[0][i] = (char*)malloc(sizeof(char)*l);
+	}
+
+	for (i = 0; i < nombreOccurence; i++)
+	{
+		scoreMax = 0;
+		//Identification du motif maximisant le score
+		for (j = 0; j < strlen(tableauSequences[infoPssmCourante[i][0]])-l; j++)
+		{
+			probaPSSM = 1;
+			probaMotifDeFond = 1;
+			for (m = 0; m < l; m++)
+			{
+				switch (tableauSequences[infoPssmCourante[i][0]][j+m])
+				{
+					case 'A' : probaPSSM *= pssm[0][m]; probaMotifDeFond *= motifDeFond[0]; break;
+					case 'T' : probaPSSM *= pssm[1][m]; probaMotifDeFond *= motifDeFond[1]; break;
+					case 'C' : probaPSSM *= pssm[2][m]; probaMotifDeFond *= motifDeFond[2]; break;
+					case 'G' : probaPSSM *= pssm[3][m]; probaMotifDeFond *= motifDeFond[3]; break;
+					default : printf("calculScoreK_mer : format de base incorrect.\n"); break;
+				}
+
+			}
+			scoreMotifCourant = probaPSSM/probaMotifDeFond;				
+
+			if (scoreMotifCourant > scoreMax)
+			{
+				scoreMax = scoreMotifCourant;
+				meilleurMotif = j;
+				infoPssmCourante[i][1] = meilleurMotif;
+			}
+		}
+		//Remplissage de l'ensemble T
+		for (j = 0; j < l; j++)
+		{
+			p_ensembleT[0][i][j]=tableauSequences[infoPssmCourante[i][0]][meilleurMotif+j];	
+		}
+	}
+}
+
+void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus, char **ensembleT, int l, int nbSequenceDuMotifCandidat){
+
+	int i, j, m, max;
+
+	p_motifConsensus[0] = (char*)malloc(sizeof(char)*l);
+
+	p_motifConsensusPSSM[0] = (double**)malloc(sizeof(double*)*4);
+	for (i = 0; i< 4; i++)
+	{
+		p_motifConsensusPSSM[0][i] = (double*)malloc(sizeof(double)*l);
+		for (m = 0; m < l; m++)
+		{
+			p_motifConsensusPSSM[0][i][m] = 0;
+		}
+	}
+
+	for (i = 0; i < nbSequenceDuMotifCandidat; i++)
+	{
+		for (j = 0; j < l; j++)
+		{
+			switch (ensembleT[i][j])
+			{
+				case 'A' : p_motifConsensusPSSM[0][0][j] +=1; break;
+				case 'T' : p_motifConsensusPSSM[0][1][j] +=1; break;
+				case 'C' : p_motifConsensusPSSM[0][2][j] +=1; break;
+				case 'G' : p_motifConsensusPSSM[0][3][j] +=1; break;
+			}
+		}		
+	}
+	for (i = 0; i < 4; i++)
+	{
+		for (j = 0; j < l; j++)
+		{
+			p_motifConsensusPSSM[0][i][j] /= nbSequenceDuMotifCandidat;
+		}
+	}
+
+	for (i = 0; i < l; i++)
+	{
+		max = 0;
+		for (j = 0; j < 4; j++)
+		{
+			if (p_motifConsensusPSSM[0][j][i] > p_motifConsensusPSSM[0][max][i])
+			{
+				max = j;
+			}
+		}
+		switch (max)
+		{
+			case 0 : p_motifConsensus[0][i] = 'A'; break;
+			case 1 : p_motifConsensus[0][i] = 'T'; break;
+			case 2 : p_motifConsensus[0][i] = 'C'; break;
+			case 3 : p_motifConsensus[0][i] = 'G'; break;
+		}
+	}
+
+	printf("Motif consensus %s\n", p_motifConsensus[0]);
 }

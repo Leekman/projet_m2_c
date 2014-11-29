@@ -20,6 +20,10 @@ int main(){
 	double **pssm = NULL;
 	double score;
 
+	char **ensembleT = NULL;
+	double **motifConsensusPSSM;
+	char *motifConsensus;
+
 	printf("\n");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +70,7 @@ int main(){
 
 	for (i=0; i<1; i++)
 	{
-		l=10;
+		l=4;
 		k=2;
 		score = 0;
 
@@ -79,10 +83,9 @@ int main(){
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond);		
+		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus);		
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 	free (masque);
 	free (motifDeFond);
