@@ -113,7 +113,6 @@ void updateK_mer(k_mer **p_p_parcoureurK_mer, int numSequence, int positionOccur
 
 void updateSequence(sequence **p_p_parcoureurK_sequence, int positionOccurence){
 
-	occurence *p_parcoureurOccurence = NULL;
 	occurence *p_occurence = NULL;
 
 	/*p_parcoureurOccurence = (*p_p_parcoureurK_sequence)->firstOccurence;

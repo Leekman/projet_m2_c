@@ -1,14 +1,16 @@
 #include "../lib/masque.h"
 #include "../lib/motif.h"
+#include "../lib/param.h"
 
-int main(){
+int main(int argc, char *argv[]){
 
 	srand(time(NULL));
 
 	int i;
-	//int test=0;
 
+	char *chemin = NULL;
 	FILE *fichierSequences = NULL;
+
 	char **tableauSequences = NULL;
 	int nombreSequences, longueurSequencesMax;
 	double *motifDeFond;
@@ -16,7 +18,10 @@ int main(){
 
 	int *masque = NULL;	
 	int l,k;
-	
+	int *p_l = NULL;
+	int *p_k = NULL;
+	p_l = &l;
+	p_k = &k;
 	dictionnaire *p_dictionnaire = NULL;
 	double **pssm = NULL;
 	double score;
@@ -25,11 +30,14 @@ int main(){
 	double **motifConsensusPSSM;
 	char *motifConsensus;
 
+
+
 	printf("\n");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	fichierSequences = fopen("input/sequences.fasta", "r+");
+	chemin = getParam(p_l, p_k, argc, argv);
+	printf("%s\n", chemin);
+	fichierSequences = fopen(chemin, "r+");
 
 	nombreSequences = 100;
 	longueurSequencesMax = 150;
@@ -39,7 +47,6 @@ int main(){
 	/*for (i = 0; tableauSequences[i]; i++);
 	test=i;
 	printf("%d\n", test);*/
-	
 
 	/////////////////////////////////////////
 	/*MODIFICATION MINUSCULES EN MAJUSCULES*/
@@ -71,8 +78,7 @@ int main(){
 
 	for (i=0; i<1; i++)
 	{
-		l=4;
-		k=2;
+
 		score = 0;
 
 		masque=generateurMasque(l,k);

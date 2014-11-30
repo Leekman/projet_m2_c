@@ -2,7 +2,7 @@ SHELL = /bin/bash
 CC    = gcc
 CFLAGS  = -Wall
 
-OPTRUNDBG = -d 2 -n 50 -t 100 -m TTTTTTTTTTTTTTTTTT
+OPTRUNDBG = -l 4 -k 2 -c input/sequences.fasta
 
 BINDIR = bin
 LIBDIR = lib
@@ -32,9 +32,9 @@ mrproper: clean
 	rm -rf $(TARGET)
 
 dbg: $(TARGET)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(TARGET)
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
 
 time: $(TARGET)
-	time ./$(TARGET)
+	time ./$(TARGET) $(OPTRUNDBG)
 
 .PHONY: clean rundbg mrproper

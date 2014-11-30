@@ -16,7 +16,7 @@
 
 	k_mer *pk;
 	sequence *parcoureurSequence;
-	occurence *p_parcoureurOccurence;
+	//occurence *p_parcoureurOccurence;
 	sequence *ps;
 	occurence *po;
 	k_mer *nextPk;
@@ -56,7 +56,7 @@
 		parcoureurSequence = pk->firstSequence;
 		while (parcoureurSequence != NULL)
 		{
-			p_parcoureurOccurence = parcoureurSequence->firstOccurence;
+			//p_parcoureurOccurence = parcoureurSequence->firstOccurence;
 			parcoureurSequence = parcoureurSequence->nextSequence;
 			nbSequenceDuMotif++;
 		}

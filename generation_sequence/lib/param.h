@@ -20,4 +20,4 @@ extern struct option long_options[];
 
 char *getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[]);
 
- #endif
+#endif
