@@ -50,23 +50,3 @@ int *generateurMasque(int l, int k){
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Test du masque
-
-/*int main(){
-	int *masque;
-	int l,k;
-	int i;
-	l=10;
-	k=4;
-
-	masque=generateurMasque(l,k);
-
-
-	for (i=0;i<(l-k);i++)
-		printf("masque[%d] = %d\n",i,masque[i]);
-
-
-	free (masque);
-	return 0;
-}*/

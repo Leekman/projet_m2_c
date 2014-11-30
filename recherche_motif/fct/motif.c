@@ -1,6 +1,6 @@
 #include "../lib/motif.h"
 
- void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus) {
+ void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *p_scoreMasque) {
  
 	int i,j,m;
 	int nbSequenceDuMotif;
@@ -184,6 +184,10 @@
 
 	affinerMotif(p_ensembleT, infoPssmCourante, tableauSequences, nombreOccurence, l, pssm, motifDeFond, nbSequenceDuMotifCandidat);
 	creerMotifConsensus(p_motifConsensusPSSM, p_motifConsensus, *p_ensembleT, l, nbSequenceDuMotifCandidat);
+
+	//Score du masque
+
+	*p_scoreMasque = calculScoreMasque(k, l, *p_motifConsensus, *p_ensembleT, nbSequenceDuMotifCandidat);
 
 	//free du dictionnaire
 	pk=(*p_p_dictionnaire)->firstK_mer;
@@ -552,4 +556,34 @@ void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus
 	}
 
 	printf("Motif consensus %s\n", p_motifConsensus[0]);
+}
+
+
+int calculScoreMasque(int k, int l, char *motifConsensus, char **ensembleT, int nbSequencesDuMotifCandidat){
+
+	int i, j;
+	int nbDifferences;
+	int score;
+
+	score = 0;
+
+	for (i = 0; i < nbSequencesDuMotifCandidat; i++)
+	{
+		nbDifferences = 0;
+
+		for (j = 0; j < l; j++)
+		{
+			if (ensembleT[i][j] != motifConsensus[j])
+			{
+				nbDifferences += 1;
+			}
+		}
+		printf("%d\n", nbDifferences);
+		if (nbDifferences > k)
+		{
+			score += 1;
+		}
+	}
+
+	return score;
 }

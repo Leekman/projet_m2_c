@@ -12,6 +12,7 @@ int main(){
 	char **tableauSequences = NULL;
 	int nombreSequences, longueurSequencesMax;
 	double *motifDeFond;
+	int scoreMasque;
 
 	int *masque = NULL;	
 	int l,k;
@@ -83,7 +84,9 @@ int main(){
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus);		
+		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &scoreMasque);		
+
+		printf("Score du masque %d\n", scoreMasque);
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
