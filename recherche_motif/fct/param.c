@@ -84,8 +84,7 @@ char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 		fclose(verifFichier);
 		exit(1);
 	}
-	printf("taille fenetre = %d\n", *nbFenetre);
-	printf("taille longueurMotif = %d\n", *longueurMotif);
+
 	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbFenetre > *longueurMotif)
 	{
 		printf("[ERREUR] La longueur du motif ne peut etre inferieure au nombre de fenetres.\n");

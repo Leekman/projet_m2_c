@@ -37,8 +37,7 @@ struct option long_options[] = {
 /*Fonction permettant de récupérer les paramètres*/
 ///////////////////////////////////////////////////
 
-char* getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[]){
-	char *motif = NULL;
+void getParam (int *nbErreur, int *nbSeq, int *tailleSeq, char **motif, int argc, char *argv[]){
 	int opt = 0;
 	int long_index = 0; /* index des options */
 	if (argc<2)
@@ -57,8 +56,8 @@ char* getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[
 				break;
 			case 't' : *tailleSeq = atoi(optarg);
 				break;
-			case 'm' : 	motif=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
-						strcpy(motif, optarg);
+			case 'm' : 	*motif=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
+						strcpy(*motif, optarg);
 				break;
 			case 'h' : notice(); exit(0);
 				break;
@@ -66,13 +65,20 @@ char* getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[
 				break;
 		}
 	}
-	if (!regexec(&preg,motif,0,0,0))
+
+	if (*tailleSeq == 0 || *nbSeq == 0)   
+    {
+        printf("\nERREUR Saisissez une taille ou un nombre de sequences correct\n");
+        notice();
+        exit(1);
+    }
+
+	if (!regexec(&preg,*motif,0,0,0))
 	{
 		printf("[ERREUR] Le motif ne peux contenir que les caracteres A,T,C ou G\n");
 		notice();
 		exit(1);
 	}
 	regfree(&preg);
-	return motif;
 }
 

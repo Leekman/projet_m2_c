@@ -18,6 +18,6 @@ extern struct option long_options[];
 /* remplissage des paramètres avec les valeurs des arguments */
 /*************************************************************/
 
-char *getParam (int* nbErreur, int* nbSeq, int* tailleSeq, int argc, char *argv[]);
+void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char **motif, int argc, char *argv[]);
 
 #endif

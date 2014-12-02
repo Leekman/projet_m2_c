@@ -10,13 +10,11 @@ int main(int argc, char *argv[]) {
     /*Initialisation du rand au time du processeur*/
     ////////////////////////////////////////////////
 
-
-//YOLOLOLOLOLO
     srand(time(NULL));
 
-    ////////////////////////////////
+    ///////////////////////////////////////////////
     /*DECLARATION ET INITIALISATION DES VARIABLES*/
-    ////////////////////////////////
+    ///////////////////////////////////////////////
     int tailleSeq, nbSeq, nbErreurMax;
     int tailleMotif;
     tailleSeq = 0;
@@ -33,34 +31,26 @@ int main(int argc, char *argv[]) {
     p_nbSeq = &nbSeq;
     p_tailleSeq = &tailleSeq;
     p_nbErreurMax = &nbErreurMax;
-    //FILE* donnees=NULL;
-
 
     ///////////////////////////////
     /*RECUPERATION DES PARAMETRES*/
     ///////////////////////////////
-    motif=getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, argc, argv);
-    if (tailleSeq == 0 || nbSeq == 0)   
-    {
-        printf("\nERREUR\n");
-        notice();
-        exit(1);
-    }
+    getParam(p_nbErreurMax, p_nbSeq, p_tailleSeq, &motif, argc, argv);
     tailleMotif=strlen(motif);
+
     //////////////////////////////////////
     /*ALLOCATION DES DIFFERENTS TABLEAUX*/
     //////////////////////////////////////
     tabNbErreur=(int*)malloc(nbSeq*sizeof(int));
     tabPosition=(int*)malloc(nbSeq*sizeof(int));
-    tabSeq =(char**) malloc(nbSeq * sizeof(char*));
+    tabSeq =(char**)malloc(nbSeq*sizeof(char*));
 
     /////////////////////////////////////
     /*CREATION DES SEQUENCES AVEC MOTIF*/
     /////////////////////////////////////
 
     creationSeq(nbErreurMax, nbSeq, tailleSeq, motif, tabSeq, tabPosition, tabNbErreur);
-
-
+    
     ///////////////////////
     /*CREATION DE LA PSSM*/
     ///////////////////////
@@ -72,7 +62,6 @@ int main(int argc, char *argv[]) {
     /////////////////////////////////////////////////
 
     creationFasta(tabSeq, nbSeq);
-
 
     /////////////////////////////////////
     /*CREATION DU DEUXIEME FICHIER INFO*/
