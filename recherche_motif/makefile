@@ -20,7 +20,7 @@ HEADERS = $(wildcard $(LIBDIR)/**/*.h $(LIBDIR)/*.h)
 all: $(TARGET)
 
 $(TARGET): $(TARGETC) $(OBJECTS) 
-	$(CC)  $(CFLAGS) $(TARGETC) $(OBJECTS) -o $(TARGET) -lm
+	$(CC)  $(CFLAGS) $(TARGETC) $(OBJECTS) -o $(TARGET) -lm -g
 
 $(OBJDIR)/%.o: $(FCTDIR)/%.c $(HEADERS) 
 	$(CC)  $(CFLAGS) -c -o $@ $<

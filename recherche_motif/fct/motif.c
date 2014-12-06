@@ -1,6 +1,6 @@
 #include "../lib/motif.h"
 
- void recherche_motif (int *masque, int l, int k, double **pssm, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *p_scoreMasque) {
+ void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmCourante, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *p_scoreMasque) {
  
 	int i,j,m;
 	int nbSequenceDuMotif;
@@ -11,7 +11,6 @@
 	double scoreCourant;
 	double **pssmCourante = NULL;
 	k_mer *p_k_merCandidat = NULL;
-	int **infoPssmCourante = NULL;
 	int nombreOccurence;
 
 	k_mer *pk;
@@ -146,10 +145,10 @@
 	}
 	printf("Nombre d'occurence = %d\n", nombreOccurence);
 
-	infoPssmCourante = (int**)malloc(sizeof(int*)*nombreOccurence);
+	infoPssmCourante[0] = (int**)malloc(sizeof(int*)*nombreOccurence);
 	for (i=0; i<nombreOccurence; i++)
 	{
-		infoPssmCourante[i] = (int*)malloc(sizeof(int)*2);
+		infoPssmCourante[0][i] = (int*)malloc(sizeof(int)*2);
 	}
 
 	i = 0;
@@ -159,8 +158,8 @@
 		po = ps->firstOccurence;
 		while (po != NULL)
 		{
-			infoPssmCourante[i][0] = ps->numSequence;
-			infoPssmCourante[i][1] = po->position;
+			infoPssmCourante[0][i][0] = ps->numSequence;
+			infoPssmCourante[0][i][1] = po->position;
 			nextPo = po->nextOccurence;
 			po = nextPo;
 			i++;
@@ -347,7 +346,7 @@ double calculScoreK_mer(k_mer *p_k_merCandidat, char **tableauSequences, int k, 
 	return scoreK_mer;
 }
 
-void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_scoreCourant, char **tableauSequences,int nombreSequences, int nombreOccurence, int k, int l, k_mer *p_k_merCandidat, double *motifDeFond){
+void ameliorerMotif(int ***infoPssmCourante, double **pssmCourante, double *p_scoreCourant, char **tableauSequences,int nombreSequences, int nombreOccurence, int k, int l, k_mer *p_k_merCandidat, double *motifDeFond){
 
 	double critereDeConvergene;
 	int randomOccurence;
@@ -369,10 +368,10 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 		//printf("randomOccurence : %d\n", randomOccurence);
 		do
 		{
-			randomPosition = rand()%(strlen(tableauSequences[infoPssmCourante[randomOccurence][0]])-l);
+			randomPosition = rand()%(strlen(tableauSequences[infoPssmCourante[0][randomOccurence][0]])-l);
 			//printf("randomPosition : %d\n", randomPosition);
 		}
-		while (randomPosition == infoPssmCourante[randomOccurence][1]);
+		while (randomPosition == infoPssmCourante[0][randomOccurence][1]);
 
 		pssmNouvelle = (double**)malloc(sizeof(double*)*4);
 		for (i = 0; i < 4; i++)
@@ -390,13 +389,13 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 			{
 				for (j = 0; j < l; j++)
 				{
-					switch (tableauSequences[infoPssmCourante[i][0]][infoPssmCourante[i][1]+j])
+					switch (tableauSequences[infoPssmCourante[0][i][0]][infoPssmCourante[0][i][1]+j])
 					{
 						case 'A' : pssmNouvelle[0][j] += 1; break;
 						case 'T' : pssmNouvelle[1][j] += 1; break;
 						case 'C' : pssmNouvelle[2][j] += 1; break;
 						case 'G' : pssmNouvelle[3][j] += 1; break;
-						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[i][0]][infoPssmCourante[i][1]+j]); break;
+						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[0][i][0]][infoPssmCourante[0][i][1]+j]); break;
 					}
 				}
 			}
@@ -404,13 +403,13 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 			{
 				for (j = 0; j < l; j++)
 				{
-					switch (tableauSequences[infoPssmCourante[i][0]][randomPosition+j])
+					switch (tableauSequences[infoPssmCourante[0][i][0]][randomPosition+j])
 					{
 						case 'A' : pssmNouvelle[0][j] += 1; break;
 						case 'T' : pssmNouvelle[1][j] += 1; break;
 						case 'C' : pssmNouvelle[2][j] += 1; break;
 						case 'G' : pssmNouvelle[3][j] += 1; break;
-						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[i][0]][randomPosition+j]); break;
+						default : printf("PSSM : format de base incorect. %c\n", tableauSequences[infoPssmCourante[0][i][0]][randomPosition+j]); break;
 					}
 				}
 			}
@@ -439,7 +438,7 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 
 		copieProfondePSSM(&pssmCourante, pssmNouvelle, 4, l);
 
-		infoPssmCourante[randomOccurence][1]=randomPosition;
+		infoPssmCourante[0][randomOccurence][1]=randomPosition;
 
 		printf("Le motif a ete ameliore.\n");
 	}
@@ -448,7 +447,7 @@ void ameliorerMotif(int **infoPssmCourante, double **pssmCourante, double *p_sco
 
 }
 
-void affinerMotif(char ***p_ensembleT, int **infoPssmCourante, char **tableauSequences, int nombreOccurence, int l, double **pssm, double *motifDeFond, int nbSequenceDuMotifCandidat){
+void affinerMotif(char ***p_ensembleT, int ***infoPssmCourante, char **tableauSequences, int nombreOccurence, int l, double **pssm, double *motifDeFond, int nbSequenceDuMotifCandidat){
 
 	int i, j, m;
 	double probaPSSM, probaMotifDeFond, scoreMotifCourant, scoreMax;
@@ -466,13 +465,13 @@ void affinerMotif(char ***p_ensembleT, int **infoPssmCourante, char **tableauSeq
 	{
 		scoreMax = 0;
 		//Identification du motif maximisant le score
-		for (j = 0; j < strlen(tableauSequences[infoPssmCourante[i][0]])-l; j++)
+		for (j = 0; j < strlen(tableauSequences[infoPssmCourante[0][i][0]])-l; j++)
 		{
 			probaPSSM = 1;
 			probaMotifDeFond = 1;
 			for (m = 0; m < l; m++)
 			{
-				switch (tableauSequences[infoPssmCourante[i][0]][j+m])
+				switch (tableauSequences[infoPssmCourante[0][i][0]][j+m])
 				{
 					case 'A' : probaPSSM *= pssm[0][m]; probaMotifDeFond *= motifDeFond[0]; break;
 					case 'T' : probaPSSM *= pssm[1][m]; probaMotifDeFond *= motifDeFond[1]; break;
@@ -488,14 +487,15 @@ void affinerMotif(char ***p_ensembleT, int **infoPssmCourante, char **tableauSeq
 			{
 				scoreMax = scoreMotifCourant;
 				meilleurMotif = j;
-				infoPssmCourante[i][1] = meilleurMotif;
+				infoPssmCourante[0][i][1] = meilleurMotif;
 			}
 		}
 		//Remplissage de l'ensemble T
 		for (j = 0; j < l; j++)
 		{
-			p_ensembleT[0][i][j]=tableauSequences[infoPssmCourante[i][0]][meilleurMotif+j];	
+			p_ensembleT[0][i][j]=tableauSequences[infoPssmCourante[0][i][0]][meilleurMotif+j];	
 		}
+		//infoPssmCourante[i][0] infoPssmCourante[i][1]
 	}
 }
 
@@ -578,7 +578,7 @@ int calculScoreMasque(int k, int l, char *motifConsensus, char **ensembleT, int 
 				nbDifferences += 1;
 			}
 		}
-		printf("%d\n", nbDifferences);
+		//printf("%d\n", nbDifferences);
 		if (nbDifferences > k)
 		{
 			score += 1;

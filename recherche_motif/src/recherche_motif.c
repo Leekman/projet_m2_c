@@ -1,7 +1,7 @@
 #include "../lib/masque.h"
 #include "../lib/motif.h"
 #include "../lib/param.h"
-
+#include "../lib/output.h"
 int main(int argc, char *argv[]){
 
 	srand(time(NULL));
@@ -26,6 +26,8 @@ int main(int argc, char *argv[]){
 	double **pssm = NULL;
 	double score;
 
+
+	int **infoEnsembleT = NULL;
 	char **ensembleT = NULL;
 	double **motifConsensusPSSM;
 	char *motifConsensus;
@@ -54,15 +56,14 @@ int main(int argc, char *argv[]){
 
 	conversionMinMaj(tableauSequences, nombreSequences);
 
-
 	motifDeFond=calculerMotifDeFond(tableauSequences, nombreSequences);
 
-	printf("Motif de fond\n");
-    for (i=0; i<4; i++)
-    {
-        printf("%f\n", motifDeFond[i]);
-    }
-    printf("\n\n");
+	// printf("Motif de fond\n");
+ //    for (i=0; i<4; i++)
+ //    {
+ //        printf("%f\n", motifDeFond[i]);
+ //    }
+ //    printf("\n\n");
 
 	/*for (i=0; i<nombreSequences; i++)
 		printf("%s", tableauSequences[i]);*/
@@ -76,23 +77,31 @@ int main(int argc, char *argv[]){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	for (i=0; i<1; i++)
+	for (i=0; i<2; i++)
 	{
 
 		score = 0;
 
 		masque=generateurMasque(l,k);
 
-		printf("\n\n/////////////////////////////Masque %d///////////////////////////\n\n", i+1);
+		printf("\n\n/////////////////////////////Masque %d/////////////////////////////\n\n", i+1);
 		/*for (j=0;j<(l-k);j++)
 			printf("masque[%d] = %d\n",j,masque[j]);*/
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		recherche_motif(masque, l, k, pssm, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &scoreMasque);		
+		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &scoreMasque);		
 
-		printf("Score du masque %d\n", scoreMasque);
+	///////////////////////////
+	/*SORTIE DANS LE TERMINAL*/
+	///////////////////////////
+
+		//sortieTerm(scoreMasque, infoEnsembleT, nombreSequences, motifConsensus, motifConsensusPSSM, l);
+
+	/*SORTIE FICHIER*/
+		//sortieFichier(scoreMasque, infoEnsembleT, l, motifConsensus, motifConsensusPSSM);
+
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
