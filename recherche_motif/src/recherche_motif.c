@@ -13,6 +13,7 @@ int main(int argc, char *argv[]){
 
 	char **tableauSequences = NULL;
 	int nombreSequences, longueurSequencesMax;
+
 	double *motifDeFond;
 	int scoreMasque;
 
@@ -31,6 +32,7 @@ int main(int argc, char *argv[]){
 	char **ensembleT = NULL;
 	double **motifConsensusPSSM;
 	char *motifConsensus;
+	int nbSequenceDuMotifConsensus = 0;
 
 
 
@@ -91,13 +93,12 @@ int main(int argc, char *argv[]){
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &scoreMasque);		
+		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque);		
 
 	///////////////////////////
 	/*SORTIE DANS LE TERMINAL*/
 	///////////////////////////
-
-		//sortieTerm(scoreMasque, infoEnsembleT, nombreSequences, motifConsensus, motifConsensusPSSM, l);
+		sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
 
 	/*SORTIE FICHIER*/
 		//sortieFichier(scoreMasque, infoEnsembleT, l, motifConsensus, motifConsensusPSSM);

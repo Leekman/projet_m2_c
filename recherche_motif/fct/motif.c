@@ -1,10 +1,9 @@
 #include "../lib/motif.h"
 
- void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmCourante, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *p_scoreMasque) {
+ void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmCourante, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *nbSequenceDuMotifCandidat, int *p_scoreMasque) {
  
 	int i,j,m;
 	int nbSequenceDuMotif;
-	int nbSequenceDuMotifCandidat;
 	int longueurSequencesCourante;
 	char *k_merCourant = NULL;
 	double quorum;
@@ -68,7 +67,7 @@
 				quorum = (double)nbSequenceDuMotif/(double)nombreSequences;
 				*p_score = scoreCourant;
 				copieProfondePSSM(&pssm, pssmCourante, 4, l);
-				nbSequenceDuMotifCandidat = nbSequenceDuMotif;
+				*nbSequenceDuMotifCandidat = nbSequenceDuMotif;
 				p_k_merCandidat = pk;
 			}
 			free(pssmCourante);			
@@ -447,16 +446,16 @@ void ameliorerMotif(int ***infoPssmCourante, double **pssmCourante, double *p_sc
 
 }
 
-void affinerMotif(char ***p_ensembleT, int ***infoPssmCourante, char **tableauSequences, int nombreOccurence, int l, double **pssm, double *motifDeFond, int nbSequenceDuMotifCandidat){
+void affinerMotif(char ***p_ensembleT, int ***infoPssmCourante, char **tableauSequences, int nombreOccurence, int l, double **pssm, double *motifDeFond, int *nbSequenceDuMotifCandidat){
 
 	int i, j, m;
 	double probaPSSM, probaMotifDeFond, scoreMotifCourant, scoreMax;
 	int meilleurMotif;
 
-	printf("nbsequences :%d\n", nbSequenceDuMotifCandidat);
+	printf("nbsequences :%d\n", *nbSequenceDuMotifCandidat);
 
-	p_ensembleT[0] = (char**)malloc(sizeof(char*)*nbSequenceDuMotifCandidat);
-	for (i = 0; i < nbSequenceDuMotifCandidat; i++)
+	p_ensembleT[0] = (char**)malloc(sizeof(char*)*(*nbSequenceDuMotifCandidat));
+	for (i = 0; i < *nbSequenceDuMotifCandidat; i++)
 	{
 		p_ensembleT[0][i] = (char*)malloc(sizeof(char)*l);
 	}
@@ -499,7 +498,7 @@ void affinerMotif(char ***p_ensembleT, int ***infoPssmCourante, char **tableauSe
 	}
 }
 
-void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus, char **ensembleT, int l, int nbSequenceDuMotifCandidat){
+void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus, char **ensembleT, int l, int *nbSequenceDuMotifCandidat){
 
 	int i, j, m, max;
 
@@ -515,7 +514,7 @@ void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus
 		}
 	}
 
-	for (i = 0; i < nbSequenceDuMotifCandidat; i++)
+	for (i = 0; i < *nbSequenceDuMotifCandidat; i++)
 	{
 		for (j = 0; j < l; j++)
 		{
@@ -532,7 +531,7 @@ void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus
 	{
 		for (j = 0; j < l; j++)
 		{
-			p_motifConsensusPSSM[0][i][j] /= nbSequenceDuMotifCandidat;
+			p_motifConsensusPSSM[0][i][j] /= *nbSequenceDuMotifCandidat;
 		}
 	}
 
@@ -559,7 +558,7 @@ void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus
 }
 
 
-int calculScoreMasque(int k, int l, char *motifConsensus, char **ensembleT, int nbSequencesDuMotifCandidat){
+int calculScoreMasque(int k, int l, char *motifConsensus, char **ensembleT, int *nbSequencesDuMotifCandidat){
 
 	int i, j;
 	int nbDifferences;
@@ -567,7 +566,7 @@ int calculScoreMasque(int k, int l, char *motifConsensus, char **ensembleT, int 
 
 	score = 0;
 
-	for (i = 0; i < nbSequencesDuMotifCandidat; i++)
+	for (i = 0; i < *nbSequencesDuMotifCandidat; i++)
 	{
 		nbDifferences = 0;
 
