@@ -18,5 +18,5 @@ extern struct option long_options[];
 /*Fonction permettant de récupérer les paramètres*/
 ///////////////////////////////////////////////////
 
-char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]);
+void getParam (char **chemin, int* longueurMotif, int* nbFenetre, int argc, char *argv[]);
 #endif

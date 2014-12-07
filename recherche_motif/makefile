@@ -32,7 +32,7 @@ mrproper: clean
 	rm -rf $(TARGET)
 
 dbg: $(TARGET)
-	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
+	valgrind --leak-check=full --track-origins=yes -v --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
 
 time: $(TARGET)
 	time ./$(TARGET) $(OPTRUNDBG)

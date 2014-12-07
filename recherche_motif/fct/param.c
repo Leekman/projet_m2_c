@@ -34,8 +34,7 @@ struct option long_options[] = {
 /*Fonction permettant de récupérer les paramètres*/
 ///////////////////////////////////////////////////
 
-char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
-	char *chemin = NULL;
+void getParam (char **chemin, int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 	FILE *verifFichier = NULL;
 	int opt = 0;
 	int long_index = 0; /* index des options */
@@ -53,8 +52,8 @@ char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 				break;
 			case 'k' : *nbFenetre = atoi(optarg);
 				break;
-			case 'c' : 	chemin=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
-						strcpy(chemin, optarg);
+			case 'c' : 	*chemin=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
+						strcpy(*chemin, optarg);
 				break;
 			case 'h' : notice(); exit(0);
 				break;
@@ -66,7 +65,7 @@ char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 	////////////////////////////////////
 	/*VERIFICATION BON TYPE DE FICHIER*/
 	////////////////////////////////////
-	if (regexec(&preg,chemin,0,0,0))
+	if (regexec(&preg,*chemin,0,0,0))
 	{
 		printf("[ERREUR] Le fichier doit être de type fasta (.fa ou .fasta)\n");
 		notice();
@@ -76,7 +75,7 @@ char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 	/*VERIFICATION FICHIER EXISTE*/
 	///////////////////////////////
 
-	verifFichier = fopen (chemin, "r+");
+	verifFichier = fopen (*chemin, "r+");
 	if (verifFichier == NULL)
 	{
 		printf("[ERREUR] Le chemin specifie est incorrect\n");
@@ -93,5 +92,4 @@ char* getParam (int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 	}
 	regfree(&preg);
 	fclose(verifFichier);
-	return chemin;
 }

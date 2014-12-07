@@ -1,26 +1,76 @@
 #include "../lib/fonctions_utiles.h"
 
-char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences, int longueurSequencesMax){
+
+int recupNbSeq(FILE *fichierSequences){
+
+    int c;
+    int nbSeq = 0;
+ 
+
+    if (fichierSequences != NULL)
+    {
+        while((c=fgetc(fichierSequences)) != EOF)
+        {
+            if(c=='\n')
+                nbSeq++;
+        }
+            nbSeq++;
+    }
+    return nbSeq/2;
+}
+
+
+
+char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences){
 
 	char **tableauSequences;
-	char poubelle[100];
+	//char *poubelle;
 
 	int i;
-
+    int c;
+    int taillePoubelle = 0;
+    int tailleSequence = 0;
+    int positionCurseurLectureSequence = 0;
 	if (fichierSequences != NULL)
     {
     	tableauSequences=(char**)malloc(sizeof(char*)*nombreSequences);
-    	for (i=0;i<nombreSequences;i++)
-    	{    		
-    		tableauSequences[i]=(char*)malloc(sizeof(char)*longueurSequencesMax+1);
-    		fgets(poubelle, longueurSequencesMax, fichierSequences);
-    		fgets(tableauSequences[i], longueurSequencesMax, fichierSequences);
+    	for (i = 0 ; i < nombreSequences; i++)
+    	{   
+            //printf("Position du curseur debut boucle: %d\n", ftell (fichierSequences));
+            taillePoubelle = 0;
+            tailleSequence = 0;
+            positionCurseurLectureSequence = 0;
+            while ((c=fgetc(fichierSequences)) != '\n')
+            {
+                taillePoubelle++;
+            }
+            //printf("taille poubelle :%d\n", taillePoubelle);
+            //printf("Position du curseur après seq1> : %d\n", ftell (fichierSequences));
+            do 
+            {
+                c=fgetc(fichierSequences); 
+                tailleSequence++;
+                positionCurseurLectureSequence++;
+                if (c == EOF)
+                {
+                    positionCurseurLectureSequence--;
+                }
+            } while (c != '\n' && c != EOF);
+            //printf("taille sequence :%d\n", tailleSequence);
+            tableauSequences[i] = (char*) calloc (tailleSequence, sizeof(char));
+            fseek (fichierSequences, -positionCurseurLectureSequence, SEEK_CUR);
+            //printf("%d\n", tailleSequence);
+            //printf("Position du curseur  après fseek: %d\n", ftell (fichierSequences));
+    		fgets(tableauSequences[i], tailleSequence, fichierSequences);
+            fseek (fichierSequences, 1, SEEK_CUR);
+            //printf("sequence : %s\n", tableauSequences[i]);
     	}
         
     }
     else
     {
-        printf("Impossible d'ouvrir le fichier test.txt");
+        printf("Impossible d'ouvrir le fichier");
+        exit(1);
     }
 
     fclose(fichierSequences);

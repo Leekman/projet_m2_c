@@ -4,19 +4,24 @@
 #include "../lib/output.h"
 int main(int argc, char *argv[]){
 
+
+	////////////////////////////////////////////////
+    /*Initialisation du rand au time du processeur*/
+    ////////////////////////////////////////////////
 	srand(time(NULL));
 
-	int i;
 
+    ///////////////////////////////////////////////
+    /*DECLARATION ET INITIALISATION DES VARIABLES*/
+    ///////////////////////////////////////////////
+	int i;
 	char *chemin = NULL;
 	FILE *fichierSequences = NULL;
-
+	FILE *sortie = NULL;
 	char **tableauSequences = NULL;
-	int nombreSequences, longueurSequencesMax;
-
+	int nombreSequences;
 	double *motifDeFond;
 	int scoreMasque;
-
 	int *masque = NULL;	
 	int l,k;
 	int *p_l = NULL;
@@ -26,8 +31,6 @@ int main(int argc, char *argv[]){
 	dictionnaire *p_dictionnaire = NULL;
 	double **pssm = NULL;
 	double score;
-
-
 	int **infoEnsembleT = NULL;
 	char **ensembleT = NULL;
 	double **motifConsensusPSSM;
@@ -35,22 +38,20 @@ int main(int argc, char *argv[]){
 	int nbSequenceDuMotifConsensus = 0;
 
 
-
-	printf("\n");
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	chemin = getParam(p_l, p_k, argc, argv);
-	printf("%s\n", chemin);
-	fichierSequences = fopen(chemin, "r+");
-
-	nombreSequences = 100;
-	longueurSequencesMax = 150;
-
-	tableauSequences=fasta_to_2Dtable(fichierSequences, nombreSequences, longueurSequencesMax);
+	///////////////////////////////
+	/*RECUPERATION DES PARAMETRES*/
+	///////////////////////////////
+	getParam(&chemin, p_l, p_k, argc, argv);
 	
-	/*for (i = 0; tableauSequences[i]; i++);
-	test=i;
-	printf("%d\n", test);*/
+	/////////////////////////////////////////////////////////////
+	/*RECUPERATION DU NOMBRE DE SEQUENCES DANS LE FICHIER FASTA*/
+	/////////////////////////////////////////////////////////////
+	fichierSequences = fopen(chemin, "r"); // ouverture du fichier en mode lecture uniquement
+
+	nombreSequences = recupNbSeq (fichierSequences);
+	rewind (fichierSequences); //on remet le curseur de lecture du fichier au début du fichier
+	//longueurSequencesMax = 300;
+	tableauSequences=fasta_to_2Dtable(fichierSequences, nombreSequences);
 
 	/////////////////////////////////////////
 	/*MODIFICATION MINUSCULES EN MAJUSCULES*/
@@ -81,12 +82,13 @@ int main(int argc, char *argv[]){
 
 	for (i=0; i<2; i++)
 	{
-
+		sortie = fopen("output/resultats.info", "a");
 		score = 0;
 
 		masque=generateurMasque(l,k);
 
 		printf("\n\n/////////////////////////////Masque %d/////////////////////////////\n\n", i+1);
+		fprintf(sortie,"\n\n/////////////////////////////Masque %d/////////////////////////////\n\n", i+1);
 		/*for (j=0;j<(l-k);j++)
 			printf("masque[%d] = %d\n",j,masque[j]);*/
 
@@ -100,8 +102,10 @@ int main(int argc, char *argv[]){
 	///////////////////////////
 		sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
 
+	//////////////////
 	/*SORTIE FICHIER*/
-		//sortieFichier(scoreMasque, infoEnsembleT, l, motifConsensus, motifConsensusPSSM);
+	//////////////////
+		sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
 
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

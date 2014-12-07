@@ -3,10 +3,9 @@
 #define OUTPUT_H
 
 
-void sortieTerm (int scoreMasque, int **infoEnsembleT, int nombreSequences, char *motifConsensus, double **motifConsensusPSSM, int l);
+void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l);
 
-
-
+void sortieFichier (FILE *sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l);
 
 
 
