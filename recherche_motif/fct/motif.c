@@ -23,7 +23,7 @@
 
 	quorum = 0;
 	*p_score = 0;
-	
+
 	//construit le dictionnaire avec le masque courant
 	k_merCourant=(char*)malloc(sizeof(char)*((l-k)+1));
 
@@ -41,7 +41,6 @@
 
 			ajoutAuDictionnaire(p_p_dictionnaire, k_merCourant, i, j);			
 		}
-		//printf("%d\n", strlen(tableau_sequences[i]));
 	}
 
 	//Calcul du quorum et du score des motif commun, selection du k_mer avec le score le plus haut
@@ -49,7 +48,7 @@
 
 	pk=(*p_p_dictionnaire)->firstK_mer;
 	while (pk != NULL)
-	{				
+	{	
 		nbSequenceDuMotif=0;				
 		parcoureurSequence = pk->firstSequence;
 		while (parcoureurSequence != NULL)
@@ -60,10 +59,11 @@
 		}
 		if (nbSequenceDuMotif > 30) //Si le motif est présent dans plus de deux séquences
 		{
-			pssmCourante=construirePSSM(pk, tableauSequences, nombreSequences, k);
+			pssmCourante=construirePSSM(pk, tableauSequences, nombreSequences, k);			
 			scoreCourant=calculDuScore(pk, tableauSequences, nombreSequences, k, pssmCourante, motifDeFond);
 			if (scoreCourant > *p_score)
 			{
+				printf("test\n");
 				quorum = (double)nbSequenceDuMotif/(double)nombreSequences;
 				*p_score = scoreCourant;
 				copieProfondePSSM(&pssm, pssmCourante, 4, l);
@@ -316,7 +316,6 @@ double calculScoreK_mer(k_mer *p_k_merCandidat, char **tableauSequences, int k, 
 		parcoureurOccurence = parcoureurSequence->firstOccurence;
 		while (parcoureurOccurence != NULL)
 		{
-
 			probaPSSM = 1;
 			probaMotifDeFond = 1;
 			for (i=0; i<longueurMotif; i++)
@@ -341,7 +340,7 @@ double calculScoreK_mer(k_mer *p_k_merCandidat, char **tableauSequences, int k, 
 		}
 		parcoureurSequence = parcoureurSequence->nextSequence;
 	}
-	
+	printf("%f\n", scoreK_mer);
 	return scoreK_mer;
 }
 

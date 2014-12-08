@@ -15,42 +15,39 @@ int main(int argc, char *argv[]){
     /*DECLARATION ET INITIALISATION DES VARIABLES*/
     ///////////////////////////////////////////////
 	int i;
-	char *chemin = NULL;
+	int scoreMasque;
+	int nombreSequences, nbSequenceDuMotifConsensus;
+	int l,k;
+	int nbErreurMax = 0;
+	double score;
+	int *masque = NULL;
+	double *motifDeFond = NULL;
+	char *cheminEntree = NULL;
+	char *cheminSortie = NULL;
+	char *motifConsensus = NULL;
+	dictionnaire *p_dictionnaire = NULL;
 	FILE *fichierSequences = NULL;
 	FILE *sortie = NULL;
-	char **tableauSequences = NULL;
-	int nombreSequences;
-	double *motifDeFond;
-	int scoreMasque;
-	int *masque = NULL;	
-	int l,k;
-	int *p_l = NULL;
-	int *p_k = NULL;
-	p_l = &l;
-	p_k = &k;
-	dictionnaire *p_dictionnaire = NULL;
-	double **pssm = NULL;
-	double score;
 	int **infoEnsembleT = NULL;
+	double **pssm = NULL;
+	double **motifConsensusPSSM = NULL;
+	char **tableauSequences = NULL;
 	char **ensembleT = NULL;
-	double **motifConsensusPSSM;
-	char *motifConsensus;
-	int nbSequenceDuMotifConsensus = 0;
+
 
 
 	///////////////////////////////
 	/*RECUPERATION DES PARAMETRES*/
 	///////////////////////////////
-	getParam(&chemin, p_l, p_k, argc, argv);
+	getParam(&cheminEntree, &cheminSortie, &nbErreurMax, &l, &k, argc, argv);
 	
 	/////////////////////////////////////////////////////////////
 	/*RECUPERATION DU NOMBRE DE SEQUENCES DANS LE FICHIER FASTA*/
 	/////////////////////////////////////////////////////////////
-	fichierSequences = fopen(chemin, "r"); // ouverture du fichier en mode lecture uniquement
+ 	fichierSequences = fopen(cheminEntree, "r"); // ouverture du fichier en mode lecture uniquement
 
-	nombreSequences = recupNbSeq (fichierSequences);
-	rewind (fichierSequences); //on remet le curseur de lecture du fichier au début du fichier
-	//longueurSequencesMax = 300;
+ 	nombreSequences = recupNbSeq (fichierSequences);
+	
 	tableauSequences=fasta_to_2Dtable(fichierSequences, nombreSequences);
 
 	/////////////////////////////////////////
@@ -58,60 +55,58 @@ int main(int argc, char *argv[]){
 	/////////////////////////////////////////
 
 	conversionMinMaj(tableauSequences, nombreSequences);
+	
+ 	///////////////////////////
+ 	/*CALCUL DU MOTIF DE FOND*/
+ 	///////////////////////////
 
 	motifDeFond=calculerMotifDeFond(tableauSequences, nombreSequences);
 
-	// printf("Motif de fond\n");
- //    for (i=0; i<4; i++)
- //    {
- //        printf("%f\n", motifDeFond[i]);
- //    }
- //    printf("\n\n");
-
-	/*for (i=0; i<nombreSequences; i++)
-		printf("%s", tableauSequences[i]);*/
-    /*i=0;
-    while (tableauSequences[i]){
-    	test++;
-    	i++;
-    }
-    printf("%d\n", test);
-*/
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	for (i=0; i<2; i++)
+
+
+	for (i=0; i<3; i++)
 	{
-		sortie = fopen("output/resultats.info", "a");
+		sortie = fopen(cheminSortie, "a+");
 		score = 0;
 
 		masque=generateurMasque(l,k);
 
-		printf("\n\n/////////////////////////////Masque %d/////////////////////////////\n\n", i+1);
-		fprintf(sortie,"\n\n/////////////////////////////Masque %d/////////////////////////////\n\n", i+1);
-		/*for (j=0;j<(l-k);j++)
-			printf("masque[%d] = %d\n",j,masque[j]);*/
+		enTeteSortieTerm(l, k, i, masque);
+		enTeteSortieFichier(sortie, l, k , i, masque);
 
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque);		
 
-	///////////////////////////
-	/*SORTIE DANS LE TERMINAL*/
-	///////////////////////////
-		sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
+		/////////////////////////////////////////
+		/*SORTIE DANS LE TERMINAL ET LE FICHIER*/
+		/////////////////////////////////////////
 
-	//////////////////
-	/*SORTIE FICHIER*/
-	//////////////////
-		sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
+		if (motifConsensus != NULL)
+		{
+			sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
+			sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
+		}
+		else
+		{
+			fprintf(sortie, "Aucun motif commun trouvé avec ce masque\n");
+			fclose(sortie);	
+		}
 
-	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	free (masque);
-	free (motifDeFond);
+
+	}
+	for (i = 0; i < nombreSequences; i++)
+	{
+		free (tableauSequences[i]);
+	}
+	free(tableauSequences);
+	free(cheminEntree); 
+	free(cheminSortie);
+	free(motifDeFond);
 	return 0;
 }
 

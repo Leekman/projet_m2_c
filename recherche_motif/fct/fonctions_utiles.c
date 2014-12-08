@@ -15,6 +15,7 @@ int recupNbSeq(FILE *fichierSequences){
                 nbSeq++;
         }
             nbSeq++;
+            rewind (fichierSequences);
     }
     return nbSeq/2;
 }
@@ -36,7 +37,6 @@ char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences){
     	tableauSequences=(char**)malloc(sizeof(char*)*nombreSequences);
     	for (i = 0 ; i < nombreSequences; i++)
     	{   
-            //printf("Position du curseur debut boucle: %d\n", ftell (fichierSequences));
             taillePoubelle = 0;
             tailleSequence = 0;
             positionCurseurLectureSequence = 0;
@@ -102,18 +102,18 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
     int i,j;
 
     nombreDeBaseTotal = 0;
-    motifDeFond=(double*)malloc(sizeof(double)*4);
+    motifDeFond=(double*)calloc(4,sizeof(double));
 
     for (i=0; i<nombreSequences; i++)
     {
-        nombreDeBaseTotal += (strlen(tableauSequences[i])-1);
+        nombreDeBaseTotal += (strlen(tableauSequences[i]));
     }
 
     //printf("Nombre de base : %d\n", nombreDeBaseTotal);
 
     for (i=0; i<nombreSequences; i++)
     {
-        for (j=0; j<(strlen(tableauSequences[i])-1); j++)
+        for (j=0; j<(strlen(tableauSequences[i])); j++)
         {
             switch (tableauSequences[i][j])
             {

@@ -2,21 +2,22 @@
 #ifndef PARAM_H
 #define PARAM_H
 
-/******************/
-/* Affiche l'aide */
-/******************/
+//////////////////
+/*AFFICHE L'AIDE*/
+//////////////////
 void notice();
 
 
-/*********************/
-/* liste des options */
-/*********************/
+/////////////////////
+/*LISTE DES OPTIONS*/
+/////////////////////
 extern struct option long_options[];
 
 
 ///////////////////////////////////////////////////
-/*Fonction permettant de récupérer les paramètres*/
+/*FONCTION PERMETTANT DE RECUPERER LES PARAMETRES*/
 ///////////////////////////////////////////////////
 
-void getParam (char **chemin, int* longueurMotif, int* nbFenetre, int argc, char *argv[]);
+void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longueurMotif, int* nbFenetre, int argc, char *argv[]);
+
 #endif

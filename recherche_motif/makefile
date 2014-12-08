@@ -2,7 +2,7 @@ SHELL = /bin/bash
 CC    = gcc
 CFLAGS  = -Wall
 
-OPTRUNDBG = -l 4 -k 2 -c input/sequences.fasta
+OPTRUNDBG = -d 2 -l 7 -k 5 -c input/sequences2.fasta -o output/test.txt
 
 BINDIR = bin
 LIBDIR = lib
@@ -23,7 +23,7 @@ $(TARGET): $(TARGETC) $(OBJECTS)
 	$(CC)  $(CFLAGS) $(TARGETC) $(OBJECTS) -o $(TARGET) -lm -g
 
 $(OBJDIR)/%.o: $(FCTDIR)/%.c $(HEADERS) 
-	$(CC)  $(CFLAGS) -c -o $@ $<
+	$(CC)  $(CFLAGS) -c -o $@ $< -g
 
 clean:
 	rm $(OBJDIR)/*.o -rf
@@ -32,7 +32,7 @@ mrproper: clean
 	rm -rf $(TARGET)
 
 dbg: $(TARGET)
-	valgrind --leak-check=full --track-origins=yes -v --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
+	valgrind --leak-check=full --track-origins=yes  --show-leak-kinds=all ./$(TARGET) $(OPTRUNDBG)
 
 time: $(TARGET)
 	time ./$(TARGET) $(OPTRUNDBG)

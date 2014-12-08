@@ -1,6 +1,33 @@
 #include "../lib/output.h"
 
 
+
+
+
+void enTeteSortieTerm (int l, int k, int i, int *masque){
+
+	int j;
+	printf("\n\n/////////////////////////////Masque %d/////////////////////////////\n", i+1);
+	printf("\nInformations sur le masque :\n");
+	for (j=0;j<(l-k);j++)
+		{
+			printf("\nMasque[%d] : case %d masquée\n",j+1, masque[j]+1); //on ajoute +1 pour une lecture plus compréhensible par l'utilisateur
+		}
+}
+
+void enTeteSortieFichier (FILE *sortie, int l, int k, int i, int *masque){
+	
+	int j;
+	fprintf(sortie, "\n\n/////////////////////////////Masque %d/////////////////////////////\n", i+1);
+	fprintf(sortie, "\nInformations sur le masque :\n");
+	for (j=0;j<(l-k);j++)
+		{
+			fprintf(sortie, "\nMasque[%d] : case %d masquée\n",j+1, masque[j]+1);
+		}	
+}
+
+
+
 void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l){
 
 

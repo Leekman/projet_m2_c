@@ -1,95 +1,136 @@
 #include "../lib/param.h"
 
 
-/******************/
-/* Affiche l'aide */
-/******************/
+//////////////////
+/*AFFICHE L'AIDE*/
+//////////////////
 void notice(){
-	printf("Utilisation : ./bin/recherche_motif -l entier -k entier -c chaine de caractere\n\
-Description :\n\
-Exemple : ./bin/recherche_motif -l 4 -k 2 -c input/sequences.fasta\n\
+	printf("Utilisation : ./bin/recherche_motif -d entier -l entier -k entier -c chaine de caractere -o chaine de caractere \n\
+Exemple : ./bin/recherche_motif -d 2 -l 4 -k 2 -c input/sequences.fasta -o output/resultats_sequences.txt \n\
 OPTIONS :\n\
+	-d --nbErreurMax	entier : Nombre maximum de substitutions\n\
 	-l --longueurMotif	entier : Longueur du motif commun a identifier\n\
 	-k --nbFenetre	entier : nombre de fenetres des masques utilises\n\
-	-c --chemin	chaine de caractere : chemin vers le répertoire contenant le fichier fasta a analyser\n\
-	\n\
+	-c --cheminEntree	chaine de caractere : chemin vers le fichier fasta a analyser\n\
+	-o --output	chaine de caractere : chemin vers le fichier de résultat à écrire\n\
 	-h --help	affiche cette aide\n\
 	\n");
 }
 
 
-/*********************/
-/* liste des options */
-/*********************/
+/////////////////////
+/*LISTE DES OPTIONS*/
+/////////////////////
 
 struct option long_options[] = {
+		{"nbErreurMax", required_argument, NULL, 'd'},
 		{"longueurMotif", required_argument, NULL, 'l'},
 		{"nbFenetre", required_argument, NULL, 'k'},
-		{"chemin", required_argument, NULL, 'c'},
+		{"cheminEntree", required_argument, NULL, 'c'},
+		{"output", required_argument, NULL, 'o'},
 		{"help", no_argument, 0,  'h' }
 };
 
 
 ///////////////////////////////////////////////////
-/*Fonction permettant de récupérer les paramètres*/
+/*FONCTION PERMETTANT DE RECUPERER LES PARAMETRES*/
 ///////////////////////////////////////////////////
 
-void getParam (char **chemin, int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
-	FILE *verifFichier = NULL;
+void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
+	FILE *verifFichierEntree = NULL;
+	FILE *verifFichierSortie = NULL; 
 	int opt = 0;
 	int long_index = 0; /* index des options */
 	regex_t preg;
 	regcomp(&preg,"\\w*\\S*\\.fa(sta)?",REG_EXTENDED|REG_NOSUB);
-	if (argc<2)
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	/*VERIFICATION DU BON NOMBRE D'ARGUMENTS /!\ LE NOM DU PROGRAMME COMPTE POUR UN ARGUMENT*/
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	if (argc < 2 || argc > 11)
 	{
-		fprintf(stderr, "ERREUR\n"); 
+		fprintf(stderr, "\n\n[ERREUR] Nombre d'arguments incorrect\n\n"); 
 		notice(); 
+		regfree(&preg);
 		exit(1);
 	}
-	while ((opt = getopt_long(argc, argv, "l:k:c:h", long_options, &long_index )) != -1) {
+
+	//////////////////////////////////////////
+	/*LECTURE ET RECUPERATION DES PARAMETRES*/
+	//////////////////////////////////////////
+	
+	while ((opt = getopt_long(argc, argv, "d:l:k:c:o:h", long_options, &long_index )) != -1) {
 		switch (opt) {
+			case 'd' : *nbErreurMax = atoi(optarg);
+						break;
+			
 			case 'l' : *longueurMotif = atoi(optarg);
-				break;
+						break;
+			
 			case 'k' : *nbFenetre = atoi(optarg);
-				break;
-			case 'c' : 	*chemin=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
-						strcpy(*chemin, optarg);
-				break;
-			case 'h' : notice(); exit(0);
-				break;
-			default  : fprintf(stderr, "Mauvais argument\n"); notice(); exit(1);
-				break;
+						break;
+			
+			case 'c' : 	*cheminEntree=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
+						strcpy(*cheminEntree, optarg);
+						break;
+			
+			case 'o' : *output=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
+						strcpy(*output, optarg);
+						break;
+			
+			case 'h' : 	notice(); exit(0);
+						break;
+
+			default  : 	printf("Mauvais argument\n"); notice(); exit(1);
+						break;
 		}
 	}
-
 	////////////////////////////////////
 	/*VERIFICATION BON TYPE DE FICHIER*/
 	////////////////////////////////////
-	if (regexec(&preg,*chemin,0,0,0))
+	
+	if (regexec(&preg,*cheminEntree,0,0,0))
 	{
-		printf("[ERREUR] Le fichier doit être de type fasta (.fa ou .fasta)\n");
+		printf("\n\n[ERREUR] Le fichier doit être de type fasta (.fa ou .fasta)\n\n");
+		regfree(&preg);
 		notice();
 		exit(1);
 	}
-	///////////////////////////////
-	/*VERIFICATION FICHIER EXISTE*/
-	///////////////////////////////
-
-	verifFichier = fopen (*chemin, "r+");
-	if (verifFichier == NULL)
+	//////////////////////////////////
+	/*VERIFICATIONS FICHIERS EXISTES*/
+	//////////////////////////////////
+	
+	verifFichierEntree = fopen (*cheminEntree, "r");
+	if (verifFichierEntree == NULL)
 	{
-		printf("[ERREUR] Le chemin specifie est incorrect\n");
+		printf("\n\n[ERREUR] Le chemin d'entrée spécifié est incorrect\n\n");
 		notice();
-		fclose(verifFichier);
+		regfree(&preg);
 		exit(1);
 	}
-
+	fclose(verifFichierEntree);
+	verifFichierSortie = fopen (*output, "a");
+	if (verifFichierSortie == NULL)
+	{
+		printf("\n\n[ERREUR] Le chemin de sortie spécifié est incorrect\n\n");
+		notice();
+		regfree(&preg);
+		exit(1);
+	}
+	fclose(verifFichierSortie);
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*VERIFICATION DE LA RECUPERATION DES PARAMETRES AINSI QUE DE LA CONDITION NOMBRE FENETRE > LONGUEUR DU MOTIF*/
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbFenetre > *longueurMotif)
 	{
-		printf("[ERREUR] La longueur du motif ne peut etre inferieure au nombre de fenetres.\n");
+		printf("\n\n[ERREUR] La longueur du motif ne peut etre inferieure au nombre de fenetres.\n\n");
 		notice();
+		regfree(&preg);
 		exit(1);
 	}
 	regfree(&preg);
-	fclose(verifFichier);
 }
