@@ -25,7 +25,6 @@ int recupNbSeq(FILE *fichierSequences){
 char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences){
 
 	char **tableauSequences;
-	//char *poubelle;
 
 	int i;
     int c;
@@ -44,8 +43,7 @@ char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences){
             {
                 taillePoubelle++;
             }
-            //printf("taille poubelle :%d\n", taillePoubelle);
-            //printf("Position du curseur après seq1> : %d\n", ftell (fichierSequences));
+
             do 
             {
                 c=fgetc(fichierSequences); 
@@ -56,14 +54,11 @@ char **fasta_to_2Dtable(FILE *fichierSequences, int nombreSequences){
                     positionCurseurLectureSequence--;
                 }
             } while (c != '\n' && c != EOF);
-            //printf("taille sequence :%d\n", tailleSequence);
             tableauSequences[i] = (char*) calloc (tailleSequence, sizeof(char));
             fseek (fichierSequences, -positionCurseurLectureSequence, SEEK_CUR);
-            //printf("%d\n", tailleSequence);
-            //printf("Position du curseur  après fseek: %d\n", ftell (fichierSequences));
     		fgets(tableauSequences[i], tailleSequence, fichierSequences);
             fseek (fichierSequences, 1, SEEK_CUR);
-            //printf("sequence : %s\n", tableauSequences[i]);
+            
     	}
         
     }
@@ -109,7 +104,6 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
         nombreDeBaseTotal += (strlen(tableauSequences[i]));
     }
 
-    //printf("Nombre de base : %d\n", nombreDeBaseTotal);
 
     for (i=0; i<nombreSequences; i++)
     {
@@ -141,8 +135,7 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
 
     if (*p_pssmVide != NULL)
     {
-        free(*p_pssmVide);
-        *p_pssmVide = NULL;
+        liberationMemoirePSSM(*p_pssmVide);
     }
     (*p_pssmVide)=(double**)malloc(sizeof(double*)*dim1);
     for (i=0; i<dim1; i++)
@@ -154,4 +147,28 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
         }
 
     }
+}
+
+void liberationMemoirePSSM(double **pssm){
+
+    int i;
+
+    for (i = 0; i < 4; i++)
+    {
+        free(pssm[i]);
+    }
+    free(pssm);
+}
+
+double ** allocDoubleDeuxDim (double **variable, int dim1, int dim2){
+
+    int i;
+
+    variable =(double**) calloc ((dim1), sizeof(double*));
+    for (i = 0; i < dim1; i++)
+    {
+        variable[i] = (double*) calloc(dim2, sizeof(double));
+    }
+
+    return variable;
 }

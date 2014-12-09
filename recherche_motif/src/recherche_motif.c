@@ -19,6 +19,7 @@ int main(int argc, char *argv[]){
 	int nombreSequences, nbSequenceDuMotifConsensus;
 	int l,k;
 	int nbErreurMax = 0;
+	int nbIterations;
 	double score;
 	int *masque = NULL;
 	double *motifDeFond = NULL;
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]){
 	///////////////////////////////
 	/*RECUPERATION DES PARAMETRES*/
 	///////////////////////////////
-	getParam(&cheminEntree, &cheminSortie, &nbErreurMax, &l, &k, argc, argv);
+	getParam(&cheminEntree, &cheminSortie, &nbIterations, &nbErreurMax, &l, &k, argc, argv);
 	
 	/////////////////////////////////////////////////////////////
 	/*RECUPERATION DU NOMBRE DE SEQUENCES DANS LE FICHIER FASTA*/
@@ -66,7 +67,7 @@ int main(int argc, char *argv[]){
 
 
 
-	for (i=0; i<3; i++)
+	for (i = 0 ; i < nbIterations; i++)
 	{
 		sortie = fopen(cheminSortie, "a+");
 		score = 0;
@@ -77,7 +78,7 @@ int main(int argc, char *argv[]){
 		enTeteSortieFichier(sortie, l, k , i, masque);
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque);		
+		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque, nbErreurMax);		
 
 		/////////////////////////////////////////
 		/*SORTIE DANS LE TERMINAL ET LE FICHIER*/
@@ -85,8 +86,8 @@ int main(int argc, char *argv[]){
 
 		if (motifConsensus != NULL)
 		{
-			sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
-			sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l);
+			sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
+			sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
 		}
 		else
 		{
@@ -94,11 +95,10 @@ int main(int argc, char *argv[]){
 			fclose(sortie);	
 		}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	free (masque);
-
+		free(motifConsensus);
+		free (masque);
 	}
+
 	for (i = 0; i < nombreSequences; i++)
 	{
 		free (tableauSequences[i]);
@@ -107,6 +107,7 @@ int main(int argc, char *argv[]){
 	free(cheminEntree); 
 	free(cheminSortie);
 	free(motifDeFond);
+
 	return 0;
 }
 

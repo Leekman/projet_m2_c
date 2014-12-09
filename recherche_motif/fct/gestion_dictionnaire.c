@@ -124,5 +124,97 @@ void updateSequence(sequence **p_p_parcoureurK_sequence, int positionOccurence){
 
 	initialiserOccurence(&p_occurence, positionOccurence);
 	//p_parcoureurOccurence->nextOccurence = p_occurence;
+	free((*p_p_parcoureurK_sequence)->firstOccurence);	
 	((*p_p_parcoureurK_sequence)->firstOccurence) = p_occurence;
 }
+
+// void liberationDictionnaire(dictionnaire **p_p_dictionnaire, k_mer *pk, sequence *ps, occurence *po, k_mer *nextPk, sequence *nextPs, occurence *nextPo){
+
+// pk=(*p_p_dictionnaire)->firstK_mer;
+// 		while (pk != NULL)
+// 		{								
+// 			ps = pk->firstSequence;
+// 			while (ps != NULL)
+// 			{
+// 				po = ps->firstOccurence;
+// 				while (po != NULL)
+// 				{
+// 					nextPo = po->nextOccurence;
+// 					free(po);
+// 					po = nextPo;
+// 				}
+// 				nextPs = ps->nextSequence;
+// 				free(ps);
+// 				ps = nextPs;
+// 			}
+// 			nextPk = pk->nextK_mer;
+// 			free(pk);
+// 			pk = nextPk;
+// 		}
+// 		free(*p_p_dictionnaire);
+// 		(*p_p_dictionnaire)=NULL;
+// }
+
+
+void liberationDictionnaire(dictionnaire *p_dictionnaire){
+	
+	k_mer *pk = NULL;
+	sequence *ps = NULL;
+	occurence *po = NULL;
+	k_mer *nextPk = NULL;
+	sequence *nextPs = NULL;
+	occurence *nextPo = NULL;
+
+	pk=p_dictionnaire->firstK_mer;
+			while (pk != NULL)
+			{			
+				ps = pk->firstSequence;
+				while (ps != NULL)
+				{
+					po = ps->firstOccurence;
+					while (po != NULL)
+					{
+						nextPo = po->nextOccurence;
+						free(po);
+						po = nextPo;
+					}
+					nextPs = ps->nextSequence;
+					free(ps);
+					ps = nextPs;
+				}
+				nextPk = pk->nextK_mer;
+				free(pk);
+				pk = nextPk;
+			}
+			free(p_dictionnaire);
+			(p_dictionnaire)=NULL;
+
+}
+
+// int recupNombreOccurence(k_mer *p_k_merCandidat){
+
+// 	int nombreOccurence;
+// 	k_mer *pk = NULL;
+// 	sequence *ps = NULL;
+// 	occurence *po = NULL;
+// 	sequence *nextPs = NULL;
+// 	occurence *nextPo = NULL;
+	
+// 	pk = p_k_merCandidat;							
+// 	ps = pk->firstSequence;
+// 	while (ps != NULL)
+// 	{
+// 		po = ps->firstOccurence;
+// 		while (po != NULL)
+// 		{
+// 			nextPo = po->nextOccurence;
+// 			po = nextPo;
+// 			nombreOccurence++;
+// 		}
+// 		nextPs = ps->nextSequence;
+// 		ps = nextPs;
+// 	}
+
+
+// 	return nombreOccurence;
+// }

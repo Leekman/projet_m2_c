@@ -12,4 +12,7 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences);
 
 void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int dim2);
 
+void liberationMemoirePSSM(double **pssm);
+
+double ** allocDoubleDeuxDim (double **variable, int dim1, int dim2);
 #endif

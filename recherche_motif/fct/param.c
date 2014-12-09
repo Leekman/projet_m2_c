@@ -5,14 +5,15 @@
 /*AFFICHE L'AIDE*/
 //////////////////
 void notice(){
-	printf("Utilisation : ./bin/recherche_motif -d entier -l entier -k entier -c chaine de caractere -o chaine de caractere \n\
-Exemple : ./bin/recherche_motif -d 2 -l 4 -k 2 -c input/sequences.fasta -o output/resultats_sequences.txt \n\
+	printf("Utilisation : ./bin/recherche_motif -d entier -l entier -k entier -c chaine de caractere -o chaine de caractere -i entier\n\
+Exemple : ./bin/recherche_motif -d 2 -l 4 -k 2 -c input/sequences.fasta -o output/resultats_sequences.txt -i 3\n\
 OPTIONS :\n\
 	-d --nbErreurMax	entier : Nombre maximum de substitutions\n\
 	-l --longueurMotif	entier : Longueur du motif commun a identifier\n\
 	-k --nbFenetre	entier : nombre de fenetres des masques utilises\n\
 	-c --cheminEntree	chaine de caractere : chemin vers le fichier fasta a analyser\n\
 	-o --output	chaine de caractere : chemin vers le fichier de résultat à écrire\n\
+	-i --iterations entier : nombre de masques à créer\n\
 	-h --help	affiche cette aide\n\
 	\n");
 }
@@ -28,6 +29,7 @@ struct option long_options[] = {
 		{"nbFenetre", required_argument, NULL, 'k'},
 		{"cheminEntree", required_argument, NULL, 'c'},
 		{"output", required_argument, NULL, 'o'},
+		{"iterations", required_argument, NULL, 'i'},
 		{"help", no_argument, 0,  'h' }
 };
 
@@ -36,7 +38,7 @@ struct option long_options[] = {
 /*FONCTION PERMETTANT DE RECUPERER LES PARAMETRES*/
 ///////////////////////////////////////////////////
 
-void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
+void getParam (char **cheminEntree, char **output, int *nbIterations, int *nbErreurMax, int* longueurMotif, int* nbFenetre, int argc, char *argv[]){
 	FILE *verifFichierEntree = NULL;
 	FILE *verifFichierSortie = NULL; 
 	int opt = 0;
@@ -49,7 +51,7 @@ void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longue
 	//////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	if (argc < 2 || argc > 11)
+	if (argc < 2 || argc > 13)
 	{
 		fprintf(stderr, "\n\n[ERREUR] Nombre d'arguments incorrect\n\n"); 
 		notice(); 
@@ -61,7 +63,7 @@ void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longue
 	/*LECTURE ET RECUPERATION DES PARAMETRES*/
 	//////////////////////////////////////////
 	
-	while ((opt = getopt_long(argc, argv, "d:l:k:c:o:h", long_options, &long_index )) != -1) {
+	while ((opt = getopt_long(argc, argv, "d:l:k:c:o:i:h", long_options, &long_index )) != -1) {
 		switch (opt) {
 			case 'd' : *nbErreurMax = atoi(optarg);
 						break;
@@ -78,6 +80,9 @@ void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longue
 			
 			case 'o' : *output=(char*)malloc(((strlen(optarg))+1)*sizeof(char));
 						strcpy(*output, optarg);
+						break;
+
+			case 'i' : *nbIterations = atoi(optarg);
 						break;
 			
 			case 'h' : 	notice(); exit(0);
@@ -125,12 +130,21 @@ void getParam (char **cheminEntree, char **output, int *nbErreurMax, int* longue
 	/*VERIFICATION DE LA RECUPERATION DES PARAMETRES AINSI QUE DE LA CONDITION NOMBRE FENETRE > LONGUEUR DU MOTIF*/
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbFenetre > *longueurMotif)
+	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbIterations == 0|| *nbFenetre > *longueurMotif)
 	{
-		printf("\n\n[ERREUR] La longueur du motif ne peut etre inferieure au nombre de fenetres.\n\n");
+		printf("\n\n[ERREUR] Erreur lors de la saisie du nombre de fenetre, de la longueur du motif ou du nombre d'iterations.\n\n");
 		notice();
 		regfree(&preg);
 		exit(1);
 	}
+
+	if (*nbFenetre > *longueurMotif)
+	{
+		printf("\n\n[ERREUR] Le nombre de fenetres ne peut être supérieur a la longueur du motif ! \n");
+		notice();
+		regfree(&preg);
+		exit(1);
+	}
+
 	regfree(&preg);
 }
