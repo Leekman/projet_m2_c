@@ -36,7 +36,6 @@ int main(int argc, char *argv[]){
 	char **ensembleT = NULL;
 
 
-
 	///////////////////////////////
 	/*RECUPERATION DES PARAMETRES*/
 	///////////////////////////////
@@ -63,38 +62,51 @@ int main(int argc, char *argv[]){
 
 	motifDeFond=calculerMotifDeFond(tableauSequences, nombreSequences);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
+	//////////////////////////////////////
+	/*LANCEMENT DE LA RECHERCHE DE MOTIF*/
+	//////////////////////////////////////
+		
 	for (i = 0 ; i < nbIterations; i++)
 	{
-		sortie = fopen(cheminSortie, "a+");
+		sortie = fopen(cheminSortie, "a+"); //ouverture fichier sortie en mode d'ajout
 		score = 0;
 
+		//////////////////////////
+		/*GENERATION D'UN MASQUE*/
+		//////////////////////////
+
 		masque=generateurMasque(l,k);
+
+		/////////////////////////////////////////////////////
+		/*MESSAGE D'EN TETE AVEC INFORMATIONS SUR LE MASQUE*/
+		/////////////////////////////////////////////////////
 
 		enTeteSortieTerm(l, k, i, masque);
 		enTeteSortieFichier(sortie, l, k , i, masque);
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////
+		/*RECHERCHE DU MOTIF*/
+		//////////////////////
+
 		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque, nbErreurMax);		
 
 		/////////////////////////////////////////
 		/*SORTIE DANS LE TERMINAL ET LE FICHIER*/
 		/////////////////////////////////////////
 
-		if (motifConsensus != NULL)
+		if (motifConsensus != NULL) //Si il y a bien eu un motif de trouver :
 		{
 			sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
 			sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
 		}
-		else
+		else // Sinon on écrit un message d'information
 		{
 			fprintf(sortie, "Aucun motif commun trouvé avec ce masque\n");
 			fclose(sortie);	
 		}
 
+		//On libère la mémoire pour le masque et le motif trouvé
 		free(motifConsensus);
 		free (masque);
 	}

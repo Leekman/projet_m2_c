@@ -15,4 +15,6 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
 void liberationMemoirePSSM(double **pssm);
 
 double ** allocDoubleDeuxDim (double **variable, int dim1, int dim2);
+
+int ** allocIntDeuxDim (int **variable, int dim1, int dim2);
 #endif

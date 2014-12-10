@@ -5,7 +5,6 @@ void ajoutAuDictionnaire(dictionnaire **p_p_dictionnaire, char *k_merCourant, in
 	k_mer *p_parcoureurK_mer = NULL;
 	k_mer *p_parcoureurK_merPrecedent = NULL;
 
-	//printf("%s\n", k_merCourant);
 
 	if (*p_p_dictionnaire==NULL)
 	{
@@ -24,17 +23,22 @@ void ajoutAuDictionnaire(dictionnaire **p_p_dictionnaire, char *k_merCourant, in
 
 	if (p_parcoureurK_mer == NULL)
 	{
-		//On est allé jusq'au bout de la liste de k_mer, et on a pas trouvé le bon k_mer
+		///////////////////////////////
+		/*KMER ABSENT : AJOUT DU KMER*/
+		///////////////////////////////
+
 		ajoutK_mer(&p_parcoureurK_merPrecedent, k_merCourant, numSequence, positionOccurence);
 		return ;
 	}
 	if (p_parcoureurK_mer != NULL)
 	{
-		//On est pas allé jusqu'au bout de la liste, donc le k_mer existe deja
+		//////////////////////
+		/*KMER DEJA EXISTANT*/
+		//////////////////////
+
 		updateK_mer(&p_parcoureurK_mer, numSequence, positionOccurence);
 		return ;
 	}
-	//ajoutQueueDictionnaire(p_p_dictionnaire, k_mer, numSequence, positionOccurence);
 }
 
 void ajoutK_mer(k_mer **p_p_parcoureurK_merPrecedent, char *k_merCourant, int numSequence, int positionOccurence){
@@ -60,7 +64,7 @@ void initialiserK_mer(k_mer **p_p_k_mer, char *k_merCourant, int numSequence, in
 	sequence *p_sequence = NULL;
 
 	*p_p_k_mer=(k_mer*)malloc(sizeof(k_mer));
-	(*p_p_k_mer)->k_mer=(char*)malloc(sizeof(char)*strlen(k_merCourant));
+	(*p_p_k_mer)->k_mer=(char*)malloc(sizeof(char)*(strlen(k_merCourant))+1);
 	strcpy((*p_p_k_mer)->k_mer,k_merCourant);
 	initialiserSequence(&p_sequence, numSequence, positionOccurence);
 	(*p_p_k_mer)->firstSequence = p_sequence;
@@ -114,107 +118,76 @@ void updateK_mer(k_mer **p_p_parcoureurK_mer, int numSequence, int positionOccur
 void updateSequence(sequence **p_p_parcoureurK_sequence, int positionOccurence){
 
 	occurence *p_occurence = NULL;
-
-	/*p_parcoureurOccurence = (*p_p_parcoureurK_sequence)->firstOccurence;
-
-	while (p_parcoureurOccurence->nextOccurence != NULL)
-	{
-		p_parcoureurOccurence = p_parcoureurOccurence->nextOccurence;
-	}*/
-
 	initialiserOccurence(&p_occurence, positionOccurence);
-	//p_parcoureurOccurence->nextOccurence = p_occurence;
 	free((*p_p_parcoureurK_sequence)->firstOccurence);	
 	((*p_p_parcoureurK_sequence)->firstOccurence) = p_occurence;
 }
 
-// void liberationDictionnaire(dictionnaire **p_p_dictionnaire, k_mer *pk, sequence *ps, occurence *po, k_mer *nextPk, sequence *nextPs, occurence *nextPo){
 
-// pk=(*p_p_dictionnaire)->firstK_mer;
-// 		while (pk != NULL)
-// 		{								
-// 			ps = pk->firstSequence;
-// 			while (ps != NULL)
-// 			{
-// 				po = ps->firstOccurence;
-// 				while (po != NULL)
-// 				{
-// 					nextPo = po->nextOccurence;
-// 					free(po);
-// 					po = nextPo;
-// 				}
-// 				nextPs = ps->nextSequence;
-// 				free(ps);
-// 				ps = nextPs;
-// 			}
-// 			nextPk = pk->nextK_mer;
-// 			free(pk);
-// 			pk = nextPk;
-// 		}
-// 		free(*p_p_dictionnaire);
-// 		(*p_p_dictionnaire)=NULL;
-// }
-
-
-void liberationDictionnaire(dictionnaire *p_dictionnaire){
+// void liberationDictionnaire(dictionnaire *p_dictionnaire){
 	
-	k_mer *pk = NULL;
-	sequence *ps = NULL;
-	occurence *po = NULL;
-	k_mer *nextPk = NULL;
-	sequence *nextPs = NULL;
-	occurence *nextPo = NULL;
 
-	pk=p_dictionnaire->firstK_mer;
-			while (pk != NULL)
-			{			
-				ps = pk->firstSequence;
-				while (ps != NULL)
-				{
-					po = ps->firstOccurence;
-					while (po != NULL)
-					{
-						nextPo = po->nextOccurence;
-						free(po);
-						po = nextPo;
-					}
-					nextPs = ps->nextSequence;
-					free(ps);
-					ps = nextPs;
-				}
-				nextPk = pk->nextK_mer;
-				free(pk);
-				pk = nextPk;
-			}
-			free(p_dictionnaire);
-			(p_dictionnaire)=NULL;
 
-}
-
-// int recupNombreOccurence(k_mer *p_k_merCandidat){
-
-// 	int nombreOccurence;
 // 	k_mer *pk = NULL;
 // 	sequence *ps = NULL;
 // 	occurence *po = NULL;
+// 	k_mer *nextPk = NULL;
 // 	sequence *nextPs = NULL;
 // 	occurence *nextPo = NULL;
-	
-// 	pk = p_k_merCandidat;							
-// 	ps = pk->firstSequence;
-// 	while (ps != NULL)
-// 	{
-// 		po = ps->firstOccurence;
-// 		while (po != NULL)
-// 		{
-// 			nextPo = po->nextOccurence;
-// 			po = nextPo;
-// 			nombreOccurence++;
-// 		}
-// 		nextPs = ps->nextSequence;
-// 		ps = nextPs;
-// 	}
 
+// 	pk=p_dictionnaire->firstK_mer;
+// 			while (pk != NULL)
+// 			{			
+// 				ps = pk->firstSequence;
+// 				while (ps != NULL)
+// 				{
+// 					po = ps->firstOccurence;
+// 					while (po != NULL)
+// 					{
+// 						nextPo = po->nextOccurence;
+// 						free(po);
+// 						po = nextPo;
+// 					}
+// 					nextPs = ps->nextSequence;
+// 					free(ps);
+// 					ps = nextPs;
+// 				}
+// 				nextPk = pk->nextK_mer;
+// 				free(pk->k_mer);
+// 				free(pk);
+// 				pk = nextPk;
+// 			}
+// 			free(p_dictionnaire);
+// 			(p_dictionnaire)=NULL;
 
-// 	return nombreOccurence;
 // }
+
+
+
+
+int recupNombreOccurence(k_mer *p_k_merCandidat){
+
+	int nombreOccurence =0;
+	k_mer *pk = NULL;
+	sequence *ps = NULL;
+	occurence *po = NULL;
+	sequence *nextPs = NULL;
+	occurence *nextPo = NULL;
+	
+	pk = p_k_merCandidat;							
+	ps = pk->firstSequence;
+	while (ps != NULL)
+	{
+		po = ps->firstOccurence;
+		while (po != NULL)
+		{
+			nextPo = po->nextOccurence;
+			po = nextPo;
+			nombreOccurence++;
+		}
+		nextPs = ps->nextSequence;
+		ps = nextPs;
+	}
+
+	return nombreOccurence;
+}

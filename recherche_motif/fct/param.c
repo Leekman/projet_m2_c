@@ -130,7 +130,7 @@ void getParam (char **cheminEntree, char **output, int *nbIterations, int *nbErr
 	/*VERIFICATION DE LA RECUPERATION DES PARAMETRES AINSI QUE DE LA CONDITION NOMBRE FENETRE > LONGUEUR DU MOTIF*/
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbIterations == 0|| *nbFenetre > *longueurMotif)
+	if (*longueurMotif == 0 || *nbFenetre == 0 || *nbIterations == 0)
 	{
 		printf("\n\n[ERREUR] Erreur lors de la saisie du nombre de fenetre, de la longueur du motif ou du nombre d'iterations.\n\n");
 		notice();

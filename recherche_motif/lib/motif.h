@@ -11,9 +11,7 @@ void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmC
 
 double **construirePSSM(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k);
 
-double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int nombreSequences, int k, double **pssm, double *motifDeFond);
-
-double calculScoreK_mer(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
+double calculDuScore(k_mer *k_merCandidat, char **tableauSequences, int k, double **pssm, double *motifDeFond);
 
 void ameliorerMotif(int ***infoPssmCourante, double **pssmCourante, double *p_scoreCourant, char **tableauSequences,int nombreSequences, int nombreOccurence, int k, int l, k_mer *p_k_merCandidat, double *motifDeFond);
 
@@ -21,5 +19,5 @@ void affinerMotif(char ***p_ensembleT, int ***infoPssmCourante, char **tableauSe
 
 void creerMotifConsensus(double ***p_motifConsensusPSSM, char **p_motifConsensus, char **ensembleT, int l, int *nbSequenceDuMotifCandidat);
 
-int calculScoreMasque(int nbErreurMax, int l, char *motifConsensus, char **ensembleT, int *nbSequencesDuMotifCandidat);
+int calculScoreMasque(int nbErreurMax, int l, char *motifConsensus, char **ensembleT, int *nbSequenceDuMotifCandidat);
 #endif

@@ -88,7 +88,6 @@ void conversionMinMaj(char **tableauSequences, int nombreSequences){
 }
 
 
-
 double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
 
     double *motifDeFond;
@@ -97,7 +96,7 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
     int i,j;
 
     nombreDeBaseTotal = 0;
-    motifDeFond=(double*)calloc(4,sizeof(double));
+    motifDeFond=(double*) calloc(4, sizeof(double));
 
     for (i=0; i<nombreSequences; i++)
     {
@@ -107,7 +106,7 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
 
     for (i=0; i<nombreSequences; i++)
     {
-        for (j=0; j<(strlen(tableauSequences[i])); j++)
+        for (j=0; j < (strlen(tableauSequences[i])); j++)
         {
             switch (tableauSequences[i][j])
             {
@@ -115,7 +114,7 @@ double *calculerMotifDeFond(char **tableauSequences, int nombreSequences){
                 case 'T' : motifDeFond[1] += 1; break;
                 case 'C' : motifDeFond[2] += 1; break;
                 case 'G' : motifDeFond[3] += 1; break;
-                default : printf("Motif de fond : format de base incorect.\n"); break;
+                default : printf("Motif de fond : format de base incorrect.\n"); break;
             }
         }
     }
@@ -137,10 +136,11 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
     {
         liberationMemoirePSSM(*p_pssmVide);
     }
-    (*p_pssmVide)=(double**)malloc(sizeof(double*)*dim1);
+    /*ALLOC DOUBLE PUIS REBOUCLE OU JE LAISSE COMME CA ?????????????????*/
+    (*p_pssmVide)=(double**)calloc(sizeof(double*),dim1);
     for (i=0; i<dim1; i++)
     {
-        (*p_pssmVide)[i]=(double*)malloc(sizeof(double)*dim2);
+        (*p_pssmVide)[i]=(double*)calloc(sizeof(double),dim2);
         for (j=0; j<dim2; j++)
         {
             (*p_pssmVide)[i][j]=pssmACopier[i][j];
@@ -164,11 +164,22 @@ double ** allocDoubleDeuxDim (double **variable, int dim1, int dim2){
 
     int i;
 
-    variable =(double**) calloc ((dim1), sizeof(double*));
+    variable = (double**) calloc (dim1, sizeof(double*));
     for (i = 0; i < dim1; i++)
     {
         variable[i] = (double*) calloc(dim2, sizeof(double));
     }
+    return variable;
+}
 
+int ** allocIntDeuxDim (int **variable, int dim1, int dim2){
+
+    int i;
+
+    variable = (int**) calloc (dim1, sizeof(int*));
+    for (i = 0;  i < dim1; i++)
+    {
+        variable[i] = (int*) calloc(dim2, sizeof(int));
+    }
     return variable;
 }

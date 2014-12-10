@@ -24,7 +24,7 @@ void updateSequence(sequence **p_p_parcoureurK_sequence, int positionOccurence);
 
 // void liberationDictionnaire(dictionnaire **p_p_dictionnaire, k_mer *pk, sequence *ps, occurence *po, k_mer *nextPk, sequence *nextPs, occurence *nextPo);
 
-void liberationDictionnaire(dictionnaire *p_dictionnaire);
+//void liberationDictionnaire(dictionnaire *p_dictionnaire);
 
-// int recupNombreOccurence(k_mer *p_k_merCandidat);
+int recupNombreOccurence(k_mer *p_k_merCandidat);
 #endif
