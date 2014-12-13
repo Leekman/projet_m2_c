@@ -116,6 +116,17 @@ void getParam (char **cheminEntree, char **output, int *nbIterations, int *nbErr
 		exit(1);
 	}
 	fclose(verifFichierEntree);
+
+	/*verifFichierSortie = fopen (*output, "r");
+	if (verifFichierSortie != NULL)
+	{
+		printf("\n\n[ATENTION] Le fichiers de sortie existait deja et a ete ecrase.\n\n");
+		fclose(verifFichierSortie);
+		//notice();
+		//regfree(&preg);
+		//exit(1);
+	}*/
+
 	verifFichierSortie = fopen (*output, "a");
 	if (verifFichierSortie == NULL)
 	{
@@ -124,7 +135,11 @@ void getParam (char **cheminEntree, char **output, int *nbIterations, int *nbErr
 		regfree(&preg);
 		exit(1);
 	}
-	fclose(verifFichierSortie);
+	else
+	{
+		fclose(verifFichierSortie);
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*VERIFICATION DE LA RECUPERATION DES PARAMETRES AINSI QUE DE LA CONDITION NOMBRE FENETRE > LONGUEUR DU MOTIF*/

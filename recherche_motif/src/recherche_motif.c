@@ -102,12 +102,13 @@ int main(int argc, char *argv[]){
 		}
 		else // Sinon on écrit un message d'information
 		{
-			fprintf(sortie, "Aucun motif commun trouvé avec ce masque\n");
+			fprintf(sortie, "\nAucun motif commun trouvé avec ce masque\n\n");
 			fclose(sortie);	
 		}
 
 		//On libère la mémoire pour le masque et le motif trouvé
 		free(motifConsensus);
+		motifConsensus = NULL;
 		free (masque);
 	}
 

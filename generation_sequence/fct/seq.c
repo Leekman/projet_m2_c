@@ -180,6 +180,10 @@ void creationFasta(char **tabSeq, int nbSeq){
         }
         fclose(fasta);    
     }
+    else
+    {
+	printf("Erreur lors de la creation du fichier fasta. Impossible d'ecrire a l'emplacement specifie.\n");
+    }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /*PROCEDURE PERMETTANT DE CREER UN FICHIER INFO REGROUPANT DIVERSES INFORMATIONS SUR LES SEQUENCES*/

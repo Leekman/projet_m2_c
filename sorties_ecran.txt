@@ -1,0 +1,288 @@
+///Le fichier de sauvegarde existe
+
+//Menu du super utilisateur
+
+Adresse de Hopital Fac de Science : 2, rue de la Houssiniere
+Code postale : 44100
+Ville : Nantes
+Pays : France
+Identifiant : admin
+Password : admin
+Bonjour sudo.
+Date (JJ MM AAAA) : 09 12 2015
+Ajouter des membres de staff ? (y/n)
+n
+Supprimer des dossier ? (y/n)
+n
+Ecriture du fichier de sauvegarde.
+Fin du programme
+
+//Menu Practicien
+
+Identifiant : OffmannB
+Password : Bernard
+Recherche de l'utilisateur.
+Identifiant correct.
+Mot de passe correct.
+Bonjour docteur
+Que voulez-vous faire ? (1 : Consulter un compte rendu, 2 : Ecrire un compte rendu, 3 : Modifier id/password, 4 : Quitter)
+
+/Consulter
+
+Nom du patient :Dugourd
+Prenom du patient :Aurelien
+ID de l'analyse (typeJJMMAAAid) : 01212015DugourdA
+Mot de passe du compte rendu : password
+Les analyses sont normal. Le patient doit se reposer.
+Une alimentation pauvre en sel serait preferable.
+endofcontenu
+
+/Ecrire compte rendu
+
+Nom du patient :Deniro
+Prenom du patient :Robert
+ID de l'analyse (typeJJMMAAAid) : 02322015DeniroR
+Ecriture du compte rendu, ligne par ligne
+Saisissez une ligne du compte rendu : 
+Trop d'alcool dans le sang. Le foie est enflee.
+Ajouter une ligne ? (y/n)
+y
+Saisissez une ligne du compte rendu : 
+Residue d'opiacee retrouve dans le sang. Cure de desintoxication recommandee.
+Ajouter une ligne ? (y/n)
+n
+Definissez le mot de passe du compte rendu : password
+
+//Menu secretaire
+
+Identifiant : EstreguilV
+Password : Valentine
+Recherche de l'utilisateur.
+Identifiant correct.
+Mot de passe correct.
+Bonjour secretaire
+Que voulez-vous faire ? (1 : Ajouter un dossier, 2 : Plannifier une analyse, 3 : Changer le status d'une analyse, 4 : Supprimer un dossier, 5 : Changer id/password, 6 : Quitter)
+
+/Ajouter
+
+Nom du patient : Montana
+Prenom du patient : Tony
+Age du patient : 35
+Sexe du patient (0 : homme, 1 : femme) : 0
+Taille du patient (en cm): 176
+Poid du patient : 70
+Date (JJ MM AAAA) : 09 12 2015
+Ajouter des analyses ? (y/n)
+y
+Type d'analyse ? (0 : SANG, 1 : BIOCHIMIQUE, 2 : BACTERIOLOGIQUE) : 0
+Date de l'analyse ? (JJ MM AAAA) : 24 12 2014
+Ajouter des analyses supplementaire ? (y/n)
+n
+
+/Planifier
+
+Nom du patient : Montana
+Prenom du patient : Tony
+Ajouter des analyses ? (y/n)
+y
+Type d'analyse ? (0 : SANG, 1 : BIOCHIMIQUE, 2 : BACTERIOLOGIQUE) : 1
+Date de l'analyse ? (JJ MM AAAA) : 23 03 2015
+Ajouter des analyses supplementaire ? (y/n)
+n
+
+/Changer status
+
+Nom du patient :Montana
+Prenom du patient :Tony
+ID de l'analyse (typeJJMMAAAid) : 023122014MontanaT
+Status de l'analyse = faite.
+
+/Supprimer un dossier
+
+Nom du patient :Montana
+Prenom du patient :Tony
+Dossier de : Montana supprime.
+
+/Afficher analyse par date
+
+Afficher par date ou par patient ? (1 : date, 2 : patient)
+1
+Date (JJ MM AAAA) : 30 3 2015
+Analyse trouvee
+030022015DeniroR
+Sang.
+Faite.
+30/3/2015/
+
+Fin de recherche par date.
+
+/Aficher analyse par patient
+
+Afficher par date ou par patient ? (1 : date, 2 : patient)
+2
+Nom du patient :Deniro
+Prenom du patient :Robert
+Affiche dossier
+9/12/2014/
+nom : Deniro
+prenom : Robert
+age : 65
+Sexe : HOMME 
+taille : 85
+Poids : 175
+Identifiant = DeniroR
+Mot de passe = Robert
+Nombre d'analyses : 3
+02322015DeniroR
+Sang.
+Faite.
+23/2/2015/
+02632015DeniroR
+Sang.
+Faite.
+26/3/2015/
+030022015DeniroR
+Sang.
+Faite.
+30/3/2015/
+Fin de recherche par patient.
+
+//Menu patient
+
+Identifiant : DeniroR
+Password : Robert
+Recherche de l'utilisateur.
+Identifiant correct.
+Mot de passe correct.
+Bonjour, cher client
+Que voulez-vous faire ? (1 : Consulter vos resultats d'analyse, 2 : Changer Id/password, 3 : Quitter)
+
+/Consulter resultat d'analyse
+
+ID de l'analyse (typeJJMMAAAid) : 02322015DeniroR
+02322015DeniroR
+Sang.
+Faite.
+23/2/2015/
+Trop d'alcool dans le sang. Le foie est enflee.
+Residue d'opiacee retrouve dans le sang. Cure de desintoxication recommandee.
+
+//Changer Id/pass
+
+/Id
+
+1 : Changer ID, 2 : Changer password
+1
+Nouvel Id : Robert
+Id change en : Robert
+
+/Password
+
+1 : Changer ID, 2 : Changer password
+2
+Nouveau mot de passe : azert
+Confirmer nouveau mot de passe : azert
+
+///Creation d'un hopital
+
+Creation d'un nouvel hopital
+Nom de l'hopital : Hopital
+Numero de la rue : 34
+Type et nom de la voie : rue du Casino
+Code postal : 34353 
+Ville : Une Ville
+Pays : France
+Id superUser : admin
+Password superUser : admin
+Date (JJ MM AAAA) : 09 12 2014
+
+//Ajout membre
+
+Type de personne ? (1 : Practicien, 2 : Secretaire, 3 : Patient)
+
+/Ajout Practicien
+
+Nom du practicien : Nom    
+Prenom du practicien : Prenom
+Fonction du practicien : Focntion
+Ajouter des membres supplementaire ? (y/n)
+
+/Ajout Secretaire
+
+Nom de la secretaire : Nom
+Prenom de la scretaire : Secretaire
+
+/Ajout Patient
+
+Nom du patient : Nompatient
+Prenom du patient : PrenomPatient
+Age du patient : 45      
+Sexe du patient (0 : homme, 1 : femme) : 1
+Taille du patient (en cm): 164
+Poid du patient : 54
+Ajouter des analyses ? (y/n)
+
+/Ajout analyse
+
+Type d'analyse ? (0 : SANG, 1 : BIOCHIMIQUE, 2 : BACTERIOLOGIQUE) : 0
+Date de l'analyse ? (JJ MM AAAA) : 12 14 2015
+Ajouter des analyses supplementaire ? (y/n)
+
+//Supprimer Dossier
+
+Nom du patient :Nompatient
+Prenom du patient :PrenomPatient
+Dossier de : Nompatient supprime.
+Supprimer d'autre dossiers ? (y/n)
+
+///Menu Super User
+
+Voir creation hopital
+
+///Affichage des dossiers et personnes
+
+//Personnes
+
+Personne 0 : 
+nom : Offmann
+prenom : Bernard
+fonction : Proteinologue
+Personne 1 : 
+nom : Evain
+prenom : Michel
+fonction : Doyenologue
+Personne 2 : 
+nom : Estreguil
+prenom : Valentine
+Personne 3 : 
+nom : Bire
+prenom : Eugenie
+Personne 4 : 
+nom : Dugourd
+prenom : Aurelien
+age : 25
+Sexe : HOMME 
+taille : 181
+Poids : 75
+Identifiant = DugourdA
+Mot de passe = Aurelien
+Personne 5 : 
+nom : Deniro
+prenom : Robert
+age : 65
+Sexe : HOMME 
+taille : 175
+Poids : 85
+Identifiant = DeniroR
+Mot de passe = Robert
+
+
+//Dossiers
+
+Dossier 1 : Dugourd
+Dossier 2 : Deniro
+
+
+
+
+

@@ -78,6 +78,30 @@ k_mer *nextPk = NULL;
 	if (p_k_merCandidat == NULL)
 	{
 		printf("Aucun motif commun trouvé avec ce masque.\n");
+		pk=(*p_p_dictionnaire)->firstK_mer;
+		while (pk != NULL)
+		{								
+			ps = pk->firstSequence;
+			while (ps != NULL)
+			{
+				po = ps->firstOccurence;
+				while (po != NULL)
+				{
+					nextPo = po->nextOccurence;
+					free(po);
+					po = nextPo;
+				}
+				nextPs = ps->nextSequence;
+				free(ps);
+				ps = nextPs;
+			}
+			nextPk = pk->nextK_mer;
+			free(pk->k_mer);
+			free(pk);
+			pk = nextPk;
+		}
+		free(*p_p_dictionnaire);
+		(*p_p_dictionnaire)=NULL;
 		//liberationDictionnaire(*p_p_dictionnaire);
 		return ;
 	}
