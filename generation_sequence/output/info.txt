@@ -1,164 +1,164 @@
 Récapitulatif des paramètres de départ :
             Nombre de sequence a generer : 50
-            Taille des sequences a generer : 50
+            Taille des sequences a generer : 100
             Nombre maximum de substitution : 2
-            Motif insere dans les sequences : AAAAA
-            Taille du motif choisi : 5
+            Motif insere dans les sequences : ATTCGAA
+            Taille du motif choisi : 7
 
 PSSM
-0.700000 0.880000 0.820000 0.740000 0.840000 
-0.160000 0.040000 0.120000 0.120000 0.020000 
-0.100000 0.020000 0.020000 0.080000 0.080000 
-0.040000 0.060000 0.040000 0.060000 0.060000 
+0.840000 0.000000 0.020000 0.060000 0.080000 0.880000 0.920000 
+0.040000 0.920000 0.820000 0.020000 0.060000 0.040000 0.020000 
+0.060000 0.040000 0.060000 0.800000 0.080000 0.040000 0.040000 
+0.060000 0.040000 0.100000 0.120000 0.780000 0.040000 0.020000 
 
 INFORMATIONS SUR LES SEQUENCES
 Sequence [1]
-                Position du motif dans la sequence : 40
+                Position du motif dans la sequence : 93
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [2]
-                Position du motif dans la sequence : 21
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [3]
-                Position du motif dans la sequence : 30
+                Position du motif dans la sequence : 37
                 Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [3]
+                Position du motif dans la sequence : 1
+                Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [4]
                 Position du motif dans la sequence : 20
-                Nombre d'erreur dans le motif de cette sequence : 2
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [5]
-                Position du motif dans la sequence : 8
+                Position du motif dans la sequence : 20
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [6]
-                Position du motif dans la sequence : 4
+                Position du motif dans la sequence : 2
                 Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [7]
-                Position du motif dans la sequence : 25
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [8]
-                Position du motif dans la sequence : 25
+                Position du motif dans la sequence : 94
                 Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [8]
+                Position du motif dans la sequence : 19
+                Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [9]
-                Position du motif dans la sequence : 31
+                Position du motif dans la sequence : 16
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [10]
-                Position du motif dans la sequence : 13
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [11]
-                Position du motif dans la sequence : 33
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [12]
-                Position du motif dans la sequence : 40
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [13]
-                Position du motif dans la sequence : 17
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [14]
-                Position du motif dans la sequence : 41
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [15]
-                Position du motif dans la sequence : 2
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [16]
-                Position du motif dans la sequence : 7
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [17]
-                Position du motif dans la sequence : 0
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [18]
-                Position du motif dans la sequence : 13
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [19]
-                Position du motif dans la sequence : 26
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [20]
-                Position du motif dans la sequence : 32
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [21]
-                Position du motif dans la sequence : 35
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [22]
-                Position du motif dans la sequence : 42
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [23]
-                Position du motif dans la sequence : 18
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [24]
-                Position du motif dans la sequence : 6
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [25]
-                Position du motif dans la sequence : 37
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [26]
-                Position du motif dans la sequence : 4
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [27]
-                Position du motif dans la sequence : 33
-                Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [28]
-                Position du motif dans la sequence : 26
-                Nombre d'erreur dans le motif de cette sequence : 0
-Sequence [29]
                 Position du motif dans la sequence : 30
                 Nombre d'erreur dans le motif de cette sequence : 2
-Sequence [30]
-                Position du motif dans la sequence : 12
+Sequence [11]
+                Position du motif dans la sequence : 24
+                Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [12]
+                Position du motif dans la sequence : 79
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [13]
+                Position du motif dans la sequence : 84
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [14]
+                Position du motif dans la sequence : 75
                 Nombre d'erreur dans le motif de cette sequence : 0
+Sequence [15]
+                Position du motif dans la sequence : 67
+                Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [16]
+                Position du motif dans la sequence : 8
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [17]
+                Position du motif dans la sequence : 58
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [18]
+                Position du motif dans la sequence : 84
+                Nombre d'erreur dans le motif de cette sequence : 0
+Sequence [19]
+                Position du motif dans la sequence : 3
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [20]
+                Position du motif dans la sequence : 53
+                Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [21]
+                Position du motif dans la sequence : 9
+                Nombre d'erreur dans le motif de cette sequence : 0
+Sequence [22]
+                Position du motif dans la sequence : 30
+                Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [23]
+                Position du motif dans la sequence : 34
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [24]
+                Position du motif dans la sequence : 72
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [25]
+                Position du motif dans la sequence : 28
+                Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [26]
+                Position du motif dans la sequence : 2
+                Nombre d'erreur dans le motif de cette sequence : 0
+Sequence [27]
+                Position du motif dans la sequence : 59
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [28]
+                Position du motif dans la sequence : 54
+                Nombre d'erreur dans le motif de cette sequence : 1
+Sequence [29]
+                Position du motif dans la sequence : 18
+                Nombre d'erreur dans le motif de cette sequence : 0
+Sequence [30]
+                Position du motif dans la sequence : 86
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [31]
-                Position du motif dans la sequence : 23
+                Position du motif dans la sequence : 29
                 Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [32]
-                Position du motif dans la sequence : 45
-                Nombre d'erreur dans le motif de cette sequence : 0
+                Position du motif dans la sequence : 9
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [33]
-                Position du motif dans la sequence : 12
-                Nombre d'erreur dans le motif de cette sequence : 1
+                Position du motif dans la sequence : 38
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [34]
-                Position du motif dans la sequence : 25
-                Nombre d'erreur dans le motif de cette sequence : 1
+                Position du motif dans la sequence : 42
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [35]
-                Position du motif dans la sequence : 5
-                Nombre d'erreur dans le motif de cette sequence : 2
+                Position du motif dans la sequence : 73
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [36]
-                Position du motif dans la sequence : 20
+                Position du motif dans la sequence : 59
                 Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [37]
-                Position du motif dans la sequence : 14
+                Position du motif dans la sequence : 87
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [38]
-                Position du motif dans la sequence : 1
+                Position du motif dans la sequence : 36
                 Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [39]
-                Position du motif dans la sequence : 17
-                Nombre d'erreur dans le motif de cette sequence : 1
-Sequence [40]
-                Position du motif dans la sequence : 13
+                Position du motif dans la sequence : 24
                 Nombre d'erreur dans le motif de cette sequence : 2
+Sequence [40]
+                Position du motif dans la sequence : 55
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [41]
-                Position du motif dans la sequence : 25
+                Position du motif dans la sequence : 56
                 Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [42]
-                Position du motif dans la sequence : 27
-                Nombre d'erreur dans le motif de cette sequence : 1
+                Position du motif dans la sequence : 69
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [43]
-                Position du motif dans la sequence : 39
-                Nombre d'erreur dans le motif de cette sequence : 2
+                Position du motif dans la sequence : 102
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [44]
-                Position du motif dans la sequence : 3
-                Nombre d'erreur dans le motif de cette sequence : 0
+                Position du motif dans la sequence : 64
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [45]
-                Position du motif dans la sequence : 24
-                Nombre d'erreur dans le motif de cette sequence : 0
+                Position du motif dans la sequence : 4
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [46]
-                Position du motif dans la sequence : 7
+                Position du motif dans la sequence : 65
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [47]
-                Position du motif dans la sequence : 32
-                Nombre d'erreur dans le motif de cette sequence : 1
+                Position du motif dans la sequence : 61
+                Nombre d'erreur dans le motif de cette sequence : 0
 Sequence [48]
-                Position du motif dans la sequence : 27
+                Position du motif dans la sequence : 37
                 Nombre d'erreur dans le motif de cette sequence : 2
 Sequence [49]
-                Position du motif dans la sequence : 1
-                Nombre d'erreur dans le motif de cette sequence : 0
+                Position du motif dans la sequence : 84
+                Nombre d'erreur dans le motif de cette sequence : 1
 Sequence [50]
-                Position du motif dans la sequence : 27
-                Nombre d'erreur dans le motif de cette sequence : 0
+                Position du motif dans la sequence : 4
+                Nombre d'erreur dans le motif de cette sequence : 1

@@ -217,10 +217,10 @@ void copieProfondeTabString(char ***p_tabStringVide, char **tabStringACopier, in
         }
     }
     /*ALLOC DOUBLE PUIS REBOUCLE OU JE LAISSE COMME CA ?????????????????*/
-    (*p_tabStringVide)=(char**)calloc(sizeof(char*),dim1);
+    (*p_tabStringVide)=(char**)calloc(sizeof(char*),dim1+1);
     for (i=0; i<dim1; i++)
     {
-        (*p_tabStringVide)[i]=(char*)calloc(sizeof(char),dim2);
+        (*p_tabStringVide)[i]=(char*)calloc(sizeof(char),dim2+1);
         for (j=0; j<dim2; j++)
         {
             (*p_tabStringVide)[i][j]=tabStringACopier[i][j];

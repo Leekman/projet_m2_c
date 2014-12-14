@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
 			
 			p_resultat = (resultat*)malloc(sizeof(resultat));
 			ajouterResultat(&listeResultats,p_resultat, l, k, i, masque, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, ensembleT);
-
+			//free(p_resultat);
 			for (j = 0; j < nbSequenceDuMotifConsensus; j++)
 			{	
 				free(infoEnsembleT[j]);
@@ -113,6 +113,7 @@ int main(int argc, char *argv[]){
 			free(infoEnsembleT);
 			free(ensembleT);
 			liberationMemoirePSSM(motifConsensusPSSM);
+
 		}
 		else // Sinon on écrit un message d'information
 		{
@@ -121,7 +122,6 @@ int main(int argc, char *argv[]){
 		}
 
 		//On libère la mémoire pour le masque et le motif trouvé
-
 		free(motifConsensus);
 		motifConsensus = NULL;
 		free (masque);

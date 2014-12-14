@@ -214,8 +214,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 	p_resultat->ensembleT = NULL;
 	copieProfondeTabString(&(p_resultat->ensembleT), ensembleT, nbSequenceDuMotifConsensus, l+1);
 	p_resultat->nextRes = NULL;
-
-
+	//free(ensembleT);
 	parcourResultat = (*p_listeResultats);
 
 	if (parcourResultat == NULL)
@@ -247,6 +246,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 			p_resultat->nextRes = parcourResultatPrec;
 			(*p_listeResultats) = p_resultat;
 			p_resultat = NULL;
+
 		}
 		else
 		{
@@ -257,6 +257,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 			
 		}
 	}	
+	free(p_resultat);
 }
 
 void afficherSortie(FILE *sortie, resultat *listeResultats){
@@ -287,10 +288,14 @@ void libererMemoireResultat(resultat *p_resultat){
 
 	free(p_resultat->motifConsensus);
 
+	free(p_resultat->masque);
+
 	liberationMemoirePSSM(p_resultat->motifConsensusPSSM);
 
 	for (i = 0; i < p_resultat->nbSequenceDuMotifConsensus; i++)
 	{
 		free((p_resultat->ensembleT)[i]);
 	}
+	free(p_resultat->ensembleT);
+
 }
