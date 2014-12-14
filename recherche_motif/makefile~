@@ -2,7 +2,7 @@ SHELL = /bin/bash
 CC    = gcc
 CFLAGS  = -Wall
 
-OPTRUNDBG = -d 2 -l 7 -k 2 -c input/sequences3.fasta -o output/test.txt -i 3000
+OPTRUNDBG = -d 1 -l 6 -k 3 -c input/sequences3.fasta -o output/test.txt -i 10
 
 BINDIR = bin
 LIBDIR = lib

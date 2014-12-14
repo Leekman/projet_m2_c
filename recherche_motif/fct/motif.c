@@ -1,12 +1,12 @@
 #include "../lib/motif.h"
 
- void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmCourante, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *nbSequenceDuMotifCandidat, int *p_scoreMasque, int nbErreurMax){
+ void recherche_motif (int *masque, int l, int k, double **pssm, int ***infoPssmCourante, char **tableauSequences, int nombreSequences, dictionnaire **p_p_dictionnaire, double *p_score, double *motifDeFond, char ***p_ensembleT, double ***p_motifConsensusPSSM, char **p_motifConsensus, int *nbSequenceDuMotifCandidat, int *p_scoreMasque, int nbErreurMax, int iteration){
  
 	int i,j,m;
 	int nbSequenceDuMotif;
 	int longueurSequencesCourante;
 	char *k_merCourant = NULL;
-	double quorum;
+	//double quorum;
 	double scoreCourant;
 	double **pssmCourante = NULL;
 	k_mer *p_k_merCandidat = NULL;
@@ -20,7 +20,7 @@ k_mer *nextPk = NULL;
 	sequence *nextPs = NULL;
 	occurence *nextPo = NULL;
 
-	quorum = 0;
+	//quorum = 0;
 	*p_score = 0;
 
 	////////////////////////////////////////////////////
@@ -58,13 +58,13 @@ k_mer *nextPk = NULL;
 			parcoureurSequence = parcoureurSequence->nextSequence;
 			nbSequenceDuMotif++;
 		}
-		if (nbSequenceDuMotif > 30) //Si le motif est présent dans plus de deux séquences ???????
+		if ((double)nbSequenceDuMotif/(double)nombreSequences > 0.30) //Si le motif est présent dans plus de deux séquences ???????
 		{
 			pssmCourante=construirePSSM(pk, tableauSequences, nombreSequences, k);			
 			scoreCourant=calculDuScore(pk, tableauSequences, k, pssmCourante, motifDeFond);
 			if (scoreCourant > *p_score)
 			{
-				quorum = (double)nbSequenceDuMotif/(double)nombreSequences;
+				//quorum = (double)nbSequenceDuMotif/(double)nombreSequences;
 				*p_score = scoreCourant;
 				copieProfondePSSM(&pssm, pssmCourante, 4, l);
 				*nbSequenceDuMotifCandidat = nbSequenceDuMotif;
@@ -77,7 +77,7 @@ k_mer *nextPk = NULL;
 
 	if (p_k_merCandidat == NULL)
 	{
-		printf("Aucun motif commun trouvé avec ce masque.\n");
+		//printf("Aucun motif commun trouvé avec le masque : %d\n", iteration);
 		pk=(*p_p_dictionnaire)->firstK_mer;
 		while (pk != NULL)
 		{								
@@ -110,7 +110,7 @@ k_mer *nextPk = NULL;
 	/*AFFICHAGE DES INFORMATIONS DU KMER CANDIDAT*/
 	///////////////////////////////////////////////
 
-	printf("\nInformations sur le kmer Candidat : %s, quorum : %f, score : %e\n", p_k_merCandidat->k_mer, quorum, *p_score);
+	//printf("\nInformations sur le kmer Candidat : %s, quorum : %f, score : %e\n", p_k_merCandidat->k_mer, quorum, *p_score);
 
 	/////////////////////////////////////////////////////////
 	/*RECUPERATION DES INFORMATIONS DU KMER DANS UN TABLEAU*/

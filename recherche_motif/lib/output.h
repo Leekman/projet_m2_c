@@ -18,15 +18,15 @@ void enTeteSortieTerm (int l, int k, int i, int *masque);
 
 void enTeteSortieFichier (FILE *sortie, int l, int k, int i, int *masque);
 
-void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT);
+void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT, int nombreDeSequences);
 
-void sortieFichier (FILE *sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT);
+void sortieFichier (FILE *sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT, int nombreDeSequences);
 
 void afficheMotifConsensus(double **motifConsensusPSSM, char *motifConsensus);
 
 void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, int k, int i, int *masque, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, char **ensembleT);
 
-void afficherSortie(FILE *sortie, resultat *listeResultats);
+void afficherSortie(FILE *sortie, resultat *listeResultats, int nombreDeSequences);
 
 void libererMemoireResultat(resultat *p_resultat);
 

@@ -28,20 +28,21 @@ void enTeteSortieFichier (FILE *sortie, int l, int k, int i, int *masque){
 
 
 
-void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT){
+void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT, int nombreDeSequences){
 
 
-	int i,j;
-	char nucleotide[] = "ATCG";
-	printf("\nScore du masque %d\n", scoreMasque);
+	//int i, j;
+	//char nucleotide[] = "ATCG";
+	printf("\nScore du masque : %d\n", scoreMasque);
 	/*printf("\nNumero de sequence | Position du motif | Motif \n");
 	for (i = 0; i < nbSequenceDuMotifConsensus; i++)
 	{
 		printf("%d | %d | %s\n", infoEnsembleT[i][0] +1, infoEnsembleT[i][1], ensembleT[i]);
 	}*/
 	afficheMotifConsensus(motifConsensusPSSM, motifConsensus);
+	printf("Quorum du motif : %d%%\n", (int)(((double)nbSequenceDuMotifConsensus/(double)nombreDeSequences)*100));
 	//printf("\nMotif consensus obtenu : %s\n", motifConsensus);
-	printf("PSSM de ce motif consensus : \n\n");
+	/*printf("PSSM de ce motif consensus : \n\n");
     for (i=0;i<4;i++)
     {
     	printf("%c\t", nucleotide[i]);
@@ -50,23 +51,24 @@ void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifCons
             printf("%f ", motifConsensusPSSM[i][j]);
         }
         printf("\n");
-    } 
+    } */
 }
 
-void sortieFichier (FILE* sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT){
+void sortieFichier (FILE* sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT, int nombreDeSequences){
 
 	int i,j,k;
 	char nucleotide[] = "ATCG";
 
 	if (sortie != NULL)
 	{
-		fprintf(sortie, "\nScore du masque %d\n", scoreMasque);
+		fprintf(sortie, "\nScre du masque : %d\n", scoreMasque);
 		fprintf(sortie, "\nNumero de sequence | Position du motif | Motif\n");
 		for (i = 0; i < nbSequenceDuMotifConsensus; i++)
 		{
 			fprintf(sortie, "%d | %d | %s\n", infoEnsembleT[i][0] +1, infoEnsembleT[i][1], ensembleT[i]);
 		}
 		fprintf(sortie, "\nMotif consensus obtenu : %s\n", motifConsensus);
+		fprintf(sortie, "Quorum du motif : %f\n", (double)nbSequenceDuMotifConsensus/(double)nombreDeSequences);
 		fprintf(sortie, "PSSM de ce motif consensus : \n\n");
 	    for (j=0;j<4;j++)
 	    {
@@ -182,10 +184,6 @@ void afficheMotifConsensus(double **motifConsensusPSSM, char *motifConsensus){
 			}
 		}
 	}
-	printf("\nCode couleur : ");
-	printf(KGRN "\tTres peu variable (> 0,75), " RESET);
-	printf(KYEL "peu variable (> 0,5), " RESET);
-	printf(KRED "variable (< 0,5)." RESET);
 	printf("\n\n");
 }
 
@@ -221,7 +219,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 	{
 		(*p_listeResultats) = p_resultat;
 		p_resultat = NULL;
-		printf("First try. \n");
+		//printf("First try. \n");
 		return ;
 	}
 
@@ -243,7 +241,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 		if (parcourResultatPrec == NULL)
 		{
 			//printf("Ajout en tete.\n");
-			p_resultat->nextRes = parcourResultatPrec;
+			p_resultat->nextRes = parcourResultat;
 			(*p_listeResultats) = p_resultat;
 			p_resultat = NULL;
 
@@ -260,17 +258,23 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 	free(p_resultat);
 }
 
-void afficherSortie(FILE *sortie, resultat *listeResultats){
+void afficherSortie(FILE *sortie, resultat *listeResultats, int nombreDeSequences){
 	if (listeResultats != NULL)
 	{
-		//AFFICHE
+		//ECRIT
+		
 		enTeteSortieFichier(sortie, listeResultats->l, listeResultats->k , listeResultats->i, listeResultats->masque);
-		sortieFichier(sortie, listeResultats->scoreMasque, listeResultats->infoEnsembleT, listeResultats->nbSequenceDuMotifConsensus, listeResultats->motifConsensus, listeResultats->motifConsensusPSSM, listeResultats->l, listeResultats->ensembleT);
+		sortieFichier(sortie, listeResultats->scoreMasque, listeResultats->infoEnsembleT, listeResultats->nbSequenceDuMotifConsensus, listeResultats->motifConsensus, listeResultats->motifConsensusPSSM, listeResultats->l, listeResultats->ensembleT, nombreDeSequences);
 		
 		//APPEL RECURSIF
-		afficherSortie(sortie, listeResultats->nextRes);
+		afficherSortie(sortie, listeResultats->nextRes, nombreDeSequences);
+
+		//AFFICHE
+		enTeteSortieTerm(listeResultats->l, listeResultats->k, listeResultats->i, listeResultats->masque);
+		sortieTerm(listeResultats->scoreMasque, listeResultats->infoEnsembleT, listeResultats->nbSequenceDuMotifConsensus, listeResultats->motifConsensus, listeResultats->motifConsensusPSSM, listeResultats->l, listeResultats->ensembleT, nombreDeSequences);
 
 		//FREE
+		//printf("%s\n", listeResultats->motifConsensus);
 		libererMemoireResultat(listeResultats);
 		free(listeResultats);
 	}

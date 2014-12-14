@@ -37,6 +37,7 @@ int main(int argc, char *argv[]){
 	resultat *p_resultat = NULL;
 	resultat *listeResultats = NULL;
 
+	printf("\033[2J");
 
 	///////////////////////////////
 	/*RECUPERATION DES PARAMETRES*/
@@ -68,10 +69,15 @@ int main(int argc, char *argv[]){
 	//////////////////////////////////////
 	/*LANCEMENT DE LA RECHERCHE DE MOTIF*/
 	//////////////////////////////////////
+
+	printf("Demarage des iterations (O = motif commun trouve, X = pas de motif commun pour ce masque)\n");
+
 		
 	for (i = 0 ; i < nbIterations; i++)
 	{
 		//sortie = fopen(cheminSortie, "a+"); //ouverture fichier sortie en mode d'ajout
+		//printf("\033[2J");
+
 		score = 0;
 
 		//////////////////////////
@@ -84,14 +90,14 @@ int main(int argc, char *argv[]){
 		/*MESSAGE D'EN TETE AVEC INFORMATIONS SUR LE MASQUE*/
 		/////////////////////////////////////////////////////
 
-		enTeteSortieTerm(l, k, i, masque);
+		//enTeteSortieTerm(l, k, i, masque);
 		//enTeteSortieFichier(sortie, l, k , i, masque);
 
 		//////////////////////
 		/*RECHERCHE DU MOTIF*/
 		//////////////////////
 
-		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque, nbErreurMax);		
+		recherche_motif(masque, l, k, pssm, &infoEnsembleT, tableauSequences, nombreSequences, &p_dictionnaire, &score, motifDeFond, &ensembleT, &motifConsensusPSSM, &motifConsensus, &nbSequenceDuMotifConsensus, &scoreMasque, nbErreurMax, i);		
 
 		/////////////////////////////////////////
 		/*SORTIE DANS LE TERMINAL ET LE FICHIER*/
@@ -99,9 +105,11 @@ int main(int argc, char *argv[]){
 
 		if (motifConsensus != NULL) //Si il y a bien eu un motif de trouver :
 		{
-			sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
+			printf("O");
+			fflush(stdout);
+
+			//sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
 			//sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
-			
 			p_resultat = (resultat*)malloc(sizeof(resultat));
 			ajouterResultat(&listeResultats,p_resultat, l, k, i, masque, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, ensembleT);
 			//free(p_resultat);
@@ -117,6 +125,8 @@ int main(int argc, char *argv[]){
 		}
 		else // Sinon on écrit un message d'information
 		{
+			printf("X");
+			fflush(stdout);
 			//fprintf(sortie, "\nAucun motif commun trouvé avec ce masque\n\n");
 			//fclose(sortie);	
 		}
@@ -126,11 +136,11 @@ int main(int argc, char *argv[]){
 		motifConsensus = NULL;
 		free (masque);
 	}//Fin des itération masques
-
+	printf("\nEcriture des resultats (si des motifs communs on ete trouves).\n");
 	if (listeResultats != NULL)
 	{
 		sortie = fopen(cheminSortie, "w"); //ouverture fichier sortie en mode d'ajout
-		afficherSortie(sortie, listeResultats);
+		afficherSortie(sortie, listeResultats, nombreSequences);
 		fclose(sortie);
 	}
 	
@@ -144,6 +154,11 @@ int main(int argc, char *argv[]){
 	free(cheminSortie);
 	free(motifDeFond);
 
+	printf("\nCode couleur : ");
+	printf(KGRN "\tTres peu variable (> 0,75), " RESET);
+	printf(KYEL "peu variable (> 0,5), " RESET);
+	printf(KRED "variable (< 0,5)." RESET);
+	printf("\nFin du programme.\n");
 	return 0;
 }
 
