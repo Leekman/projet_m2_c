@@ -17,4 +17,8 @@ void liberationMemoirePSSM(double **pssm);
 double ** allocDoubleDeuxDim (double **variable, int dim1, int dim2);
 
 int ** allocIntDeuxDim (int **variable, int dim1, int dim2);
+
+void copieProfondeInt2D(int ***p_tabIntVide, int **tabIntACopier, int dim1, int dim2);
+
+void copieProfondeTabString(char ***p_tabStringVide, char **tabStringACopier, int dim1, int dim2);
 #endif

@@ -1,6 +1,8 @@
-#include "includes.h"
 #ifndef OUTPUT_H
 #define OUTPUT_H
+
+#include "includes.h"
+#include "structure.h"
 
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
@@ -21,5 +23,11 @@ void sortieTerm (int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifCons
 void sortieFichier (FILE *sortie, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, int l, char **ensembleT);
 
 void afficheMotifConsensus(double **motifConsensusPSSM, char *motifConsensus);
+
+void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, int k, int i, int *masque, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, char **ensembleT);
+
+void afficherSortie(FILE *sortie, resultat *listeResultats);
+
+void libererMemoireResultat(resultat *p_resultat);
 
 #endif

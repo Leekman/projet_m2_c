@@ -127,7 +127,7 @@ void getParam (char **cheminEntree, char **output, int *nbIterations, int *nbErr
 		//exit(1);
 	}*/
 
-	verifFichierSortie = fopen (*output, "a");
+	verifFichierSortie = fopen (*output, "w");
 	if (verifFichierSortie == NULL)
 	{
 		printf("\n\n[ERREUR] Le chemin de sortie spécifié est incorrect\n\n");

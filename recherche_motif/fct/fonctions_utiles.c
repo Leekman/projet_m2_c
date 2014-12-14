@@ -131,7 +131,6 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
 
     int i, j;
 
-
     if (*p_pssmVide != NULL)
     {
         liberationMemoirePSSM(*p_pssmVide);
@@ -145,7 +144,6 @@ void copieProfondePSSM(double ***p_pssmVide, double **pssmACopier, int dim1, int
         {
             (*p_pssmVide)[i][j]=pssmACopier[i][j];
         }
-
     }
 }
 
@@ -182,4 +180,50 @@ int ** allocIntDeuxDim (int **variable, int dim1, int dim2){
         variable[i] = (int*) calloc(dim2, sizeof(int));
     }
     return variable;
+}
+
+void copieProfondeInt2D(int ***p_tabIntVide, int **tabIntACopier, int dim1, int dim2){
+
+    int i, j;
+
+    if (*p_tabIntVide != NULL)
+    {
+        for (i = 0; i < dim1; i++)
+        {
+            free(p_tabIntVide[0][i]);
+        }
+    }
+    /*ALLOC DOUBLE PUIS REBOUCLE OU JE LAISSE COMME CA ?????????????????*/
+    (*p_tabIntVide)=(int**)calloc(sizeof(int*),dim1);
+    for (i=0; i<dim1; i++)
+    {
+        (*p_tabIntVide)[i]=(int*)calloc(sizeof(int),dim2);
+        for (j=0; j<dim2; j++)
+        {
+            (*p_tabIntVide)[i][j]=tabIntACopier[i][j];
+        }
+    }
+}
+
+void copieProfondeTabString(char ***p_tabStringVide, char **tabStringACopier, int dim1, int dim2){
+
+    int i, j;
+
+    if (*p_tabStringVide != NULL)
+    {
+        for (i = 0; i < dim1; i++)
+        {
+            free(p_tabStringVide[0][i]);
+        }
+    }
+    /*ALLOC DOUBLE PUIS REBOUCLE OU JE LAISSE COMME CA ?????????????????*/
+    (*p_tabStringVide)=(char**)calloc(sizeof(char*),dim1);
+    for (i=0; i<dim1; i++)
+    {
+        (*p_tabStringVide)[i]=(char*)calloc(sizeof(char),dim2);
+        for (j=0; j<dim2; j++)
+        {
+            (*p_tabStringVide)[i][j]=tabStringACopier[i][j];
+        }
+    }
 }

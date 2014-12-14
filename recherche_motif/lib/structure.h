@@ -24,4 +24,16 @@ typedef struct dictionnaire{
 	struct k_mer *firstK_mer;
 } dictionnaire;
 
+typedef struct resultat{
+	int l, k, i;
+	int *masque;
+	int scoreMasque;
+	int **infoEnsembleT;
+	int nbSequenceDuMotifConsensus;
+	char *motifConsensus;
+	double **motifConsensusPSSM;
+	char **ensembleT;
+	struct resultat *nextRes;
+} resultat;
+
 #endif

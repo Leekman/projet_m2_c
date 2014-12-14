@@ -2,9 +2,6 @@
 #include "../lib/fonctions_utiles.h"
 
 
-
-
-
 void enTeteSortieTerm (int l, int k, int i, int *masque){
 
 	int j;
@@ -83,15 +80,15 @@ void sortieFichier (FILE* sortie, int scoreMasque, int **infoEnsembleT, int nbSe
 
 	}
 
-	for (i = 0; i < nbSequenceDuMotifConsensus; i++)
+	/*for (i = 0; i < nbSequenceDuMotifConsensus; i++)
 	{	
 		free(infoEnsembleT[i]);
 		free(ensembleT[i]);
 	}
 	free(infoEnsembleT);
 	free(ensembleT);
-	liberationMemoirePSSM(motifConsensusPSSM);
-	fclose(sortie);
+	liberationMemoirePSSM(motifConsensusPSSM);*/
+	//fclose(sortie);
 }
 
 void afficheMotifConsensus(double **motifConsensusPSSM, char *motifConsensus){
@@ -190,4 +187,110 @@ void afficheMotifConsensus(double **motifConsensusPSSM, char *motifConsensus){
 	printf(KYEL "peu variable (> 0,5), " RESET);
 	printf(KRED "variable (< 0,5)." RESET);
 	printf("\n\n");
+}
+
+void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, int k, int i, int *masque, int scoreMasque, int **infoEnsembleT, int nbSequenceDuMotifConsensus, char *motifConsensus, double **motifConsensusPSSM, char **ensembleT){
+
+	int m;
+	resultat *parcourResultat = NULL;
+	resultat *parcourResultatPrec = NULL;
+
+	p_resultat->l = l;
+	p_resultat->k = k;
+	p_resultat->i = i;
+	p_resultat->masque = (int*)calloc(sizeof(int),k);
+	for (m = 0; m < k; m++)
+	{
+		p_resultat->masque[m] = masque[m];
+	}
+	p_resultat->scoreMasque = scoreMasque;
+	p_resultat->infoEnsembleT = NULL;
+	copieProfondeInt2D(&(p_resultat->infoEnsembleT), infoEnsembleT, nbSequenceDuMotifConsensus, 2);
+	p_resultat->nbSequenceDuMotifConsensus = nbSequenceDuMotifConsensus;
+	p_resultat->motifConsensus = (char*)calloc(sizeof(char),(l+1));
+	strcpy(p_resultat->motifConsensus, motifConsensus);
+	p_resultat->motifConsensusPSSM = NULL;
+	copieProfondePSSM(&(p_resultat->motifConsensusPSSM), motifConsensusPSSM, 4, l);
+	p_resultat->ensembleT = NULL;
+	copieProfondeTabString(&(p_resultat->ensembleT), ensembleT, nbSequenceDuMotifConsensus, l+1);
+	p_resultat->nextRes = NULL;
+
+
+	parcourResultat = (*p_listeResultats);
+
+	if (parcourResultat == NULL)
+	{
+		(*p_listeResultats) = p_resultat;
+		p_resultat = NULL;
+		printf("First try. \n");
+		return ;
+	}
+
+	while(parcourResultat != NULL && parcourResultat->scoreMasque <= scoreMasque)
+	{
+		parcourResultatPrec = parcourResultat;
+		parcourResultat = parcourResultat->nextRes;
+	}
+
+	if (parcourResultat == NULL && parcourResultatPrec != NULL)
+	{
+		//printf("Ajout en queue.\n");		
+		parcourResultatPrec->nextRes = p_resultat;
+		p_resultat = NULL;
+
+	}
+	else
+	{
+		if (parcourResultatPrec == NULL)
+		{
+			//printf("Ajout en tete.\n");
+			p_resultat->nextRes = parcourResultatPrec;
+			(*p_listeResultats) = p_resultat;
+			p_resultat = NULL;
+		}
+		else
+		{
+			//printf("Ajout en milieu.\n");
+			p_resultat->nextRes = parcourResultat;
+			parcourResultatPrec->nextRes = p_resultat;
+			p_resultat = NULL;
+			
+		}
+	}	
+}
+
+void afficherSortie(FILE *sortie, resultat *listeResultats){
+	if (listeResultats != NULL)
+	{
+		//AFFICHE
+		enTeteSortieFichier(sortie, listeResultats->l, listeResultats->k , listeResultats->i, listeResultats->masque);
+		sortieFichier(sortie, listeResultats->scoreMasque, listeResultats->infoEnsembleT, listeResultats->nbSequenceDuMotifConsensus, listeResultats->motifConsensus, listeResultats->motifConsensusPSSM, listeResultats->l, listeResultats->ensembleT);
+		
+		//APPEL RECURSIF
+		afficherSortie(sortie, listeResultats->nextRes);
+
+		//FREE
+		libererMemoireResultat(listeResultats);
+		free(listeResultats);
+	}
+}
+
+void libererMemoireResultat(resultat *p_resultat){
+
+	int i;
+
+	for (i = 0; i < p_resultat->nbSequenceDuMotifConsensus; i++)
+	{
+		free((p_resultat->infoEnsembleT)[i]);
+	}
+	free(p_resultat->infoEnsembleT);
+
+	free(p_resultat->motifConsensus);
+
+	liberationMemoirePSSM(p_resultat->motifConsensusPSSM);
+
+	for (i = 0; i < p_resultat->nbSequenceDuMotifConsensus; i++)
+	{
+		free((p_resultat->ensembleT)[i]);
+	}
 }
