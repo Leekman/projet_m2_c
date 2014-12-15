@@ -105,8 +105,8 @@ int main(int argc, char *argv[]){
 
 		if (motifConsensus != NULL) //Si il y a bien eu un motif de trouver :
 		{
-			printf("O");
-			fflush(stdout);
+			//printf("O");
+			//fflush(stdout);
 
 			//sortieTerm(scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
 			//sortieFichier(sortie, scoreMasque, infoEnsembleT, nbSequenceDuMotifConsensus, motifConsensus, motifConsensusPSSM, l, ensembleT);
@@ -125,8 +125,8 @@ int main(int argc, char *argv[]){
 		}
 		else // Sinon on écrit un message d'information
 		{
-			printf("X");
-			fflush(stdout);
+			//printf("X");
+			//fflush(stdout);
 			//fprintf(sortie, "\nAucun motif commun trouvé avec ce masque\n\n");
 			//fclose(sortie);	
 		}

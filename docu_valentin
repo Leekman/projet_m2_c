@@ -1,0 +1,36 @@
+Alors alors : 
+
+Le programme generation sequence répond a toute les conditions du projet.
+
+Il consiste en la création d'un fichier fasta de séquences.
+	 Ces sequences sont générés aléatoirement. Leur nombre ainsi que leur taille varie en fonction des parametres saisis par l'utilisateur.
+	 La taille des séquences varie elle dans une marge de plus ou moins 20%
+	 L'utilisateur saisie également en parametre un motif de la taille de son choix ainsi qu'un nombre maximum d'erreur de substitution autorisé pour ce motif.
+	 Le motif subit d'abord des modifications aléatoires allant de 0 au nombre maximum de substitution autorisée. Ces modifications sont effectués a une position aléatoire du motif.
+	 Ce motif modifié est ensuite introduit dans la séquence a une position aléatoire.
+
+	 On obtient donc un fichier fasta de séquences de ce type:
+
+	 >seq1
+	 SEQUENCE_MOTIF_SEQUENCE
+	 >seq2
+	 MOTIF_SEQUENCE
+	 >seq3
+	 SEQUENCE_MOTIF
+	 etc
+
+En parallèle de ce fichier est généré un fichier txt d'informations.
+	Ce fichier récapitule dans un premier temps les paramètres saisis par l'utilisateur
+	Puis, une pssm du motif choisi est réalisé vis à vis des séquences générées
+	Enfin, diverses informations sur les séquences comme la position du motif dans la séquence ou le nombre d'erreur du motif lors de son incorporation dans la séquence
+
+La saisie des paramètres se fait via la fonction getopt() qui permet de trier les paramètres saisies lors du lancement du programme
+
+La saisie des parametres est sécurisée. On ne peut pas rentré de connerie sans que l'utilisateur est un message d'erreur avec la notice d'utilisateur du logiciel.
+
+Par exemple, on vérifie que la taille du motif est bien inférieur au nombre de séquences, ou necore que le nombre d'erreur max est bien inférieur ou égal a la taille du motif.
+
+Donc en vrai faut que je modifie encore param.c pour le rendre blindé car tu disais qu'il manquait des truc je sais plus exactement quoi.
+
+Sinon ça te va ou tu veux un peu plus de détail sur la fonction getopt ???? non c bon, par contre on peut pas faire un max avec k = 0 a l'heure actuelle. Faut que tu autorise ce parametre
+

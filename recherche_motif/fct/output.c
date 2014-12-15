@@ -12,7 +12,7 @@ void enTeteSortieTerm (int l, int k, int i, int *masque){
 	{
 		printf("%d ", masque[j]+1); //on ajoute +1 pour une lecture plus compréhensible par l'utilisateur
 	}
-	printf(" masquee(s)\n");
+	printf(" ouverte(s)\n");
 }
 
 void enTeteSortieFichier (FILE *sortie, int l, int k, int i, int *masque){
@@ -22,7 +22,7 @@ void enTeteSortieFichier (FILE *sortie, int l, int k, int i, int *masque){
 	fprintf(sortie, "\nInformations sur le masque :\n");
 	for (j=0;j<(l-k);j++)
 		{
-			fprintf(sortie, "\nMasque[%d] : case %d masquée\n",j+1, masque[j]+1);
+			fprintf(sortie, "\nMasque[%d] : case %d ouverte\n",j+1, masque[j]+1);
 		}	
 }
 
@@ -197,8 +197,9 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 	p_resultat->k = k;
 	p_resultat->i = i;
 	p_resultat->masque = (int*)calloc(sizeof(int),k);
-	for (m = 0; m < k; m++)
+	for (m = 0; m < (l-k); m++)
 	{
+		//printf("%d : %d\n", m, masque[m]);
 		p_resultat->masque[m] = masque[m];
 	}
 	p_resultat->scoreMasque = scoreMasque;
