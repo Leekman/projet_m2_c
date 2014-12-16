@@ -1,0 +1,585 @@
+
+
+/////////////////////////////Masque 2/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 2 ouverte
+
+Masque[2] : case 3 ouverte
+
+Masque[3] : case 6 ouverte
+
+Scre du masque : 3
+
+Numero de sequence | Position du motif | Motif
+1 | 15 | CATCGT
+2 | 6 | GATCAT
+4 | 3 | TATCGT
+5 | 4 | TATCGT
+6 | 40 | TATAGT
+7 | 44 | GATCAT
+8 | 39 | TATTTT
+9 | 16 | TATCTT
+10 | 9 | GATAGT
+11 | 0 | TATTGT
+12 | 43 | GATCGT
+13 | 24 | TATCAT
+16 | 20 | AATAGT
+17 | 3 | TATCCT
+18 | 23 | TATTTT
+19 | 21 | TATCGT
+20 | 45 | GATCGT
+21 | 25 | CATCGT
+22 | 0 | GATAGT
+23 | 4 | GATCGT
+24 | 15 | CATCGT
+25 | 35 | GATCAT
+30 | 33 | CATAGT
+31 | 10 | CATTCT
+33 | 18 | AATCGT
+34 | 18 | GATCGT
+35 | 40 | TATCGT
+36 | 21 | GATCGT
+38 | 43 | TATACT
+39 | 0 | TATCGT
+40 | 25 | GATCGT
+45 | 16 | CATGGT
+47 | 13 | CATTTT
+48 | 1 | TATAAT
+49 | 22 | GATCGT
+50 | 14 | GATTAT
+
+Motif consensus obtenu : TATCGT
+Quorum du motif : 0.720000
+PSSM de ce motif consensus : 
+
+A	0.055556 1.000000 0.000000 0.194444 0.166667 0.000000 
+T	0.388889 0.000000 1.000000 0.166667 0.111111 1.000000 
+C	0.194444 0.000000 0.000000 0.611111 0.083333 0.000000 
+G	0.361111 0.000000 0.000000 0.027778 0.638889 0.000000 
+
+
+/////////////////////////////Masque 4/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 2 ouverte
+
+Masque[3] : case 4 ouverte
+
+Scre du masque : 3
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 17 | ATTGTG
+4 | 4 | ATCGTC
+5 | 5 | ATCGTG
+6 | 41 | ATAGTG
+7 | 24 | ATCGCA
+10 | 10 | ATAGTT
+11 | 1 | ATTGTT
+12 | 44 | ATCGTC
+13 | 19 | ATTGAT
+14 | 44 | ATCGCG
+16 | 21 | ATAGTG
+18 | 7 | ATCGAG
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+22 | 1 | ATAGTC
+23 | 5 | ATCGTG
+24 | 16 | ATCGTT
+25 | 24 | ATGGAC
+28 | 1 | ATTGAG
+30 | 34 | ATAGTG
+31 | 16 | ATTGAC
+32 | 28 | ATCGCC
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 41 | ATCGTA
+36 | 22 | ATCGTG
+37 | 18 | ATTGAG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+44 | 32 | ATTGGG
+45 | 0 | ATCGTG
+46 | 9 | ATCGAT
+49 | 23 | ATCGTA
+50 | 18 | ATCGAA
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.720000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.000000 0.138889 0.000000 0.222222 0.111111 
+T	0.000000 1.000000 0.194444 0.000000 0.666667 0.138889 
+C	0.000000 0.000000 0.638889 0.000000 0.083333 0.166667 
+G	0.000000 0.000000 0.027778 1.000000 0.027778 0.583333 
+
+
+/////////////////////////////Masque 1/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 4 ouverte
+
+Masque[3] : case 5 ouverte
+
+Scre du masque : 4
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 17 | ATTGTG
+4 | 4 | ATCGTC
+5 | 5 | ATCGTG
+6 | 41 | ATAGTG
+8 | 7 | AACGTT
+10 | 10 | ATAGTT
+11 | 1 | ATTGTT
+12 | 44 | ATCGTC
+13 | 38 | AGAGTG
+16 | 21 | ATAGTG
+18 | 11 | AGCGTT
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+22 | 1 | ATAGTC
+23 | 5 | ATCGTG
+24 | 16 | ATCGTT
+27 | 21 | AGTGTC
+29 | 16 | AACGTC
+30 | 34 | ATAGTG
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 41 | ATCGTA
+36 | 22 | ATCGTG
+38 | 30 | AAAGTC
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+41 | 39 | AGCGTC
+42 | 10 | ACCGTG
+43 | 43 | ACCGTC
+44 | 2 | AGAGTT
+45 | 0 | ATCGTG
+46 | 23 | AAGGTA
+47 | 38 | AGCGTT
+49 | 23 | ATCGTA
+50 | 32 | ACCGTT
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.740000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.108108 0.216216 0.000000 0.000000 0.081081 
+T	0.000000 0.648649 0.081081 0.000000 1.000000 0.216216 
+C	0.000000 0.081081 0.675676 0.000000 0.000000 0.216216 
+G	0.000000 0.162162 0.027027 1.000000 0.000000 0.486486 
+
+
+/////////////////////////////Masque 3/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 3 ouverte
+
+Masque[3] : case 4 ouverte
+
+Scre du masque : 4
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+4 | 4 | ATCGTC
+5 | 5 | ATCGTG
+6 | 23 | ACCGTA
+7 | 24 | ATCGCA
+8 | 7 | AACGTT
+11 | 32 | AGCGAG
+12 | 44 | ATCGTC
+13 | 33 | AACGTA
+14 | 44 | ATCGCG
+17 | 16 | AGCGGA
+18 | 11 | AGCGTT
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+23 | 5 | ATCGTG
+24 | 16 | ATCGTT
+29 | 16 | AACGTC
+30 | 6 | AGCGAC
+32 | 28 | ATCGCC
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 41 | ATCGTA
+36 | 22 | ATCGTG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+41 | 39 | AGCGTC
+42 | 10 | ACCGTG
+43 | 43 | ACCGTC
+45 | 0 | ATCGTG
+46 | 28 | AGCGGC
+47 | 38 | AGCGTT
+48 | 27 | ACCGCC
+49 | 23 | ATCGTA
+50 | 32 | ACCGTT
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.700000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.085714 0.000000 0.000000 0.057143 0.171429 
+T	0.000000 0.571429 0.000000 0.000000 0.771429 0.142857 
+C	0.000000 0.142857 1.000000 0.000000 0.114286 0.257143 
+G	0.000000 0.200000 0.000000 1.000000 0.057143 0.428571 
+
+
+/////////////////////////////Masque 5/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 2 ouverte
+
+Masque[2] : case 4 ouverte
+
+Masque[3] : case 5 ouverte
+
+Scre du masque : 4
+
+Numero de sequence | Position du motif | Motif
+1 | 15 | CATCGT
+4 | 3 | TATCGT
+5 | 4 | TATCGT
+6 | 22 | AACCGT
+7 | 23 | AATCGC
+8 | 6 | AAACGT
+11 | 31 | TAGCGA
+12 | 43 | GATCGT
+13 | 32 | CAACGT
+14 | 43 | GATCGC
+17 | 15 | CAGCGG
+18 | 10 | GAGCGT
+19 | 21 | TATCGT
+20 | 45 | GATCGT
+21 | 25 | CATCGT
+23 | 4 | GATCGT
+24 | 15 | CATCGT
+29 | 15 | TAACGT
+30 | 5 | AAGCGA
+32 | 27 | AATCGC
+33 | 18 | AATCGT
+34 | 18 | GATCGT
+35 | 40 | TATCGT
+36 | 21 | GATCGT
+39 | 0 | TATCGT
+40 | 25 | GATCGT
+41 | 38 | CAGCGT
+42 | 9 | TACCGT
+43 | 42 | GACCGT
+46 | 8 | GATCGA
+47 | 37 | GAGCGT
+48 | 26 | TACCGC
+49 | 22 | GATCGT
+50 | 31 | GACCGT
+
+Motif consensus obtenu : GATCGT
+Quorum du motif : 0.680000
+PSSM de ce motif consensus : 
+
+A	0.176471 1.000000 0.088235 0.000000 0.000000 0.088235 
+T	0.264706 0.000000 0.588235 0.000000 0.000000 0.764706 
+C	0.176471 0.000000 0.147059 1.000000 0.000000 0.117647 
+G	0.382353 0.000000 0.176471 0.000000 1.000000 0.029412 
+
+
+/////////////////////////////Masque 7/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 3 ouverte
+
+Masque[3] : case 6 ouverte
+
+Scre du masque : 4
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 24 | AACATG
+5 | 5 | ATCGTG
+7 | 45 | ATCATG
+9 | 32 | ATCATG
+10 | 24 | ATCCCG
+11 | 23 | ATCAAG
+13 | 25 | ATCATG
+14 | 44 | ATCGCG
+15 | 6 | AACAAG
+16 | 27 | ACCTTG
+18 | 7 | ATCGAG
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+23 | 5 | ATCGTG
+24 | 29 | AGCAGG
+25 | 5 | AACAGG
+26 | 16 | ACCACG
+27 | 9 | ACCCTG
+28 | 18 | AACTTG
+29 | 34 | AACATG
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 11 | AGCGAG
+36 | 22 | ATCGTG
+37 | 38 | ATCTAG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+41 | 13 | ATCCAG
+42 | 10 | ACCGTG
+45 | 0 | ATCGTG
+49 | 32 | AACTTG
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.660000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.181818 0.000000 0.303030 0.181818 0.000000 
+T	0.000000 0.636364 0.000000 0.121212 0.666667 0.000000 
+C	0.000000 0.121212 1.000000 0.090909 0.090909 0.000000 
+G	0.000000 0.060606 0.000000 0.484848 0.060606 1.000000 
+
+
+/////////////////////////////Masque 8/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 3 ouverte
+
+Masque[3] : case 6 ouverte
+
+Scre du masque : 4
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 24 | AACATG
+5 | 5 | ATCGTG
+7 | 45 | ATCATG
+9 | 32 | ATCATG
+10 | 24 | ATCCCG
+11 | 23 | ATCAAG
+13 | 25 | ATCATG
+14 | 44 | ATCGCG
+15 | 6 | AACAAG
+16 | 27 | ACCTTG
+18 | 7 | ATCGAG
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+23 | 5 | ATCGTG
+24 | 29 | AGCAGG
+25 | 5 | AACAGG
+26 | 16 | ACCACG
+27 | 9 | ACCCTG
+28 | 18 | AACTTG
+29 | 34 | AACATG
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 11 | AGCGAG
+36 | 22 | ATCGTG
+37 | 38 | ATCTAG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+41 | 13 | ATCCAG
+42 | 10 | ACCGTG
+45 | 0 | ATCGTG
+49 | 32 | AACTTG
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.660000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.181818 0.000000 0.303030 0.181818 0.000000 
+T	0.000000 0.636364 0.000000 0.121212 0.666667 0.000000 
+C	0.000000 0.121212 1.000000 0.090909 0.090909 0.000000 
+G	0.000000 0.060606 0.000000 0.484848 0.060606 1.000000 
+
+
+/////////////////////////////Masque 6/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 2 ouverte
+
+Masque[3] : case 5 ouverte
+
+Scre du masque : 5
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 17 | ATTGTG
+3 | 0 | ATATTA
+4 | 4 | ATCGTC
+5 | 5 | ATCGTG
+6 | 41 | ATAGTG
+7 | 45 | ATCATG
+8 | 40 | ATTTTT
+9 | 32 | ATCATG
+10 | 10 | ATAGTT
+11 | 1 | ATTGTT
+13 | 25 | ATCATG
+16 | 21 | ATAGTG
+17 | 4 | ATCCTC
+18 | 24 | ATTTTC
+19 | 22 | ATCGTG
+21 | 26 | ATCGTG
+22 | 1 | ATAGTC
+23 | 5 | ATCGTG
+24 | 16 | ATCGTT
+25 | 36 | ATCATT
+30 | 34 | ATAGTG
+31 | 11 | ATTCTA
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 41 | ATCGTA
+36 | 22 | ATCGTG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+42 | 0 | ATTCTG
+45 | 0 | ATCGTG
+47 | 14 | ATTTTG
+48 | 2 | ATAATG
+49 | 23 | ATCGTA
+50 | 15 | ATTATC
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.700000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.000000 0.200000 0.171429 0.000000 0.114286 
+T	0.000000 1.000000 0.228571 0.114286 1.000000 0.142857 
+C	0.000000 0.000000 0.571429 0.085714 0.000000 0.142857 
+G	0.000000 0.000000 0.000000 0.628571 0.000000 0.600000 
+
+
+/////////////////////////////Masque 9/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 5 ouverte
+
+Masque[3] : case 6 ouverte
+
+Scre du masque : 8
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 24 | AACATG
+5 | 5 | ATCGTG
+6 | 41 | ATAGTG
+7 | 45 | ATCATG
+9 | 32 | ATCATG
+10 | 35 | AAACTG
+12 | 36 | AGACTG
+13 | 25 | ATCATG
+14 | 14 | ACGTTG
+16 | 21 | ATAGTG
+19 | 22 | ATCGTG
+21 | 26 | ATCGTG
+22 | 35 | AGGATG
+23 | 5 | ATCGTG
+27 | 31 | ACAATG
+28 | 18 | AACTTG
+29 | 34 | AACATG
+30 | 34 | ATAGTG
+31 | 27 | AAGATG
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+36 | 22 | ATCGTG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+42 | 10 | ACCGTG
+44 | 20 | AATATG
+45 | 0 | ATCGTG
+46 | 37 | AATATG
+47 | 14 | ATTTTG
+48 | 2 | ATAATG
+49 | 32 | AACTTG
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.640000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.250000 0.218750 0.343750 0.000000 0.000000 
+T	0.000000 0.593750 0.093750 0.125000 1.000000 0.000000 
+C	0.000000 0.093750 0.593750 0.062500 0.000000 0.000000 
+G	0.000000 0.062500 0.093750 0.468750 0.000000 1.000000 
+
+
+/////////////////////////////Masque 10/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 1 ouverte
+
+Masque[2] : case 4 ouverte
+
+Masque[3] : case 6 ouverte
+
+Scre du masque : 8
+
+Numero de sequence | Position du motif | Motif
+1 | 16 | ATCGTG
+2 | 17 | ATTGTG
+5 | 5 | ATCGTG
+6 | 41 | ATAGTG
+7 | 30 | AGGGCG
+8 | 19 | ACAGAG
+9 | 9 | ACTGGG
+10 | 37 | ACTGCG
+11 | 32 | AGCGAG
+12 | 11 | ATGGGG
+13 | 38 | AGAGTG
+14 | 44 | ATCGCG
+15 | 10 | AGGGCG
+16 | 21 | ATAGTG
+17 | 21 | AGTGAG
+18 | 7 | ATCGAG
+19 | 22 | ATCGTG
+20 | 46 | ATCGTG
+21 | 26 | ATCGTG
+23 | 5 | ATCGTG
+26 | 7 | AAAGAG
+28 | 1 | ATTGAG
+30 | 34 | ATAGTG
+33 | 19 | ATCGTG
+34 | 19 | ATCGTG
+35 | 11 | AGCGAG
+36 | 22 | ATCGTG
+37 | 18 | ATTGAG
+39 | 1 | ATCGTG
+40 | 26 | ATCGTG
+42 | 10 | ACCGTG
+44 | 32 | ATTGGG
+45 | 0 | ATCGTG
+48 | 19 | AAAGGG
+
+Motif consensus obtenu : ATCGTG
+Quorum du motif : 0.680000
+PSSM de ce motif consensus : 
+
+A	1.000000 0.058824 0.205882 0.000000 0.235294 0.000000 
+T	0.000000 0.647059 0.205882 0.000000 0.529412 0.000000 
+C	0.000000 0.117647 0.500000 0.000000 0.117647 0.000000 
+G	0.000000 0.176471 0.088235 1.000000 0.117647 1.000000 

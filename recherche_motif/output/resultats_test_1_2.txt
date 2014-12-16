@@ -1,0 +1,44 @@
+
+
+/////////////////////////////Masque 3/////////////////////////////
+
+Informations sur le masque :
+
+Masque[1] : case 2 ouverte
+
+Masque[2] : case 3 ouverte
+
+Masque[3] : case 4 ouverte
+
+Masque[4] : case 5 ouverte
+
+Masque[5] : case 6 ouverte
+
+Scre du masque : 0
+
+Numero de sequence | Position du motif | Motif
+1 | 15 | CATCGT
+4 | 3 | TATCGT
+5 | 4 | TATCGT
+12 | 43 | GATCGT
+19 | 21 | TATCGT
+20 | 45 | GATCGT
+21 | 25 | CATCGT
+23 | 4 | GATCGT
+24 | 15 | CATCGT
+33 | 18 | AATCGT
+34 | 18 | GATCGT
+35 | 40 | TATCGT
+36 | 21 | GATCGT
+39 | 0 | TATCGT
+40 | 25 | GATCGT
+49 | 22 | GATCGT
+
+Motif consensus obtenu : GATCGT
+Quorum du motif : 0.320000
+PSSM de ce motif consensus : 
+
+A	0.062500 1.000000 0.000000 0.000000 0.000000 0.000000 
+T	0.312500 0.000000 1.000000 0.000000 0.000000 1.000000 
+C	0.187500 0.000000 0.000000 1.000000 0.000000 0.000000 
+G	0.437500 0.000000 0.000000 0.000000 1.000000 0.000000 

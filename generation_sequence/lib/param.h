@@ -2,22 +2,21 @@
 #define PARAM_H
 #include "includes.h"
 
+/////////////////////
+/*AFFICHE LA NOTICE*/
+/////////////////////
 
-/******************/
-/* Affiche l'aide */
-/******************/
 void notice();
 
-
-/*********************/
-/* liste des options */
-/*********************/
+/////////////////////
+/*LISTE DES OPTIONS*/
+/////////////////////
 extern struct option long_options[];
 
-/*************************************************************/
-/* remplissage des paramètres avec les valeurs des arguments */
-/*************************************************************/
+/////////////////////////////////////////////////////////////
+/*REMPLISSAGE DES PARAMETRES AVEC LES VALEURS DES ARGUMENTS*/
+/////////////////////////////////////////////////////////////
 
-void getParam (int* nbErreur, int* nbSeq, int* tailleSeq, char **motif, int argc, char *argv[]);
+void getParam (int *nbErreur, int *nbSeq, int *tailleSeq, char **motif, char **cheminFasta, char** cheminInfo, int *variation, int argc, char *argv[]);
 
 #endif

@@ -1,7 +1,6 @@
 #include "../lib/includes.h"
 #include "../lib/seq.h"
 #include "../lib/doublon.h"
-#define PROPORTION 20
  
 
 //////////////////////////////////////////////////////////////
@@ -75,7 +74,7 @@ void insertionMotif(char *motif, int positionMotif, int tailleMotif,char *sequen
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*Procédure permettant la création des séquences avec l'insertion des motifs avec taille randomisée et position du motif randomisée*/
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **tabSeq, int *tabPosition, int *tabNbErreur){
+void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **tabSeq, int *tabPosition, int *tabNbErreur, int variationTailleSeq){
 
     int i;
     int positionMotif, tailleMotif, positionMotifMax;
@@ -84,18 +83,25 @@ void creationSeq(int nbErreurMax, int nbSeq, int tailleSeq, char *motif, char **
 
     tailleMotif=strlen(motif);
     motifFixe=(char*)malloc((tailleMotif+1)*sizeof(char));
-    intervalle=(int)(tailleSeq*PROPORTION)/100;
+    intervalle=(int)(tailleSeq*variationTailleSeq)/100;
 
     for(i=0 ; i < nbSeq ; i++)
         {
-         strcpy(motifFixe,motif);
-         tailleTemp=tailleSeq+rand()%((intervalle*2)+1)-intervalle;
-         positionMotifMax=(--tailleTemp-tailleMotif);
-         positionMotif=rand()%positionMotifMax;
-         tabPosition[i]=positionMotif;
-         tabNbErreur[i]=modifMotif(nbErreurMax,motifFixe,tailleMotif);
-         tabSeq[i]=sequenceSeule(tailleTemp);
-         insertionMotif(motifFixe,positionMotif,tailleMotif,tabSeq[i]);
+            strcpy(motifFixe,motif); // créer une copie temporaire du motif
+            if (intervalle != 0)
+            {
+                tailleTemp=tailleSeq+rand()%((intervalle*2)+1)-intervalle;//random sur la taille de la séquence selon l'intervalle
+            }
+            else
+            {
+                tailleTemp = tailleSeq;
+            }
+            positionMotifMax=(--tailleTemp-tailleMotif);//position maximale du motif selon la taille de la séquence et la taille du motif
+            positionMotif=rand()%positionMotifMax;//rand sur la position d'insertion du motif
+            tabPosition[i]=positionMotif;//stockage de la position dans un tableau
+            tabNbErreur[i]=modifMotif(nbErreurMax,motifFixe,tailleMotif);//stockage du nb d'erreurs dans un tableau et modification du motif
+            tabSeq[i]=sequenceSeule(tailleTemp);//création de la séquence seule
+            insertionMotif(motifFixe,positionMotif,tailleMotif,tabSeq[i]); //insertion du motif dans la séquence
         }
     free(motifFixe);
 
@@ -164,13 +170,13 @@ double **construirePSSM(int tailleMotif, char **tabSeq, int nbSeq, int *tabPosit
 ///////////////////////////////////////////////////////////////////////////////////
 /*Procédure permettant de créer un fichier fasta contenant les séquences générées*/
 ///////////////////////////////////////////////////////////////////////////////////
-void creationFasta(char **tabSeq, int nbSeq){
+void creationFasta(char **tabSeq, int nbSeq, char *cheminSortieFasta){
 
     FILE* fasta=NULL;
     
     int i;
     
-    fasta=fopen("output/sequences.fasta","w");
+    fasta=fopen(cheminSortieFasta,"w");
 
     if (fasta != NULL)
     {
@@ -188,13 +194,13 @@ void creationFasta(char **tabSeq, int nbSeq){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /*PROCEDURE PERMETTANT DE CREER UN FICHIER INFO REGROUPANT DIVERSES INFORMATIONS SUR LES SEQUENCES*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreur, int tailleSeq, int tailleMotif, int nbSeq, int nbErreurMax){
+void creationInfo(double **PSSM, char *motif, int *tabPosition, int * tabNbErreur, int tailleSeq, int tailleMotif, int nbSeq, int nbErreurMax, char *cheminSortieInfo){
 
     FILE* info=NULL;
     
     int i,j;
     
-    info=fopen("output/info.txt", "w");
+    info=fopen(cheminSortieInfo, "w");
 
     if (info !=NULL)
     {
