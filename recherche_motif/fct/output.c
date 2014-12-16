@@ -196,7 +196,7 @@ void ajouterResultat(resultat **p_listeResultats,resultat* p_resultat, int l, in
 	p_resultat->l = l;
 	p_resultat->k = k;
 	p_resultat->i = i;
-	p_resultat->masque = (int*)calloc(sizeof(int),k);
+	p_resultat->masque = (int*)calloc(sizeof(int),l-k);
 	for (m = 0; m < (l-k); m++)
 	{
 		//printf("%d : %d\n", m, masque[m]);
